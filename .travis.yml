@@ -1,0 +1,6 @@
+language: java
+
+jdks:
+  - oraclejdk8
+  - oraclejdk9
+  - openjdk8 
