@@ -1,5 +1,6 @@
 /*
  *     Copyright 2015-2018 Austin Keener & Michael Ritter & Florian Spieß
+ *     Copyright 2018-2018 "Princess" Lana Samson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -260,7 +261,6 @@ public class AudioManagerImpl implements AudioManager {
 
     this.queuedAudioConnection = null;
     audioConnection.setReceivingHandler(receiveHandler);
-    audioConnection.setQueueTimeout(queueTimeout);
   }
 
   public void prepareForRegionChange() {
@@ -279,7 +279,6 @@ public class AudioManagerImpl implements AudioManager {
 
   public void setQueueTimeout(long queueTimeout) {
     this.queueTimeout = queueTimeout;
-    if (audioConnection != null) audioConnection.setQueueTimeout(queueTimeout);
   }
 
   protected void updateVoiceState() {

@@ -1,5 +1,6 @@
 /*
  *     Copyright 2015-2018 Austin Keener & Michael Ritter & Florian Spieß
+ *     Copyright 2018-2018 "Princess" Lana Samson
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,14 +13,5 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- */
-
-/**
- * Specific events indicating that a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}
- * was either {@link net.dv8tion.jda.core.events.channel.text.TextChannelCreateEvent created} or
- * {@link net.dv8tion.jda.core.events.channel.text.TextChannelDeleteEvent deleted}
- *
- * <p>All events of this package and its subpackages are extensions of the {@link
- * net.dv8tion.jda.core.events.channel.text.GenericTextChannelEvent GenericTextChannelEvent}
  */
 package net.dv8tion.jda.core.events.channel.text;
