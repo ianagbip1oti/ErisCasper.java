@@ -171,7 +171,7 @@ public class AudioPacket
         byte[] encryptedAudio = boxer.box(encodedAudio, extendedNonce);
 
         //Create a new temp audio packet using the encrypted audio so that we don't
-        // need to write extra code to create the rawPacket with the encryptedAudio.
+        // need to write extra code to create the rawPacket with the encryptedqAudio.
         //Use the temp packet to create a UdpPacket.
         return new AudioPacket(seq, timestamp, ssrc, encryptedAudio).asUdpPacket(address);
     }

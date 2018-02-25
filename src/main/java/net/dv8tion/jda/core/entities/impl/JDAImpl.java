@@ -23,8 +23,6 @@ import net.dv8tion.jda.client.entities.impl.JDAClientImpl;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.audio.AudioWebSocket;
-import net.dv8tion.jda.core.audio.factory.DefaultSendFactory;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.StatusChangeEvent;
 import net.dv8tion.jda.core.exceptions.AccountTypeException;
@@ -90,7 +88,6 @@ public class JDAImpl implements JDA
     protected WebSocketClient client;
     protected Requester requester;
     protected IEventManager eventManager = new InterfacedEventManager();
-    protected IAudioSendFactory audioSendFactory = new DefaultSendFactory();
     protected ScheduledThreadPoolExecutor audioKeepAlivePool;
     protected Status status = Status.INITIALIZING;
     protected SelfUser selfUser;
@@ -627,17 +624,6 @@ public class JDAImpl implements JDA
     public GuildLock getGuildLock()
     {
         return this.guildLock;
-    }
-
-    public IAudioSendFactory getAudioSendFactory()
-    {
-        return audioSendFactory;
-    }
-
-    public void setAudioSendFactory(IAudioSendFactory factory)
-    {
-        Checks.notNull(factory, "Provided IAudioSendFactory");
-        this.audioSendFactory = factory;
     }
 
     public void setPing(long ping)
