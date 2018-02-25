@@ -22,8 +22,6 @@ import java.util.*;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.function.Predicate;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.Webhook;
@@ -118,7 +116,7 @@ public class WebhookCluster implements AutoCloseable {
    * @throws java.lang.IllegalArgumentException If any of the provided clients is {@code null} or
    *     closed
    */
-  public WebhookCluster(@Nonnull Collection<? extends WebhookClient> initialClients) {
+  public WebhookCluster(Collection<? extends WebhookClient> initialClients) {
     webhooks = new ArrayList<>(initialClients.size());
     for (WebhookClient client : initialClients) addWebhooks(client);
   }
@@ -152,7 +150,7 @@ public class WebhookCluster implements AutoCloseable {
    * @param builder The default builder, {@code null} to reset
    * @return The current WebhookCluster for chaining convenience
    */
-  public WebhookCluster setDefaultHttpClientBuilder(@Nullable OkHttpClient.Builder builder) {
+  public WebhookCluster setDefaultHttpClientBuilder(OkHttpClient.Builder builder) {
     this.defaultHttpClientBuilder = builder;
     return this;
   }
@@ -165,7 +163,7 @@ public class WebhookCluster implements AutoCloseable {
    * @param defaultHttpClient The default client, {@code null} to reset
    * @return The current WebhookCluster for chaining convenience
    */
-  public WebhookCluster setDefaultHttpClient(@Nullable OkHttpClient defaultHttpClient) {
+  public WebhookCluster setDefaultHttpClient(OkHttpClient defaultHttpClient) {
     this.defaultHttpClient = defaultHttpClient;
     return this;
   }
@@ -178,8 +176,7 @@ public class WebhookCluster implements AutoCloseable {
    * @param executorService The default executor service, {@code null} to reset
    * @return The current WebhookCluster for chaining convenience
    */
-  public WebhookCluster setDefaultExecutorService(
-      @Nullable ScheduledExecutorService executorService) {
+  public WebhookCluster setDefaultExecutorService(ScheduledExecutorService executorService) {
     this.defaultPool = executorService;
     return this;
   }
@@ -196,7 +193,7 @@ public class WebhookCluster implements AutoCloseable {
    *     been set via {@link #setDefaultExecutorService(ScheduledExecutorService)}
    * @return The current WebhookCluster for chaining convenience
    */
-  public WebhookCluster setDefaultThreadFactory(@Nullable ThreadFactory factory) {
+  public WebhookCluster setDefaultThreadFactory(ThreadFactory factory) {
     this.threadFactory = factory;
     return this;
   }

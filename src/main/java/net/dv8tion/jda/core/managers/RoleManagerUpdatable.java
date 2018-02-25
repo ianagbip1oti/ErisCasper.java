@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.managers;
 
 import java.awt.Color;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -240,7 +239,6 @@ public class RoleManagerUpdatable {
    *     AuditableRestAction} <br>
    *     Applies all changes that have been made in a single api-call.
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> update() {
     checkPermission(Permission.MANAGE_ROLES);
     checkPosition();

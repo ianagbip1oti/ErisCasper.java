@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.Set;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import javax.annotation.Nullable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.JSONTokener;
@@ -80,17 +79,14 @@ public class Response implements Closeable {
     this(response, response.code(), response.message(), retryAfter, cfRays);
   }
 
-  @Nullable
   public JSONArray getArray() {
     return parseBody(JSONArray.class, stream -> new JSONArray(getTokenizer(stream)));
   }
 
-  @Nullable
   public JSONObject getObject() {
     return parseBody(JSONObject.class, stream -> new JSONObject(getTokenizer(stream)));
   }
 
-  @Nullable
   public String getString() {
     return parseBody(
         String.class,
@@ -100,7 +96,6 @@ public class Response implements Closeable {
                 .collect(Collectors.joining()));
   }
 
-  @Nullable
   public <T> T get(Class<T> clazz, Function<InputStream, T> parser) {
     return parseBody(clazz, parser);
   }
@@ -148,7 +143,6 @@ public class Response implements Closeable {
     return new JSONTokener(new InputStreamReader(stream));
   }
 
-  @Nullable
   @SuppressWarnings("ConstantConditions")
   private <T> T parseBody(Class<T> clazz, Function<InputStream, T> parser) {
     if (attemptedParsing) {

@@ -19,7 +19,6 @@ package net.dv8tion.jda.core.entities.impl;
 import java.awt.Color;
 import java.time.OffsetDateTime;
 import java.util.*;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.Permission;
@@ -212,7 +211,6 @@ public class MemberImpl implements Member {
     return nickname == null ? user.getAsMention() : "<@!" + user.getIdLong() + '>';
   }
 
-  @Nullable
   @Override
   public TextChannel getDefaultChannel() {
     return guild

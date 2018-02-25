@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.regex.Pattern;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.Application;
 import net.dv8tion.jda.client.entities.impl.ApplicationImpl;
 import net.dv8tion.jda.client.managers.fields.ApplicationField;
@@ -325,7 +324,6 @@ public class ApplicationManagerUpdatable {
    *     net.dv8tion.jda.core.managers.fields.Field Fields} have been modified. ({@link
    *     net.dv8tion.jda.core.requests.RestAction.EmptyRestAction EmptyRestAction})
    */
-  @CheckReturnValue
   public RestAction<Void> update() {
     if (!this.needsUpdate()) return new RestAction.EmptyRestAction<>(getJDA(), null);
 

@@ -17,7 +17,6 @@
 package net.dv8tion.jda.bot;
 
 import java.util.Collection;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.bot.entities.ApplicationInfo;
 import net.dv8tion.jda.bot.sharding.ShardManager;
 import net.dv8tion.jda.core.JDA;
@@ -42,7 +41,6 @@ public interface JDABot {
    *     The {@link net.dv8tion.jda.bot.entities.ApplicationInfo ApplicationInfo} of the bot's
    *     application.
    */
-  @CheckReturnValue
   RestAction<ApplicationInfo> getApplicationInfo();
 
   /**

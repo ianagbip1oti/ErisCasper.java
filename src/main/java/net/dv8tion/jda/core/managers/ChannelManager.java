@@ -16,7 +16,6 @@
 
 package net.dv8tion.jda.core.managers;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Category;
 import net.dv8tion.jda.core.entities.Channel;
@@ -101,7 +100,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getNameField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setName(String name) {
     return updatable.getNameField().setValue(name).update();
   }
@@ -124,7 +122,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getParentField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setParent(Category category) {
     return updatable.getParentField().setValue(category).update();
   }
@@ -149,7 +146,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getPositionField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setPosition(int position) {
     return updatable.getPositionField().setValue(position).update();
   }
@@ -176,7 +172,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getTopicField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setTopic(String topic) {
     return updatable.getTopicField().setValue(topic).update();
   }
@@ -229,7 +224,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getUserLimitField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setUserLimit(int userLimit) {
     return updatable.getUserLimitField().setValue(userLimit).update();
   }
@@ -262,7 +256,6 @@ public class ChannelManager {
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#getBitrateField()
    * @see net.dv8tion.jda.core.managers.ChannelManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setBitrate(int bitrate) {
     return updatable.getBitrateField().setValue(bitrate).update();
   }

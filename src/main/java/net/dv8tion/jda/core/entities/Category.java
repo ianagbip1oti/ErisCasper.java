@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.requests.restaction.ChannelAction;
 import net.dv8tion.jda.core.requests.restaction.order.CategoryOrderAction;
 
@@ -82,7 +81,6 @@ public interface Category extends Channel, Comparable<Category> {
    *     <br>
    *     This action allows to set fields for the new TextChannel before creating it
    */
-  @CheckReturnValue
   ChannelAction createTextChannel(String name);
 
   /**
@@ -116,7 +114,6 @@ public interface Category extends Channel, Comparable<Category> {
    *     <br>
    *     This action allows to set fields for the new VoiceChannel before creating it
    */
-  @CheckReturnValue
   ChannelAction createVoiceChannel(String name);
 
   /**
@@ -148,7 +145,6 @@ public interface Category extends Channel, Comparable<Category> {
    *     CategoryOrderAction} for ordering the Category's {@link
    *     net.dv8tion.jda.core.entities.TextChannel TextChannels}.
    */
-  @CheckReturnValue
   CategoryOrderAction<TextChannel> modifyTextChannelPositions();
 
   /**
@@ -180,6 +176,5 @@ public interface Category extends Channel, Comparable<Category> {
    *     CategoryOrderAction} for ordering the Category's {@link
    *     net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
    */
-  @CheckReturnValue
   CategoryOrderAction<VoiceChannel> modifyVoiceChannelPositions();
 }

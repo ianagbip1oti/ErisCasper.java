@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.*;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
@@ -152,7 +151,6 @@ public class MessageHistory {
    *     most recent starting at index 0. If the list is empty, there were no more messages left to
    *     retrieve.
    */
-  @CheckReturnValue
   public RestAction<List<Message>> retrievePast(int amount) {
     if (amount > 100 || amount < 1)
       throw new IllegalArgumentException(
@@ -231,7 +229,6 @@ public class MessageHistory {
    *     most recent starting at index 0. If the list is empty, there were no more messages left to
    *     retrieve.
    */
-  @CheckReturnValue
   public RestAction<List<Message>> retrieveFuture(int amount) {
     if (amount > 100 || amount < 1)
       throw new IllegalArgumentException(

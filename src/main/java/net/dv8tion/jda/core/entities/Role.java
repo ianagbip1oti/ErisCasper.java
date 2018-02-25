@@ -16,7 +16,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.awt.Color;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.managers.RoleManager;
 import net.dv8tion.jda.core.managers.RoleManagerUpdatable;
@@ -168,7 +167,6 @@ public interface Role extends ISnowflake, IMentionable, IPermissionHolder, Compa
    *     RoleAction with already copied values from the specified {@link
    *     net.dv8tion.jda.core.entities.Role Role}
    */
-  @CheckReturnValue
   RoleAction createCopy(Guild guild);
 
   /**
@@ -207,7 +205,6 @@ public interface Role extends ISnowflake, IMentionable, IPermissionHolder, Compa
    *     RoleAction with already copied values from the specified {@link
    *     net.dv8tion.jda.core.entities.Role Role}
    */
-  @CheckReturnValue
   default RoleAction createCopy() {
     return createCopy(getGuild());
   }
@@ -254,7 +251,6 @@ public interface Role extends ISnowflake, IMentionable, IPermissionHolder, Compa
    *     hierarchy to be deleted
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**

@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.requests.restaction;
 
 import java.util.function.BooleanSupplier;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Icon;
 import net.dv8tion.jda.core.entities.Webhook;
@@ -50,7 +49,6 @@ public class WebhookAction extends AuditableRestAction<Webhook> {
    * @throws IllegalArgumentException If the specified name is not in the range of 2-100.
    * @return The current WebhookAction for chaining convenience.
    */
-  @CheckReturnValue
   public WebhookAction setName(String name) {
     Checks.notNull(name, "Webhook name");
     Checks.check(
@@ -73,7 +71,6 @@ public class WebhookAction extends AuditableRestAction<Webhook> {
    *     use default avatar.
    * @return The current WebhookAction for chaining convenience.
    */
-  @CheckReturnValue
   public WebhookAction setAvatar(Icon icon) {
     this.avatar = icon;
     return this;

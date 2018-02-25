@@ -19,7 +19,6 @@ package net.dv8tion.jda.core.utils.cache.impl;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.core.entities.ISnowflake;
 
 public class SortedSnowflakeCacheView<T extends ISnowflake & Comparable<T>>
@@ -68,7 +67,6 @@ public class SortedSnowflakeCacheView<T extends ISnowflake & Comparable<T>>
     return super.parallelStream().sorted(comparator);
   }
 
-  @Nonnull
   @Override
   public Iterator<T> iterator() {
     return asList().iterator();

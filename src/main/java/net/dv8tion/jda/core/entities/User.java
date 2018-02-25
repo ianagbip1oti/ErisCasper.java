@@ -16,7 +16,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.requests.RestAction;
 
@@ -143,7 +142,6 @@ public interface User extends ISnowflake, IMentionable, IFakeable {
    *     net.dv8tion.jda.core.entities.PrivateChannel PrivateChannel} <br>
    *     The PrivateChannel to use to directly message this User.
    */
-  @CheckReturnValue
   RestAction<PrivateChannel> openPrivateChannel();
 
   /**

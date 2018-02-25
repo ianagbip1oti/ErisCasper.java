@@ -17,7 +17,6 @@
 package net.dv8tion.jda.client.entities;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -51,7 +50,6 @@ public interface AuthorizedApplication extends ISnowflake {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link Void} <br>
    *     The RestAction to delete this authorisation
    */
-  @CheckReturnValue
   RestAction<Void> delete();
 
   /**

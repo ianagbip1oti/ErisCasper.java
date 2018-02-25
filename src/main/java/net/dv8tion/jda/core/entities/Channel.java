@@ -16,7 +16,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.managers.ChannelManager;
 import net.dv8tion.jda.core.managers.ChannelManagerUpdatable;
@@ -207,7 +206,6 @@ public interface Channel extends ISnowflake {
    *     <br>
    *     This action allows to set fields for the new Channel before creating it!
    */
-  @CheckReturnValue
   ChannelAction createCopy(Guild guild);
 
   /**
@@ -241,7 +239,6 @@ public interface Channel extends ISnowflake {
    *     <br>
    *     This action allows to set fields for the new Channel before creating it!
    */
-  @CheckReturnValue
   default ChannelAction createCopy() {
     return createCopy(getGuild());
   }
@@ -288,7 +285,6 @@ public interface Channel extends ISnowflake {
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**
@@ -315,7 +311,6 @@ public interface Channel extends ISnowflake {
    *     PermissionOverrideAction} The newly created PermissionOverride for the specified Role
    * @see #createPermissionOverride(Role)
    */
-  @CheckReturnValue
   PermissionOverrideAction createPermissionOverride(Member member);
 
   /**
@@ -342,7 +337,6 @@ public interface Channel extends ISnowflake {
    *     PermissionOverrideAction} The newly created PermissionOverride for the specified Role
    * @see #createPermissionOverride(Member)
    */
-  @CheckReturnValue
   PermissionOverrideAction createPermissionOverride(Role role);
 
   /**
@@ -359,7 +353,6 @@ public interface Channel extends ISnowflake {
    * @return A new {@link net.dv8tion.jda.core.requests.restaction.InviteAction InviteAction}
    * @see net.dv8tion.jda.core.requests.restaction.InviteAction
    */
-  @CheckReturnValue
   InviteAction createInvite();
 
   /**
@@ -375,6 +368,5 @@ public interface Channel extends ISnowflake {
    *     The list of expanded Invite objects
    * @see net.dv8tion.jda.core.entities.Guild#getInvites()
    */
-  @CheckReturnValue
   RestAction<List<Invite>> getInvites();
 }

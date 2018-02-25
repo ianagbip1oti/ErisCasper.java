@@ -18,7 +18,6 @@ package net.dv8tion.jda.core;
 
 import java.util.Collection;
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.bot.JDABot;
 import net.dv8tion.jda.client.JDAClient;
 import net.dv8tion.jda.core.entities.*;
@@ -425,7 +424,6 @@ public interface JDA {
    *     net.dv8tion.jda.core.entities.User User} <br>
    *     On request, gets the User with id matching provided id from Discord.
    */
-  @CheckReturnValue
   RestAction<User> retrieveUserById(String id);
 
   /**
@@ -452,7 +450,6 @@ public interface JDA {
    *     net.dv8tion.jda.core.entities.User User} <br>
    *     On request, gets the User with id matching provided id from Discord.
    */
-  @CheckReturnValue
   RestAction<User> retrieveUserById(long id);
 
   /**

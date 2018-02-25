@@ -16,7 +16,6 @@
 
 package net.dv8tion.jda.core.entities;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.managers.WebhookManager;
 import net.dv8tion.jda.core.managers.WebhookManagerUpdatable;
@@ -120,7 +119,6 @@ public interface Webhook extends ISnowflake {
    *     AuditableRestAction} <br>
    *     The rest action to delete this Webhook.
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**

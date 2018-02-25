@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.requests.restaction;
 
 import java.util.concurrent.TimeUnit;
 import java.util.function.BooleanSupplier;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Invite;
 import net.dv8tion.jda.core.requests.Request;
@@ -76,7 +75,6 @@ public class InviteAction extends AuditableRestAction<Invite> {
    * @throws IllegalArgumentException If maxAge is negative.
    * @return The current InviteAction for chaining.
    */
-  @CheckReturnValue
   public final InviteAction setMaxAge(final Integer maxAge) {
     if (maxAge != null) Checks.notNegative(maxAge, "maxAge");
 
@@ -94,7 +92,6 @@ public class InviteAction extends AuditableRestAction<Invite> {
    *     null.
    * @return The current InviteAction for chaining.
    */
-  @CheckReturnValue
   public final InviteAction setMaxAge(final Long maxAge, final TimeUnit timeUnit) {
     if (maxAge == null) return this.setMaxAge(null);
 
@@ -112,7 +109,6 @@ public class InviteAction extends AuditableRestAction<Invite> {
    * @throws IllegalArgumentException If maxUses is negative.
    * @return The current InviteAction for chaining.
    */
-  @CheckReturnValue
   public final InviteAction setMaxUses(final Integer maxUses) {
     if (maxUses != null) Checks.notNegative(maxUses, "maxUses");
 
@@ -127,7 +123,6 @@ public class InviteAction extends AuditableRestAction<Invite> {
    *     use the default value.
    * @return The current InviteAction for chaining.
    */
-  @CheckReturnValue
   public final InviteAction setTemporary(final Boolean temporary) {
     this.temporary = temporary;
     return this;
@@ -140,7 +135,6 @@ public class InviteAction extends AuditableRestAction<Invite> {
    *     value.
    * @return The current InviteAction for chaining.
    */
-  @CheckReturnValue
   public final InviteAction setUnique(final Boolean unique) {
     this.unique = unique;
     return this;

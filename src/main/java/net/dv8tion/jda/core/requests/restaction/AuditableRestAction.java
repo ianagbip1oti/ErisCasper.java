@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.requests.restaction;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.requests.*;
 import net.dv8tion.jda.core.utils.MiscUtil;
@@ -75,7 +74,6 @@ public abstract class AuditableRestAction<T> extends RestAction<T> {
    * @param reason The reason for this action which should be logged in the Guild's AuditLogs
    * @return The current AuditableRestAction instance for chaining convenience
    */
-  @CheckReturnValue
   public AuditableRestAction<T> reason(String reason) {
     this.reason = reason;
     return this;

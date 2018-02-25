@@ -21,8 +21,6 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ThreadFactory;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.entities.Webhook;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.MiscUtil;
@@ -70,7 +68,7 @@ public class WebhookClientBuilder {
    * @throws java.lang.IllegalArgumentException If the provided URL is {@code null} or is
    *     incorrectly formatted
    */
-  public WebhookClientBuilder(@Nonnull String url) {
+  public WebhookClientBuilder(String url) {
     Matcher matcher = WEBHOOK_PATTERN.matcher(url);
     if (!matcher.matches()) {
       throw new IllegalArgumentException("Failed to parse webhook URL");
@@ -87,7 +85,7 @@ public class WebhookClientBuilder {
    * @throws java.lang.NullPointerException If the provided {@link
    *     net.dv8tion.jda.core.entities.Webhook Webhook} is {@code null}
    */
-  public WebhookClientBuilder(@Nonnull Webhook webhook) {
+  public WebhookClientBuilder(Webhook webhook) {
     this(webhook.getIdLong(), webhook.getToken());
   }
 
@@ -102,8 +100,7 @@ public class WebhookClientBuilder {
    * @param executorService The executor service that should be used
    * @return The current WebhookClientBuilder for chaining convenience
    */
-  public WebhookClientBuilder setExecutorService(
-      @Nullable ScheduledExecutorService executorService) {
+  public WebhookClientBuilder setExecutorService(ScheduledExecutorService executorService) {
     this.pool = executorService;
     return this;
   }
@@ -117,7 +114,7 @@ public class WebhookClientBuilder {
    * @param client The client that should be used
    * @return The current WebhookClientBuilder for chaining convenience
    */
-  public WebhookClientBuilder setHttpClient(@Nullable OkHttpClient client) {
+  public WebhookClientBuilder setHttpClient(OkHttpClient client) {
     this.client = client;
     return this;
   }
@@ -133,7 +130,7 @@ public class WebhookClientBuilder {
    * @param builder The builder that should be used
    * @return The current WebhookClientBuilder for chaining convenience
    */
-  public WebhookClientBuilder setHttpClientBuilder(@Nullable OkHttpClient.Builder builder) {
+  public WebhookClientBuilder setHttpClientBuilder(OkHttpClient.Builder builder) {
     Checks.notNull(builder, "Builder");
     this.builder = builder;
     return this;
@@ -151,7 +148,7 @@ public class WebhookClientBuilder {
    *     been set via {@link #setExecutorService(ScheduledExecutorService)}
    * @return The current WebhookClientBuilder for chaining convenience
    */
-  public WebhookClientBuilder setThreadFactory(@Nullable ThreadFactory factory) {
+  public WebhookClientBuilder setThreadFactory(ThreadFactory factory) {
     this.threadFactory = factory;
     return this;
   }

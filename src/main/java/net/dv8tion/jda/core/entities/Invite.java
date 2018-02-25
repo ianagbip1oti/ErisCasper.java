@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.time.OffsetDateTime;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.impl.InviteImpl;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -64,7 +63,6 @@ public interface Invite {
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**
@@ -85,7 +83,6 @@ public interface Invite {
    *     The expanded Invite object
    * @see #isExpanded()
    */
-  @CheckReturnValue
   RestAction<Invite> expand();
 
   /**

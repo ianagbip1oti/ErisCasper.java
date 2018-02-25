@@ -16,12 +16,10 @@
 
 package net.dv8tion.jda.client.entities;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.requests.RestAction;
 
 public interface CallableChannel extends ISnowflake {
-  @CheckReturnValue
   RestAction<Call> startCall();
 
   Call getCurrentCall();

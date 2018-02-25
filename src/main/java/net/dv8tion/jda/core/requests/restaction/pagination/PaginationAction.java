@@ -25,7 +25,6 @@ import java.util.function.BooleanSupplier;
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.requests.Request;
 import net.dv8tion.jda.core.requests.Response;
@@ -283,7 +282,6 @@ public abstract class PaginationAction<T, M extends PaginationAction<T, M>>
    *
    * @return new PaginationIterator
    */
-  @Nonnull
   @Override
   public PaginationIterator iterator() {
     return new PaginationIterator();
