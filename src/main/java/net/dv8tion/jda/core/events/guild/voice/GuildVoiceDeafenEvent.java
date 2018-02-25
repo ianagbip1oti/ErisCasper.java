@@ -19,18 +19,15 @@ package net.dv8tion.jda.core.events.guild.voice;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 
-public class GuildVoiceDeafenEvent extends GenericGuildVoiceEvent
-{
-    protected final boolean deafened;
+public class GuildVoiceDeafenEvent extends GenericGuildVoiceEvent {
+  protected final boolean deafened;
 
-    public GuildVoiceDeafenEvent(JDA api, long responseNumber, Member member)
-    {
-        super(api, responseNumber, member);
-        this.deafened = member.getVoiceState().isDeafened();
-    }
+  public GuildVoiceDeafenEvent(JDA api, long responseNumber, Member member) {
+    super(api, responseNumber, member);
+    this.deafened = member.getVoiceState().isDeafened();
+  }
 
-    public boolean isDeafened()
-    {
-        return deafened;
-    }
+  public boolean isDeafened() {
+    return deafened;
+  }
 }

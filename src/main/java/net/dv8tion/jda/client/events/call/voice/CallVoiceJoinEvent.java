@@ -19,10 +19,8 @@ package net.dv8tion.jda.client.events.call.voice;
 import net.dv8tion.jda.client.entities.CallUser;
 import net.dv8tion.jda.core.JDA;
 
-public class CallVoiceJoinEvent extends GenericCallVoiceEvent
-{
-    public CallVoiceJoinEvent(JDA api, long responseNumber, CallUser cUser)
-    {
-        super(api, responseNumber, cUser);
-    }
+public class CallVoiceJoinEvent extends GenericCallVoiceEvent {
+  public CallVoiceJoinEvent(JDA api, long responseNumber, CallUser cUser) {
+    super(api, responseNumber, cUser);
+  }
 }

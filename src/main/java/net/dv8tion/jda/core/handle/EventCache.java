@@ -17,85 +17,80 @@ package net.dv8tion.jda.core.handle;
 
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
-import net.dv8tion.jda.core.utils.JDALogger;
-import org.slf4j.Logger;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import net.dv8tion.jda.core.utils.JDALogger;
+import org.slf4j.Logger;
 
-public class EventCache
-{
-    public static final Logger LOG = JDALogger.getLog(EventCache.class);
-    private final Map<Type, TLongObjectMap<List<Runnable>>> eventCache = new HashMap<>();
+public class EventCache {
+  public static final Logger LOG = JDALogger.getLog(EventCache.class);
+  private final Map<Type, TLongObjectMap<List<Runnable>>> eventCache = new HashMap<>();
 
-    public void cache(Type type, long triggerId, Runnable handler)
-    {
-        TLongObjectMap<List<Runnable>> triggerCache =
-                eventCache.computeIfAbsent(type, k -> new TLongObjectHashMap<>());
+  public void cache(Type type, long triggerId, Runnable handler) {
+    TLongObjectMap<List<Runnable>> triggerCache =
+        eventCache.computeIfAbsent(type, k -> new TLongObjectHashMap<>());
 
-        List<Runnable> items = triggerCache.get(triggerId);
-        if (items == null)
-        {
-            items = new LinkedList<>();
-            triggerCache.put(triggerId, items);
-        }
-
-        items.add(handler);
+    List<Runnable> items = triggerCache.get(triggerId);
+    if (items == null) {
+      items = new LinkedList<>();
+      triggerCache.put(triggerId, items);
     }
 
-    public void playbackCache(Type type, long triggerId)
-    {
-        List<Runnable> items;
-        try
-        {
-            items = eventCache.get(type).get(triggerId);
-        }
-        catch (NullPointerException e)
-        {
-            //If we encounter an NPE that means something didn't exist.
-            return;
-        }
+    items.add(handler);
+  }
 
-        if (items != null && !items.isEmpty())
-        {
-            EventCache.LOG.debug("Replaying {} events from the EventCache for a {} with id: {}",
-                items.size(), type, triggerId);
-            List<Runnable> itemsCopy = new LinkedList<>(items);
-            items.clear();
-            for (Runnable item : itemsCopy)
-            {
-                item.run();
-            }
-        }
+  public void playbackCache(Type type, long triggerId) {
+    List<Runnable> items;
+    try {
+      items = eventCache.get(type).get(triggerId);
+    } catch (NullPointerException e) {
+      // If we encounter an NPE that means something didn't exist.
+      return;
     }
 
-    public int size()
-    {
-        return (int) eventCache.values().stream()
-                .mapToLong(typeMap ->
-                    typeMap.valueCollection().stream().mapToLong(List::size).sum())
-                .sum();
+    if (items != null && !items.isEmpty()) {
+      EventCache.LOG.debug(
+          "Replaying {} events from the EventCache for a {} with id: {}",
+          items.size(),
+          type,
+          triggerId);
+      List<Runnable> itemsCopy = new LinkedList<>(items);
+      items.clear();
+      for (Runnable item : itemsCopy) {
+        item.run();
+      }
     }
+  }
 
-    public void clear()
-    {
-        eventCache.clear();
-    }
+  public int size() {
+    return (int)
+        eventCache
+            .values()
+            .stream()
+            .mapToLong(typeMap -> typeMap.valueCollection().stream().mapToLong(List::size).sum())
+            .sum();
+  }
 
-    public void clear(Type type, long id)
-    {
-        try
-        {
-            List<Runnable> events = eventCache.get(type).remove(id);
-            LOG.debug("Clearing cache for type {} with ID {} (Size: {})", type, id, events.size());
-        }
-        catch (NullPointerException ignored) {}
-    }
+  public void clear() {
+    eventCache.clear();
+  }
 
-    public enum Type
-    {
-        USER, GUILD, CHANNEL, ROLE, RELATIONSHIP, CALL
+  public void clear(Type type, long id) {
+    try {
+      List<Runnable> events = eventCache.get(type).remove(id);
+      LOG.debug("Clearing cache for type {} with ID {} (Size: {})", type, id, events.size());
+    } catch (NullPointerException ignored) {
     }
+  }
+
+  public enum Type {
+    USER,
+    GUILD,
+    CHANNEL,
+    ROLE,
+    RELATIONSHIP,
+    CALL
+  }
 }

@@ -22,25 +22,26 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 
 /**
  * <b><u>GuildVoiceMoveEvent</u></b>
- * <p>Fired when a {@link net.dv8tion.jda.core.entities.Member Member} for any reason is moved from one {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} to another
+ *
+ * <p>Fired when a {@link net.dv8tion.jda.core.entities.Member Member} for any reason is moved from
+ * one {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} to another
  */
-public class GuildVoiceMoveEvent extends GuildVoiceUpdateEvent
-{
-    protected final VoiceChannel channelJoined;
+public class GuildVoiceMoveEvent extends GuildVoiceUpdateEvent {
+  protected final VoiceChannel channelJoined;
 
-    public GuildVoiceMoveEvent(JDA api, long responseNumber, Member member, VoiceChannel channelLeft)
-    {
-        super(api, responseNumber, member, channelLeft);
-        this.channelJoined = member.getVoiceState().getChannel();
-    }
+  public GuildVoiceMoveEvent(
+      JDA api, long responseNumber, Member member, VoiceChannel channelLeft) {
+    super(api, responseNumber, member, channelLeft);
+    this.channelJoined = member.getVoiceState().getChannel();
+  }
 
-    /**
-     * The {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} that the {@link net.dv8tion.jda.core.entities.Member Member} is moved to
-     *
-     * @return the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}
-     */
-    public VoiceChannel getChannelJoined()
-    {
-        return channelJoined;
-    }
+  /**
+   * The {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} that the {@link
+   * net.dv8tion.jda.core.entities.Member Member} is moved to
+   *
+   * @return the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}
+   */
+  public VoiceChannel getChannelJoined() {
+    return channelJoined;
+  }
 }

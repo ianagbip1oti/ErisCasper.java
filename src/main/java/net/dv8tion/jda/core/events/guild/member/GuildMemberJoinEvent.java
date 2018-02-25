@@ -21,15 +21,14 @@ import net.dv8tion.jda.core.entities.Member;
 
 /**
  * <b><u>GuildMemberJoinEvent</u></b><br>
- * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} joins a {@link net.dv8tion.jda.core.entities.Guild Guild}.<br>
+ * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} joins a {@link
+ * net.dv8tion.jda.core.entities.Guild Guild}.<br>
  * <br>
  * Use: Retrieve member who joined (if available) and affected guild.
  */
-public class GuildMemberJoinEvent extends GenericGuildMemberEvent
-{
+public class GuildMemberJoinEvent extends GenericGuildMemberEvent {
 
-    public GuildMemberJoinEvent(JDA api, long responseNumber, Guild guild, Member member)
-    {
-        super(api, responseNumber, guild, member);
-    }
+  public GuildMemberJoinEvent(JDA api, long responseNumber, Guild guild, Member member) {
+    super(api, responseNumber, guild, member);
+  }
 }

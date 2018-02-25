@@ -19,12 +19,9 @@ package net.dv8tion.jda.client.events.message.group;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 
-public class GroupMessageDeleteEvent extends GenericGroupMessageEvent
-{
+public class GroupMessageDeleteEvent extends GenericGroupMessageEvent {
 
-    public GroupMessageDeleteEvent(JDA api, long responseNumber, long messageId, Group group)
-    {
-        super(api, responseNumber, messageId, group);
-    }
-
+  public GroupMessageDeleteEvent(JDA api, long responseNumber, long messageId, Group group) {
+    super(api, responseNumber, messageId, group);
+  }
 }

@@ -20,18 +20,15 @@ import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.User;
 
-public class GroupUserLeaveEvent extends GenericGroupEvent
-{
-    protected final User user;
+public class GroupUserLeaveEvent extends GenericGroupEvent {
+  protected final User user;
 
-    public GroupUserLeaveEvent(JDA api, long responseNumber, Group group, User user)
-    {
-        super(api, responseNumber, group);
-        this.user = user;
-    }
+  public GroupUserLeaveEvent(JDA api, long responseNumber, Group group, User user) {
+    super(api, responseNumber, group);
+    this.user = user;
+  }
 
-    public User getUser()
-    {
-        return user;
-    }
+  public User getUser() {
+    return user;
+  }
 }

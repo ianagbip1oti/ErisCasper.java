@@ -21,23 +21,19 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.Event;
 
-public abstract class GenericRoleEvent extends Event
-{
-    protected final Role role;
+public abstract class GenericRoleEvent extends Event {
+  protected final Role role;
 
-    public GenericRoleEvent(JDA api, long responseNumber, Role role)
-    {
-        super(api, responseNumber);
-        this.role = role;
-    }
+  public GenericRoleEvent(JDA api, long responseNumber, Role role) {
+    super(api, responseNumber);
+    this.role = role;
+  }
 
-    public Role getRole()
-    {
-        return role;
-    }
+  public Role getRole() {
+    return role;
+  }
 
-    public Guild getGuild()
-    {
-        return role.getGuild();
-    }
+  public Guild getGuild() {
+    return role.getGuild();
+  }
 }

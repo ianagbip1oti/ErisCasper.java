@@ -20,18 +20,15 @@ import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.events.Event;
 
-public abstract class GenericGroupEvent extends Event
-{
-    protected final Group group;
+public abstract class GenericGroupEvent extends Event {
+  protected final Group group;
 
-    public GenericGroupEvent(JDA api, long responseNumber, Group group)
-    {
-        super(api, responseNumber);
-        this.group = group;
-    }
+  public GenericGroupEvent(JDA api, long responseNumber, Group group) {
+    super(api, responseNumber);
+    this.group = group;
+  }
 
-    public Group getGroup()
-    {
-        return group;
-    }
+  public Group getGroup() {
+    return group;
+  }
 }

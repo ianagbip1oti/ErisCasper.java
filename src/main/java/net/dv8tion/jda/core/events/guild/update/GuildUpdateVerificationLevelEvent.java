@@ -19,18 +19,16 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateVerificationLevelEvent extends GenericGuildUpdateEvent
-{
-    private final Guild.VerificationLevel oldVerificationLevel;
+public class GuildUpdateVerificationLevelEvent extends GenericGuildUpdateEvent {
+  private final Guild.VerificationLevel oldVerificationLevel;
 
-    public GuildUpdateVerificationLevelEvent(JDA api, long responseNumber, Guild guild, Guild.VerificationLevel oldVerificationLevel)
-    {
-        super(api, responseNumber, guild);
-        this.oldVerificationLevel = oldVerificationLevel;
-    }
+  public GuildUpdateVerificationLevelEvent(
+      JDA api, long responseNumber, Guild guild, Guild.VerificationLevel oldVerificationLevel) {
+    super(api, responseNumber, guild);
+    this.oldVerificationLevel = oldVerificationLevel;
+  }
 
-    public Guild.VerificationLevel getOldVerificationLevel()
-    {
-        return oldVerificationLevel;
-    }
+  public Guild.VerificationLevel getOldVerificationLevel() {
+    return oldVerificationLevel;
+  }
 }

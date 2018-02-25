@@ -16,27 +16,20 @@
 
 package net.dv8tion.jda.core.managers.fields;
 
+import java.util.function.Supplier;
 import net.dv8tion.jda.core.managers.ChannelManagerUpdatable;
 
-import java.util.function.Supplier;
-
 /**
- * Specification AMF for
- * an {@link net.dv8tion.jda.core.managers.ChannelManagerUpdatable ChannelManagerUpdatable}
- * field.
+ * Specification AMF for an {@link net.dv8tion.jda.core.managers.ChannelManagerUpdatable
+ * ChannelManagerUpdatable} field.
  *
- * <p><b>This class is abstract and requires an implementation
- * for {@link #checkValue(Object)}</b>
+ * <p><b>This class is abstract and requires an implementation for {@link #checkValue(Object)}</b>
  *
- * @param  <T>
- *         The Field-Type for this ChannelField
- *
- * @since  3.0
+ * @param  <T> The Field-Type for this ChannelField
+ * @since 3.0
  */
-public abstract class ChannelField<T> extends Field<T, ChannelManagerUpdatable>
-{
-    public ChannelField(ChannelManagerUpdatable manager, Supplier<T> originalValue)
-    {
-        super(manager, originalValue);
-    }
+public abstract class ChannelField<T> extends Field<T, ChannelManagerUpdatable> {
+  public ChannelField(ChannelManagerUpdatable manager, Supplier<T> originalValue) {
+    super(manager, originalValue);
+  }
 }

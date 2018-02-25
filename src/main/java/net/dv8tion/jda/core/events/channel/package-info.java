@@ -15,7 +15,7 @@
  */
 
 /**
- * Events indicating that a new channel (MessageChannel / Channel)
- * was either modified, created or deleted.
+ * Events indicating that a new channel (MessageChannel / Channel) was either modified, created or
+ * deleted.
  */
 package net.dv8tion.jda.core.events.channel;

@@ -22,32 +22,28 @@ import net.dv8tion.jda.core.entities.User;
 
 /**
  * <b><u>GuildMessageReceivedEvent</u></b><br>
- * Fired if a Message is edited in a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}.<br>
+ * Fired if a Message is edited in a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}.
+ * <br>
  * <br>
  * Use: Retrieve affected TextChannel and Message.
  */
-public class GuildMessageUpdateEvent extends GenericGuildMessageEvent
-{
-    private final Message message;
+public class GuildMessageUpdateEvent extends GenericGuildMessageEvent {
+  private final Message message;
 
-    public GuildMessageUpdateEvent(JDA api, long responseNumber, Message message)
-    {
-        super(api, responseNumber, message.getIdLong(), message.getTextChannel());
-        this.message = message;
-    }
+  public GuildMessageUpdateEvent(JDA api, long responseNumber, Message message) {
+    super(api, responseNumber, message.getIdLong(), message.getTextChannel());
+    this.message = message;
+  }
 
-    public Message getMessage()
-    {
-        return message;
-    }
+  public Message getMessage() {
+    return message;
+  }
 
-    public User getAuthor()
-    {
-        return message.getAuthor();
-    }
+  public User getAuthor() {
+    return message.getAuthor();
+  }
 
-    public Member getMember()
-    {
-        return getGuild().getMember(getAuthor());
-    }
+  public Member getMember() {
+    return getGuild().getMember(getAuthor());
+  }
 }

@@ -20,10 +20,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.events.role.GenericRoleEvent;
 
-public abstract class GenericRoleUpdateEvent extends GenericRoleEvent
-{
-    public GenericRoleUpdateEvent(JDA api, long responseNumber, Role role)
-    {
-        super(api, responseNumber, role);
-    }
+public abstract class GenericRoleUpdateEvent extends GenericRoleEvent {
+  public GenericRoleUpdateEvent(JDA api, long responseNumber, Role role) {
+    super(api, responseNumber, role);
+  }
 }

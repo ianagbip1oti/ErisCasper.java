@@ -21,27 +21,24 @@ import net.dv8tion.jda.core.entities.User;
 
 /**
  * <b><u>PrivateMessageUpdateEvent</u></b><br>
- * Fired if a Message is edited in a {@link net.dv8tion.jda.core.entities.PrivateChannel PrivateChannel}.<br>
+ * Fired if a Message is edited in a {@link net.dv8tion.jda.core.entities.PrivateChannel
+ * PrivateChannel}.<br>
  * <br>
  * Use: Retrieve affected PrivateChannel and edited Message.
  */
-public class PrivateMessageUpdateEvent extends GenericPrivateMessageEvent
-{
-    private final Message message;
+public class PrivateMessageUpdateEvent extends GenericPrivateMessageEvent {
+  private final Message message;
 
-    public PrivateMessageUpdateEvent(JDA api, long responseNumber, Message message)
-    {
-        super(api, responseNumber, message.getIdLong(), message.getPrivateChannel());
-        this.message = message;
-    }
+  public PrivateMessageUpdateEvent(JDA api, long responseNumber, Message message) {
+    super(api, responseNumber, message.getIdLong(), message.getPrivateChannel());
+    this.message = message;
+  }
 
-    public Message getMessage()
-    {
-        return message;
-    }
+  public Message getMessage() {
+    return message;
+  }
 
-    public User getAuthor()
-    {
-        return message.getAuthor();
-    }
+  public User getAuthor() {
+    return message.getAuthor();
+  }
 }

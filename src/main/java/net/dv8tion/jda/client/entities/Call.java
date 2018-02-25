@@ -16,24 +16,31 @@
 
 package net.dv8tion.jda.client.entities;
 
+import java.util.List;
 import net.dv8tion.jda.core.Region;
 import net.dv8tion.jda.core.entities.AudioChannel;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 
-import java.util.List;
+public interface Call extends AudioChannel {
+  Region getRegion();
 
-public interface Call extends AudioChannel
-{
-    Region getRegion();
-    boolean isGroupCall();
-    CallableChannel getCallableChannel();
-    Group getGroup();
-    PrivateChannel getPrivateChannel();
-    String getMessageId();
-    long getMessageIdLong();
+  boolean isGroupCall();
 
-    List<CallUser> getRingingUsers();
-    List<CallUser> getConnectedUsers();
-    List<CallUser> getCallUserHistory();
-    List<CallUser> getAllCallUsers();
+  CallableChannel getCallableChannel();
+
+  Group getGroup();
+
+  PrivateChannel getPrivateChannel();
+
+  String getMessageId();
+
+  long getMessageIdLong();
+
+  List<CallUser> getRingingUsers();
+
+  List<CallUser> getConnectedUsers();
+
+  List<CallUser> getCallUserHistory();
+
+  List<CallUser> getAllCallUsers();
 }

@@ -15,61 +15,54 @@
  */
 package net.dv8tion.jda.core.events.user;
 
+import java.time.OffsetDateTime;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 
-import java.time.OffsetDateTime;
-
 /**
  * <b><u>UserTypingUpdateEvent</u></b><br>
- * Fired if a {@link net.dv8tion.jda.core.entities.User User} starts typing. (Similar to the typing indicator in the Discord client)<br>
+ * Fired if a {@link net.dv8tion.jda.core.entities.User User} starts typing. (Similar to the typing
+ * indicator in the Discord client)<br>
  * <br>
- * Use: Retrieve the User who started typing and when and in which MessageChannel they started typing.
+ * Use: Retrieve the User who started typing and when and in which MessageChannel they started
+ * typing.
  */
-public class UserTypingEvent extends GenericUserEvent
-{
-    private final MessageChannel channel;
-    private final OffsetDateTime timestamp;
+public class UserTypingEvent extends GenericUserEvent {
+  private final MessageChannel channel;
+  private final OffsetDateTime timestamp;
 
-    public UserTypingEvent(JDA api, long responseNumber, User user, MessageChannel channel, OffsetDateTime timestamp)
-    {
-        super(api, responseNumber, user);
-        this.channel = channel;
-        this.timestamp = timestamp;
-    }
+  public UserTypingEvent(
+      JDA api, long responseNumber, User user, MessageChannel channel, OffsetDateTime timestamp) {
+    super(api, responseNumber, user);
+    this.channel = channel;
+    this.timestamp = timestamp;
+  }
 
-    public OffsetDateTime getTimestamp()
-    {
-        return timestamp;
-    }
+  public OffsetDateTime getTimestamp() {
+    return timestamp;
+  }
 
-    public MessageChannel getChannel()
-    {
-        return channel;
-    }
+  public MessageChannel getChannel() {
+    return channel;
+  }
 
-    public boolean isPrivate()
-    {
-        return channel instanceof PrivateChannel;
-    }
+  public boolean isPrivate() {
+    return channel instanceof PrivateChannel;
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return isPrivate() ? (PrivateChannel) channel : null;
-    }
+  public PrivateChannel getPrivateChannel() {
+    return isPrivate() ? (PrivateChannel) channel : null;
+  }
 
-    public TextChannel getTextChannel()
-    {
-        return !isPrivate() ? (TextChannel) channel : null;
-    }
+  public TextChannel getTextChannel() {
+    return !isPrivate() ? (TextChannel) channel : null;
+  }
 
-    public Guild getGuild()
-    {
-        return !isPrivate() ? getTextChannel().getGuild() : null;
-    }
+  public Guild getGuild() {
+    return !isPrivate() ? getTextChannel().getGuild() : null;
+  }
 
-    public Member getMember()
-    {
-        return !isPrivate() ? getGuild().getMember(getUser()) : null;
-    }
+  public Member getMember() {
+    return !isPrivate() ? getGuild().getMember(getUser()) : null;
+  }
 }

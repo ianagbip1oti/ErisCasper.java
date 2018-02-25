@@ -15,33 +15,31 @@
  */
 package net.dv8tion.jda.core.events.guild.member;
 
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * <b><u>GuildMemberRoleAddEvent</u></b><br>
- * Fired if one or more {@link net.dv8tion.jda.core.entities.Role Roles} are assigned to a {@link net.dv8tion.jda.core.entities.Member Member}.<br>
+ * Fired if one or more {@link net.dv8tion.jda.core.entities.Role Roles} are assigned to a {@link
+ * net.dv8tion.jda.core.entities.Member Member}.<br>
  * <br>
  * Use: Retrieve affected member and guild. Provides a list of added roles.
  */
-public class GuildMemberRoleAddEvent extends GenericGuildMemberEvent
-{
-    private final List<Role> addedRoles;
+public class GuildMemberRoleAddEvent extends GenericGuildMemberEvent {
+  private final List<Role> addedRoles;
 
-    public GuildMemberRoleAddEvent(JDA api, long responseNumber, Guild guild, Member member, List<Role> addedRoles)
-    {
-        super(api, responseNumber, guild, member);
-        this.addedRoles = new LinkedList<>(addedRoles);
-    }
+  public GuildMemberRoleAddEvent(
+      JDA api, long responseNumber, Guild guild, Member member, List<Role> addedRoles) {
+    super(api, responseNumber, guild, member);
+    this.addedRoles = new LinkedList<>(addedRoles);
+  }
 
-    public List<Role> getRoles()
-    {
-        return Collections.unmodifiableList(addedRoles);
-    }
+  public List<Role> getRoles() {
+    return Collections.unmodifiableList(addedRoles);
+  }
 }

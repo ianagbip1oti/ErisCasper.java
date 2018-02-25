@@ -15,30 +15,32 @@
  */
 package net.dv8tion.jda.core.events.message.guild;
 
+import java.util.List;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-import java.util.List;
-
 /**
  * <b><u>GuildMessageEmbedEvent</u></b><br>
- * Fired if a Guild Message contains one or more {@link net.dv8tion.jda.core.entities.MessageEmbed Embeds}.<br>
+ * Fired if a Guild Message contains one or more {@link net.dv8tion.jda.core.entities.MessageEmbed
+ * Embeds}.<br>
  * <br>
  * Use: Retrieve affected TextChannel, the id of the affected Message and a list of MessageEmbeds.
  */
-public class GuildMessageEmbedEvent extends GenericGuildMessageEvent
-{
-    private final List<MessageEmbed> embeds;
+public class GuildMessageEmbedEvent extends GenericGuildMessageEvent {
+  private final List<MessageEmbed> embeds;
 
-    public GuildMessageEmbedEvent(JDA api, long responseNumber, long messageId, TextChannel channel, List<MessageEmbed> embeds)
-    {
-        super(api, responseNumber, messageId, channel);
-        this.embeds = embeds;
-    }
+  public GuildMessageEmbedEvent(
+      JDA api,
+      long responseNumber,
+      long messageId,
+      TextChannel channel,
+      List<MessageEmbed> embeds) {
+    super(api, responseNumber, messageId, channel);
+    this.embeds = embeds;
+  }
 
-    public List<MessageEmbed> getMessageEmbeds()
-    {
-        return embeds;
-    }
+  public List<MessageEmbed> getMessageEmbeds() {
+    return embeds;
+  }
 }

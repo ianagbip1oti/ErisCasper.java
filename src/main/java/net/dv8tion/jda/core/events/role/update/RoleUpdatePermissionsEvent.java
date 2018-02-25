@@ -16,31 +16,26 @@
 
 package net.dv8tion.jda.core.events.role.update;
 
+import java.util.Collections;
+import java.util.List;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.util.Collections;
-import java.util.List;
+public class RoleUpdatePermissionsEvent extends GenericRoleUpdateEvent {
+  private final long oldPermissionsRaw;
 
-public class RoleUpdatePermissionsEvent extends GenericRoleUpdateEvent
-{
-    private final long oldPermissionsRaw;
+  public RoleUpdatePermissionsEvent(
+      JDA api, long responseNumber, Role role, long oldPermissionsRaw) {
+    super(api, responseNumber, role);
+    this.oldPermissionsRaw = oldPermissionsRaw;
+  }
 
-    public RoleUpdatePermissionsEvent(JDA api, long responseNumber, Role role, long oldPermissionsRaw)
-    {
-        super(api, responseNumber, role);
-        this.oldPermissionsRaw = oldPermissionsRaw;
-    }
+  public List<Permission> getOldPermissions() {
+    return Collections.unmodifiableList(Permission.getPermissions(oldPermissionsRaw));
+  }
 
-    public List<Permission> getOldPermissions()
-    {
-        return Collections.unmodifiableList(
-                Permission.getPermissions(oldPermissionsRaw));
-    }
-
-    public long getOldPermissionsRaw()
-    {
-        return oldPermissionsRaw;
-    }
+  public long getOldPermissionsRaw() {
+    return oldPermissionsRaw;
+  }
 }

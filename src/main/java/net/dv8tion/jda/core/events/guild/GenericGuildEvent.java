@@ -26,18 +26,15 @@ import net.dv8tion.jda.core.events.Event;
  * <br>
  * Use: Detect any GuildEvent. <i>(No real use for the JDA user)</i>
  */
-public abstract class GenericGuildEvent extends Event
-{
-    protected final Guild guild;
+public abstract class GenericGuildEvent extends Event {
+  protected final Guild guild;
 
-    public GenericGuildEvent(JDA api, long responseNumber, Guild guild)
-    {
-        super(api, responseNumber);
-        this.guild = guild;
-    }
+  public GenericGuildEvent(JDA api, long responseNumber, Guild guild) {
+    super(api, responseNumber);
+    this.guild = guild;
+  }
 
-    public Guild getGuild()
-    {
-        return guild;
-    }
+  public Guild getGuild() {
+    return guild;
+  }
 }

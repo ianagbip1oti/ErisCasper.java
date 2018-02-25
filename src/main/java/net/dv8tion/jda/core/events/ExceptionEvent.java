@@ -19,41 +19,38 @@ package net.dv8tion.jda.core.events;
 import net.dv8tion.jda.core.JDA;
 
 /**
- * Fired when JDA does not have a specific handling for a Throwable.
- * <br>This includes {@link java.lang.Error Errors} and {@link com.neovisionaries.ws.client.WebSocketException WebSocketExceptions}
+ * Fired when JDA does not have a specific handling for a Throwable. <br>
+ * This includes {@link java.lang.Error Errors} and {@link
+ * com.neovisionaries.ws.client.WebSocketException WebSocketExceptions}
  *
- * <p>It is not recommended to simply use this and print each event as some throwables where already logged
- * by JDA. See {@link #isLogged()}.
+ * <p>It is not recommended to simply use this and print each event as some throwables where already
+ * logged by JDA. See {@link #isLogged()}.
  */
-public class ExceptionEvent extends Event
-{
-    protected final Throwable throwable;
-    protected final boolean logged;
+public class ExceptionEvent extends Event {
+  protected final Throwable throwable;
+  protected final boolean logged;
 
-    public ExceptionEvent(JDA api, Throwable throwable, boolean logged)
-    {
-        super(api, -1);
-        this.throwable = throwable;
-        this.logged = logged;
-    }
+  public ExceptionEvent(JDA api, Throwable throwable, boolean logged) {
+    super(api, -1);
+    this.throwable = throwable;
+    this.logged = logged;
+  }
 
-    /**
-     * Whether this Throwable was already printed using the JDA logging system
-     *
-     * @return True, if this throwable was already logged
-     */
-    public boolean isLogged()
-    {
-        return logged;
-    }
+  /**
+   * Whether this Throwable was already printed using the JDA logging system
+   *
+   * @return True, if this throwable was already logged
+   */
+  public boolean isLogged() {
+    return logged;
+  }
 
-    /**
-     * The cause Throwable for this event
-     *
-     * @return The cause
-     */
-    public Throwable getCause()
-    {
-        return throwable;
-    }
+  /**
+   * The cause Throwable for this event
+   *
+   * @return The cause
+   */
+  public Throwable getCause() {
+    return throwable;
+  }
 }

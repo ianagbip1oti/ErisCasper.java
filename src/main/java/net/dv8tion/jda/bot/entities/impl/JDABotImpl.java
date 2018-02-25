@@ -16,6 +16,7 @@
 
 package net.dv8tion.jda.bot.entities.impl;
 
+import java.util.Collection;
 import net.dv8tion.jda.bot.JDABot;
 import net.dv8tion.jda.bot.entities.ApplicationInfo;
 import net.dv8tion.jda.bot.sharding.ShardManager;
@@ -27,82 +28,68 @@ import net.dv8tion.jda.core.requests.Response;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.Route;
 
-import java.util.Collection;
+public class JDABotImpl implements JDABot {
+  protected final JDAImpl api;
+  protected String clientId = null;
+  protected ShardManager shardManager = null;
 
-public class JDABotImpl implements JDABot
-{
-    protected final JDAImpl api;
-    protected String clientId = null;
-    protected ShardManager shardManager = null;
+  public JDABotImpl(JDAImpl api) {
+    this.api = api;
+  }
 
-    public JDABotImpl(JDAImpl api)
-    {
-        this.api = api;
-    }
+  @Override
+  public JDA getJDA() {
+    return api;
+  }
 
-    @Override
-    public JDA getJDA()
-    {
-        return api;
-    }
+  @Override
+  public RestAction<ApplicationInfo> getApplicationInfo() {
+    Route.CompiledRoute route = Route.Applications.GET_BOT_APPLICATION.compile();
+    return new RestAction<ApplicationInfo>(getJDA(), route) {
+      @Override
+      protected void handleResponse(Response response, Request<ApplicationInfo> request) {
+        if (!response.isOk()) {
+          request.onFailure(response);
+          return;
+        }
 
-    @Override
-    public RestAction<ApplicationInfo> getApplicationInfo()
-    {
-        Route.CompiledRoute route = Route.Applications.GET_BOT_APPLICATION.compile();
-        return new RestAction<ApplicationInfo>(getJDA(), route)
-        {
-            @Override
-            protected void handleResponse(Response response, Request<ApplicationInfo> request)
-            {
-                if (!response.isOk())
-                {
-                    request.onFailure(response);
-                    return;
-                }
+        ApplicationInfo info = api.getEntityBuilder().createApplicationInfo(response.getObject());
+        JDABotImpl.this.clientId = info.getId();
+        request.onSuccess(info);
+      }
+    };
+  }
 
-                ApplicationInfo info = api.getEntityBuilder().createApplicationInfo(response.getObject());
-                JDABotImpl.this.clientId = info.getId();
-                request.onSuccess(info);
-            }
-        };
-    }
+  @Override
+  public String getInviteUrl(Permission... permissions) {
+    StringBuilder builder = buildBaseInviteUrl();
+    if (permissions != null && permissions.length > 0)
+      builder.append("&permissions=").append(Permission.getRaw(permissions));
+    return builder.toString();
+  }
 
-    @Override
-    public String getInviteUrl(Permission... permissions)
-    {
-        StringBuilder builder = buildBaseInviteUrl();
-        if (permissions != null && permissions.length > 0)
-            builder.append("&permissions=").append(Permission.getRaw(permissions));
-        return builder.toString();
-    }
+  @Override
+  public String getInviteUrl(Collection<Permission> permissions) {
+    StringBuilder builder = buildBaseInviteUrl();
+    if (permissions != null && !permissions.isEmpty())
+      builder.append("&permissions=").append(Permission.getRaw(permissions));
+    return builder.toString();
+  }
 
-    @Override
-    public String getInviteUrl(Collection<Permission> permissions)
-    {
-        StringBuilder builder = buildBaseInviteUrl();
-        if (permissions != null && !permissions.isEmpty())
-            builder.append("&permissions=").append(Permission.getRaw(permissions));
-        return builder.toString();
-    }
+  private StringBuilder buildBaseInviteUrl() {
+    if (clientId == null) getApplicationInfo().complete();
+    StringBuilder builder =
+        new StringBuilder("https://discordapp.com/oauth2/authorize?scope=bot&client_id=");
+    builder.append(clientId);
+    return builder;
+  }
 
-    private StringBuilder buildBaseInviteUrl()
-    {
-        if (clientId == null)
-            getApplicationInfo().complete();
-        StringBuilder builder = new StringBuilder("https://discordapp.com/oauth2/authorize?scope=bot&client_id=");
-        builder.append(clientId);
-        return builder;
-    }
+  public void setShardManager(ShardManager shardManager) {
+    this.shardManager = shardManager;
+  }
 
-    public void setShardManager(ShardManager shardManager)
-    {
-        this.shardManager = shardManager;
-    }
-
-    @Override
-    public ShardManager getShardManager()
-    {
-        return shardManager;
-    }
+  @Override
+  public ShardManager getShardManager() {
+    return shardManager;
+  }
 }

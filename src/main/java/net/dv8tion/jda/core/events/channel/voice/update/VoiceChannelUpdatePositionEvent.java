@@ -24,18 +24,16 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel, affected Guild and previous position.
  */
-public class VoiceChannelUpdatePositionEvent extends GenericVoiceChannelUpdateEvent
-{
-    private final int oldPosition;
+public class VoiceChannelUpdatePositionEvent extends GenericVoiceChannelUpdateEvent {
+  private final int oldPosition;
 
-    public VoiceChannelUpdatePositionEvent(JDA api, long responseNumber, VoiceChannel channel, int oldPosition)
-    {
-        super(api, responseNumber, channel);
-        this.oldPosition = oldPosition;
-    }
+  public VoiceChannelUpdatePositionEvent(
+      JDA api, long responseNumber, VoiceChannel channel, int oldPosition) {
+    super(api, responseNumber, channel);
+    this.oldPosition = oldPosition;
+  }
 
-    public int getOldPosition()
-    {
-        return oldPosition;
-    }
+  public int getOldPosition() {
+    return oldPosition;
+  }
 }

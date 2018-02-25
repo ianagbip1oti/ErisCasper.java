@@ -15,7 +15,7 @@
  */
 
 /**
- * Events that indicate that a {@link net.dv8tion.jda.core.entities.Role Role}
- * is either created or deleted.
+ * Events that indicate that a {@link net.dv8tion.jda.core.entities.Role Role} is either created or
+ * deleted.
  */
 package net.dv8tion.jda.core.events.role;

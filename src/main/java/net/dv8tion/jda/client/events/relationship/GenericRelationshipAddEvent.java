@@ -19,10 +19,8 @@ package net.dv8tion.jda.client.events.relationship;
 import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.core.JDA;
 
-public abstract class GenericRelationshipAddEvent extends GenericRelationshipEvent
-{
-    public GenericRelationshipAddEvent(JDA api, long responseNumber, Relationship relationship)
-    {
-        super(api, responseNumber, relationship);
-    }
+public abstract class GenericRelationshipAddEvent extends GenericRelationshipEvent {
+  public GenericRelationshipAddEvent(JDA api, long responseNumber, Relationship relationship) {
+    super(api, responseNumber, relationship);
+  }
 }

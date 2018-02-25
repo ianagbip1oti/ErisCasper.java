@@ -21,18 +21,15 @@ import net.dv8tion.jda.client.events.call.GenericCallEvent;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Region;
 
-public class CallUpdateRegionEvent extends GenericCallEvent
-{
-    protected final Region oldRegion;
+public class CallUpdateRegionEvent extends GenericCallEvent {
+  protected final Region oldRegion;
 
-    public CallUpdateRegionEvent(JDA api, long responseNumber, Call call, Region oldRegion)
-    {
-        super(api, responseNumber, call);
-        this.oldRegion = oldRegion;
-    }
+  public CallUpdateRegionEvent(JDA api, long responseNumber, Call call, Region oldRegion) {
+    super(api, responseNumber, call);
+    this.oldRegion = oldRegion;
+  }
 
-    public Region getOldRegion()
-    {
-        return oldRegion;
-    }
+  public Region getOldRegion() {
+    return oldRegion;
+  }
 }

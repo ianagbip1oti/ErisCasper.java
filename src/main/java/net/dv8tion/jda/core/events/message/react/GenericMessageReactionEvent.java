@@ -21,57 +21,48 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 
-public class GenericMessageReactionEvent extends GenericMessageEvent
-{
-    protected User issuer;
-    protected MessageReaction reaction;
+public class GenericMessageReactionEvent extends GenericMessageEvent {
+  protected User issuer;
+  protected MessageReaction reaction;
 
-    public GenericMessageReactionEvent(JDA api, long responseNumber, User user, MessageReaction reaction)
-    {
-        super(api, responseNumber, reaction.getMessageIdLong(), reaction.getChannel());
-        this.issuer = user;
-        this.reaction = reaction;
-    }
+  public GenericMessageReactionEvent(
+      JDA api, long responseNumber, User user, MessageReaction reaction) {
+    super(api, responseNumber, reaction.getMessageIdLong(), reaction.getChannel());
+    this.issuer = user;
+    this.reaction = reaction;
+  }
 
-    public Guild getGuild()
-    {
-        TextChannel channel = getTextChannel();
-        return channel != null ? channel.getGuild() : null;
-    }
+  public Guild getGuild() {
+    TextChannel channel = getTextChannel();
+    return channel != null ? channel.getGuild() : null;
+  }
 
-    public TextChannel getTextChannel()
-    {
-        return isFromType(ChannelType.TEXT) ? (TextChannel) getChannel() : null;
-    }
+  public TextChannel getTextChannel() {
+    return isFromType(ChannelType.TEXT) ? (TextChannel) getChannel() : null;
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) getChannel() : null;
-    }
+  public PrivateChannel getPrivateChannel() {
+    return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) getChannel() : null;
+  }
 
-    public Group getGroup()
-    {
-        return isFromType(ChannelType.GROUP) ? (Group) getChannel() : null;
-    }
+  public Group getGroup() {
+    return isFromType(ChannelType.GROUP) ? (Group) getChannel() : null;
+  }
 
-    public User getUser()
-    {
-        return issuer;
-    }
+  public User getUser() {
+    return issuer;
+  }
 
-    public Member getMember()
-    {
-        Guild guild = getGuild();
-        return guild != null ? guild.getMember(getUser()) : null;
-    }
+  public Member getMember() {
+    Guild guild = getGuild();
+    return guild != null ? guild.getMember(getUser()) : null;
+  }
 
-    public MessageReaction getReaction()
-    {
-        return reaction;
-    }
+  public MessageReaction getReaction() {
+    return reaction;
+  }
 
-    public MessageReaction.ReactionEmote getReactionEmote()
-    {
-        return reaction.getReactionEmote();
-    }
+  public MessageReaction.ReactionEmote getReactionEmote() {
+    return reaction.getReactionEmote();
+  }
 }

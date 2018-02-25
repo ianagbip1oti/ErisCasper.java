@@ -22,28 +22,23 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.Event;
 
-public abstract class GenericRelationshipEvent extends Event
-{
-    protected final Relationship relationship;
+public abstract class GenericRelationshipEvent extends Event {
+  protected final Relationship relationship;
 
-    public GenericRelationshipEvent(JDA api, long responseNumber, Relationship relationship)
-    {
-        super(api, responseNumber);
-        this.relationship = relationship;
-    }
+  public GenericRelationshipEvent(JDA api, long responseNumber, Relationship relationship) {
+    super(api, responseNumber);
+    this.relationship = relationship;
+  }
 
-    public Relationship getRelationship()
-    {
-        return  relationship;
-    }
+  public Relationship getRelationship() {
+    return relationship;
+  }
 
-    public RelationshipType getRelationshipType()
-    {
-        return relationship.getType();
-    }
+  public RelationshipType getRelationshipType() {
+    return relationship.getType();
+  }
 
-    public User getUser()
-    {
-        return relationship.getUser();
-    }
+  public User getUser() {
+    return relationship.getUser();
+  }
 }

@@ -21,23 +21,19 @@ import net.dv8tion.jda.core.entities.GuildVoiceState;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 
-public abstract class GenericGuildVoiceEvent extends GenericGuildEvent
-{
-    protected final Member member;
+public abstract class GenericGuildVoiceEvent extends GenericGuildEvent {
+  protected final Member member;
 
-    public GenericGuildVoiceEvent(JDA api, long responseNumber, Member member)
-    {
-        super(api, responseNumber, member.getGuild());
-        this.member = member;
-    }
+  public GenericGuildVoiceEvent(JDA api, long responseNumber, Member member) {
+    super(api, responseNumber, member.getGuild());
+    this.member = member;
+  }
 
-    public Member getMember()
-    {
-        return member;
-    }
+  public Member getMember() {
+    return member;
+  }
 
-    public GuildVoiceState getVoiceState()
-    {
-        return member.getVoiceState();
-    }
+  public GuildVoiceState getVoiceState() {
+    return member.getVoiceState();
+  }
 }

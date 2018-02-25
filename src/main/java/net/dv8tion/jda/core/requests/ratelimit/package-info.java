@@ -15,7 +15,7 @@
  */
 
 /**
- * Implementations of {@link net.dv8tion.jda.core.requests.RateLimiter RateLimiter}
- * that handle the rate limit responses for the {@link net.dv8tion.jda.core.requests.Requester Requester}!
+ * Implementations of {@link net.dv8tion.jda.core.requests.RateLimiter RateLimiter} that handle the
+ * rate limit responses for the {@link net.dv8tion.jda.core.requests.Requester Requester}!
  */
 package net.dv8tion.jda.core.requests.ratelimit;

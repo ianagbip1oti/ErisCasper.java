@@ -17,13 +17,12 @@
 package net.dv8tion.jda.core;
 
 /**
- * Represents the type of account that is logged in.
- * <br>Used to differentiate between Bots and Client accounts.
+ * Represents the type of account that is logged in. <br>
+ * Used to differentiate between Bots and Client accounts.
  */
-public enum AccountType
-{
-    /** An OAuth2 Bot which was created by an application */
-    BOT,
-    /** A User-Account which can be used via the official Discord Client */
-    CLIENT
+public enum AccountType {
+  /** An OAuth2 Bot which was created by an application */
+  BOT,
+  /** A User-Account which can be used via the official Discord Client */
+  CLIENT
 }

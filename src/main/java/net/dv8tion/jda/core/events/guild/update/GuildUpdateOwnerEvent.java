@@ -20,18 +20,15 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 
-public class GuildUpdateOwnerEvent extends GenericGuildUpdateEvent
-{
-    private final Member oldOwner;
+public class GuildUpdateOwnerEvent extends GenericGuildUpdateEvent {
+  private final Member oldOwner;
 
-    public GuildUpdateOwnerEvent(JDA api, long responseNumber, Guild guild, Member oldOwner)
-    {
-        super(api, responseNumber, guild);
-        this.oldOwner = oldOwner;
-    }
+  public GuildUpdateOwnerEvent(JDA api, long responseNumber, Guild guild, Member oldOwner) {
+    super(api, responseNumber, guild);
+    this.oldOwner = oldOwner;
+  }
 
-    public Member getOldOwner()
-    {
-        return oldOwner;
-    }
+  public Member getOldOwner() {
+    return oldOwner;
+  }
 }

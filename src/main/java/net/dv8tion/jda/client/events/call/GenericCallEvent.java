@@ -22,33 +22,27 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.events.Event;
 
-public abstract class GenericCallEvent extends Event
-{
-    protected final Call call;
+public abstract class GenericCallEvent extends Event {
+  protected final Call call;
 
-    public GenericCallEvent(JDA api, long responseNumber, Call call)
-    {
-        super(api, responseNumber);
-        this.call = call;
-    }
+  public GenericCallEvent(JDA api, long responseNumber, Call call) {
+    super(api, responseNumber);
+    this.call = call;
+  }
 
-    public Call getCall()
-    {
-        return call;
-    }
+  public Call getCall() {
+    return call;
+  }
 
-    public boolean isGroupCall()
-    {
-        return call.isGroupCall();
-    }
+  public boolean isGroupCall() {
+    return call.isGroupCall();
+  }
 
-    public Group getGroup()
-    {
-        return call.getGroup();
-    }
+  public Group getGroup() {
+    return call.getGroup();
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return call.getPrivateChannel();
-    }
+  public PrivateChannel getPrivateChannel() {
+    return call.getPrivateChannel();
+  }
 }

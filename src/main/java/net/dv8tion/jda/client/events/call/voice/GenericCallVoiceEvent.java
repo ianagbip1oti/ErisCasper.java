@@ -21,23 +21,19 @@ import net.dv8tion.jda.client.entities.CallVoiceState;
 import net.dv8tion.jda.client.events.call.GenericCallEvent;
 import net.dv8tion.jda.core.JDA;
 
-public abstract class GenericCallVoiceEvent extends GenericCallEvent
-{
-    protected final CallUser cUser;
+public abstract class GenericCallVoiceEvent extends GenericCallEvent {
+  protected final CallUser cUser;
 
-    public GenericCallVoiceEvent(JDA api, long responseNumber, CallUser cUser)
-    {
-        super(api, responseNumber, cUser.getCall());
-        this.cUser = cUser;
-    }
+  public GenericCallVoiceEvent(JDA api, long responseNumber, CallUser cUser) {
+    super(api, responseNumber, cUser.getCall());
+    this.cUser = cUser;
+  }
 
-    public CallUser getCallUser()
-    {
-        return cUser;
-    }
+  public CallUser getCallUser() {
+    return cUser;
+  }
 
-    public CallVoiceState getVoiceState()
-    {
-        return cUser.getVoiceState();
-    }
+  public CallVoiceState getVoiceState() {
+    return cUser.getVoiceState();
+  }
 }

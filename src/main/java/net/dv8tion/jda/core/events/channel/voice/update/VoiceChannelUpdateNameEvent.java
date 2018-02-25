@@ -24,18 +24,16 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel, affected Guild and previous name.
  */
-public class VoiceChannelUpdateNameEvent extends GenericVoiceChannelUpdateEvent
-{
-    private final String oldName;
+public class VoiceChannelUpdateNameEvent extends GenericVoiceChannelUpdateEvent {
+  private final String oldName;
 
-    public VoiceChannelUpdateNameEvent(JDA api, long responseNumber, VoiceChannel channel, String oldName)
-    {
-        super(api, responseNumber, channel);
-        this.oldName = oldName;
-    }
+  public VoiceChannelUpdateNameEvent(
+      JDA api, long responseNumber, VoiceChannel channel, String oldName) {
+    super(api, responseNumber, channel);
+    this.oldName = oldName;
+  }
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public String getOldName() {
+    return oldName;
+  }
 }

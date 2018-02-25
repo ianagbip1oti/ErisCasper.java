@@ -17,16 +17,19 @@
 /**
  * EventManager and EventListener implementations and interfaces.
  *
- * <p>Every JDA instance has an {@link net.dv8tion.jda.core.hooks.IEventManager EventManager} implementation
- * that deals with the handling and forwarding of {@link net.dv8tion.jda.core.events.Event Events}.
+ * <p>Every JDA instance has an {@link net.dv8tion.jda.core.hooks.IEventManager EventManager}
+ * implementation that deals with the handling and forwarding of {@link
+ * net.dv8tion.jda.core.events.Event Events}.
  *
- * <p>The default manager is the {@link net.dv8tion.jda.core.hooks.InterfacedEventManager InterfacedEventManager}
- * which uses the {@link net.dv8tion.jda.core.hooks.EventListener EventListener} to listen for events.
- * <br>The {@link net.dv8tion.jda.core.hooks.ListenerAdapter ListenerAdapter} is an implementation which provides
- * methods for each event of {@link net.dv8tion.jda.core.events}
+ * <p>The default manager is the {@link net.dv8tion.jda.core.hooks.InterfacedEventManager
+ * InterfacedEventManager} which uses the {@link net.dv8tion.jda.core.hooks.EventListener
+ * EventListener} to listen for events. <br>
+ * The {@link net.dv8tion.jda.core.hooks.ListenerAdapter ListenerAdapter} is an implementation which
+ * provides methods for each event of {@link net.dv8tion.jda.core.events}
  *
- * <p>The {@link net.dv8tion.jda.core.hooks.AnnotatedEventManager AnnotatedEventManager}
- * can forward events directly to methods that have the {@link net.dv8tion.jda.core.hooks.SubscribeEvent SubscribeEvent} annotation.
+ * <p>The {@link net.dv8tion.jda.core.hooks.AnnotatedEventManager AnnotatedEventManager} can forward
+ * events directly to methods that have the {@link net.dv8tion.jda.core.hooks.SubscribeEvent
+ * SubscribeEvent} annotation.
  *
  * <p><b>Note: All of the standard EventManager implementations are synchronized</b>
  */

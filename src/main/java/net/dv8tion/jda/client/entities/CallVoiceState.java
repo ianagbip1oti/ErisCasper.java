@@ -20,16 +20,20 @@ import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.VoiceState;
 
-public interface CallVoiceState extends VoiceState
-{
-    User getUser();
-    Call getCall();
-    CallUser getCallUser();
+public interface CallVoiceState extends VoiceState {
+  User getUser();
 
-    boolean isInCall();
+  Call getCall();
 
-    boolean isGroupCall();
-    CallableChannel getCallableChannel();
-    Group getGroup();
-    PrivateChannel getPrivateChannel();
+  CallUser getCallUser();
+
+  boolean isInCall();
+
+  boolean isGroupCall();
+
+  CallableChannel getCallableChannel();
+
+  Group getGroup();
+
+  PrivateChannel getPrivateChannel();
 }

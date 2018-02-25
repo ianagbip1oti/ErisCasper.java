@@ -22,45 +22,40 @@ import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
 
 /**
  * <b><u>GenericGuildMessageEvent</u></b><br>
- * Fired whenever a {@link net.dv8tion.jda.core.entities.Message Message} event is fired from a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}.<br>
+ * Fired whenever a {@link net.dv8tion.jda.core.entities.Message Message} event is fired from a
+ * {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}.<br>
  * Every GuildMessageEvent is an instance of this event and can be casted. (no exceptions)<br>
  * <br>
  * Use: Detect any GuildMessageEvent. <i>(No real use for the JDA user)</i>
  */
-public abstract class GenericGuildMessageEvent extends GenericGuildEvent
-{
-    protected final long messageId;
-    protected final TextChannel channel;
+public abstract class GenericGuildMessageEvent extends GenericGuildEvent {
+  protected final long messageId;
+  protected final TextChannel channel;
 
-    public GenericGuildMessageEvent(JDA api, long responseNumber, long messageId, TextChannel channel)
-    {
-        super(api, responseNumber, channel.getGuild());
-        this.messageId = messageId;
-        this.channel = channel;
-    }
+  public GenericGuildMessageEvent(
+      JDA api, long responseNumber, long messageId, TextChannel channel) {
+    super(api, responseNumber, channel.getGuild());
+    this.messageId = messageId;
+    this.channel = channel;
+  }
 
-    public String getMessageId()
-    {
-        return Long.toUnsignedString(messageId);
-    }
+  public String getMessageId() {
+    return Long.toUnsignedString(messageId);
+  }
 
-    public long getMessageIdLong()
-    {
-        return messageId;
-    }
+  public long getMessageIdLong() {
+    return messageId;
+  }
 
-    public boolean isFromType(ChannelType type)
-    {
-        return getChannel().getType() == type;
-    }
+  public boolean isFromType(ChannelType type) {
+    return getChannel().getType() == type;
+  }
 
-    public ChannelType getChannelType()
-    {
-        return getChannel().getType();
-    }
+  public ChannelType getChannelType() {
+    return getChannel().getType();
+  }
 
-    public TextChannel getChannel()
-    {
-        return channel;
-    }
+  public TextChannel getChannel() {
+    return channel;
+  }
 }

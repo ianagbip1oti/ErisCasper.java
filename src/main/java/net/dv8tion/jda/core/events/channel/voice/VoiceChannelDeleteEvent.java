@@ -24,10 +24,8 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel(likely to be null) or affected Guild.
  */
-public class VoiceChannelDeleteEvent extends GenericVoiceChannelEvent
-{
-    public VoiceChannelDeleteEvent(JDA api, long responseNumber, VoiceChannel channel)
-    {
-        super(api, responseNumber, channel);
-    }
+public class VoiceChannelDeleteEvent extends GenericVoiceChannelEvent {
+  public VoiceChannelDeleteEvent(JDA api, long responseNumber, VoiceChannel channel) {
+    super(api, responseNumber, channel);
+  }
 }

@@ -18,15 +18,15 @@ package net.dv8tion.jda.core.exceptions;
 
 import net.dv8tion.jda.core.Permission;
 
-public class InsufficientPermissionException extends PermissionException
-{
-    public InsufficientPermissionException(Permission permission)
-    {
-        super(permission, "Cannot perform action due to a lack of Permission. Missing permission: " + permission.toString());
-    }
+public class InsufficientPermissionException extends PermissionException {
+  public InsufficientPermissionException(Permission permission) {
+    super(
+        permission,
+        "Cannot perform action due to a lack of Permission. Missing permission: "
+            + permission.toString());
+  }
 
-    public InsufficientPermissionException(Permission permission, String reason)
-    {
-        super(permission, reason);
-    }
+  public InsufficientPermissionException(Permission permission, String reason) {
+    super(permission, reason);
+  }
 }

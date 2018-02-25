@@ -24,162 +24,141 @@ import net.dv8tion.jda.core.managers.AccountManager;
 import net.dv8tion.jda.core.managers.AccountManagerUpdatable;
 import net.dv8tion.jda.core.requests.RestAction;
 
-public class SelfUserImpl extends UserImpl implements SelfUser
-{
-    protected final Object mngLock = new Object();
-    protected volatile AccountManager manager;
-    protected volatile AccountManagerUpdatable managerUpdatable;
+public class SelfUserImpl extends UserImpl implements SelfUser {
+  protected final Object mngLock = new Object();
+  protected volatile AccountManager manager;
+  protected volatile AccountManagerUpdatable managerUpdatable;
 
-    private boolean verified;
-    private boolean mfaEnabled;
+  private boolean verified;
+  private boolean mfaEnabled;
 
-    //Client only
-    private String email;
-    private String phoneNumber;
-    private boolean mobile;
-    private boolean nitro;
+  // Client only
+  private String email;
+  private String phoneNumber;
+  private boolean mobile;
+  private boolean nitro;
 
-    public SelfUserImpl(long id, JDAImpl api)
-    {
-        super(id, api);
+  public SelfUserImpl(long id, JDAImpl api) {
+    super(id, api);
+  }
+
+  @Override
+  public boolean hasPrivateChannel() {
+    return false;
+  }
+
+  @Override
+  public PrivateChannel getPrivateChannel() {
+    throw new UnsupportedOperationException(
+        "You cannot get a PrivateChannel with yourself (SelfUser)");
+  }
+
+  @Override
+  public RestAction<PrivateChannel> openPrivateChannel() {
+    throw new UnsupportedOperationException(
+        "You cannot open a PrivateChannel with yourself (SelfUser)");
+  }
+
+  @Override
+  public boolean isVerified() {
+    return verified;
+  }
+
+  @Override
+  public boolean isMfaEnabled() {
+    return mfaEnabled;
+  }
+
+  @Override
+  public String getEmail() throws AccountTypeException {
+    if (api.getAccountType() != AccountType.CLIENT)
+      throw new AccountTypeException(
+          AccountType.CLIENT, "Email retrieval can only be done on CLIENT accounts!");
+    return email;
+  }
+
+  @Override
+  public String getPhoneNumber() throws AccountTypeException {
+    if (api.getAccountType() != AccountType.CLIENT)
+      throw new AccountTypeException(
+          AccountType.CLIENT, "Phone number retrieval can only be done on CLIENT accounts!");
+    return this.phoneNumber;
+  }
+
+  @Override
+  public boolean isMobile() throws AccountTypeException {
+    if (api.getAccountType() != AccountType.CLIENT)
+      throw new AccountTypeException(
+          AccountType.CLIENT, "Mobile app retrieval can only be done on CLIENT accounts!");
+    return this.mobile;
+  }
+
+  @Override
+  public boolean isNitro() throws AccountTypeException {
+    if (api.getAccountType() != AccountType.CLIENT)
+      throw new AccountTypeException(
+          AccountType.CLIENT, "Nitro status retrieval can only be done on CLIENT accounts!");
+    return this.nitro;
+  }
+
+  @Override
+  public long getAllowedFileSize() {
+    if (this.nitro) // by directly accessing the field we don't need to check the account type
+    return Message.MAX_FILE_SIZE_NITRO;
+    else return Message.MAX_FILE_SIZE;
+  }
+
+  @Override
+  public AccountManager getManager() {
+    AccountManager mng = manager;
+    if (mng == null) {
+      synchronized (mngLock) {
+        mng = manager;
+        if (mng == null) mng = manager = new AccountManager(this);
+      }
     }
+    return mng;
+  }
 
-    @Override
-    public boolean hasPrivateChannel()
-    {
-        return false;
+  @Override
+  public AccountManagerUpdatable getManagerUpdatable() {
+    AccountManagerUpdatable mng = managerUpdatable;
+    if (mng == null) {
+      synchronized (mngLock) {
+        mng = managerUpdatable;
+        if (mng == null) mng = managerUpdatable = new AccountManagerUpdatable(this);
+      }
     }
+    return mng;
+  }
 
-    @Override
-    public PrivateChannel getPrivateChannel()
-    {
-        throw new UnsupportedOperationException("You cannot get a PrivateChannel with yourself (SelfUser)");
-    }
+  public SelfUserImpl setVerified(boolean verified) {
+    this.verified = verified;
+    return this;
+  }
 
-    @Override
-    public RestAction<PrivateChannel> openPrivateChannel()
-    {
-        throw new UnsupportedOperationException("You cannot open a PrivateChannel with yourself (SelfUser)");
-    }
+  public SelfUserImpl setMfaEnabled(boolean enabled) {
+    this.mfaEnabled = enabled;
+    return this;
+  }
 
-    @Override
-    public boolean isVerified()
-    {
-        return verified;
-    }
+  public SelfUserImpl setEmail(String email) {
+    this.email = email;
+    return this;
+  }
 
-    @Override
-    public boolean isMfaEnabled()
-    {
-        return mfaEnabled;
-    }
+  public SelfUserImpl setPhoneNumber(String phoneNumber) {
+    this.phoneNumber = phoneNumber;
+    return this;
+  }
 
-    @Override
-    public String getEmail() throws AccountTypeException
-    {
-        if (api.getAccountType() != AccountType.CLIENT)
-            throw new AccountTypeException(AccountType.CLIENT, "Email retrieval can only be done on CLIENT accounts!");
-        return email;
-    }
+  public SelfUserImpl setMobile(boolean mobile) {
+    this.mobile = mobile;
+    return this;
+  }
 
-    @Override
-    public String getPhoneNumber() throws AccountTypeException
-    {
-        if (api.getAccountType() != AccountType.CLIENT)
-            throw new AccountTypeException(AccountType.CLIENT, "Phone number retrieval can only be done on CLIENT accounts!");
-        return this.phoneNumber;
-    }
-
-    @Override
-    public boolean isMobile() throws AccountTypeException
-    {
-        if (api.getAccountType() != AccountType.CLIENT)
-            throw new AccountTypeException(AccountType.CLIENT, "Mobile app retrieval can only be done on CLIENT accounts!");
-        return this.mobile;
-    }
-
-    @Override
-    public boolean isNitro() throws AccountTypeException
-    {
-        if (api.getAccountType() != AccountType.CLIENT)
-            throw new AccountTypeException(AccountType.CLIENT, "Nitro status retrieval can only be done on CLIENT accounts!");
-        return this.nitro;
-    }
-
-    @Override
-    public long getAllowedFileSize()
-    {
-        if (this.nitro) // by directly accessing the field we don't need to check the account type
-            return Message.MAX_FILE_SIZE_NITRO;
-        else
-            return Message.MAX_FILE_SIZE;
-    }
-
-    @Override
-    public AccountManager getManager()
-    {
-        AccountManager mng = manager;
-        if (mng == null)
-        {
-            synchronized (mngLock)
-            {
-                mng = manager;
-                if (mng == null)
-                    mng = manager = new AccountManager(this);
-            }
-        }
-        return mng;
-    }
-
-    @Override
-    public AccountManagerUpdatable getManagerUpdatable()
-    {
-        AccountManagerUpdatable mng = managerUpdatable;
-        if (mng == null)
-        {
-            synchronized (mngLock)
-            {
-                mng = managerUpdatable;
-                if (mng == null)
-                    mng = managerUpdatable = new AccountManagerUpdatable(this);
-            }
-        }
-        return mng;
-    }
-
-    public SelfUserImpl setVerified(boolean verified)
-    {
-        this.verified = verified;
-        return this;
-    }
-
-    public SelfUserImpl setMfaEnabled(boolean enabled)
-    {
-        this.mfaEnabled = enabled;
-        return this;
-    }
-
-    public SelfUserImpl setEmail(String email)
-    {
-        this.email = email;
-        return this;
-    }
-
-    public SelfUserImpl setPhoneNumber(String phoneNumber)
-    {
-        this.phoneNumber = phoneNumber;
-        return this;
-    }
-
-    public SelfUserImpl setMobile(boolean mobile)
-    {
-        this.mobile = mobile;
-        return this;
-    }
-
-    public SelfUserImpl setNitro(boolean nitro)
-    {
-        this.nitro = nitro;
-        return this;
-    }
+  public SelfUserImpl setNitro(boolean nitro) {
+    this.nitro = nitro;
+    return this;
+  }
 }

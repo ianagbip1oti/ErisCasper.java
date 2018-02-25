@@ -21,58 +21,48 @@ import net.dv8tion.jda.client.entities.RelationshipType;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.requests.RestAction;
 
-public class IncomingFriendRequestImpl implements IncomingFriendRequest
-{
-    private final User user;
+public class IncomingFriendRequestImpl implements IncomingFriendRequest {
+  private final User user;
 
-    public IncomingFriendRequestImpl(User user)
-    {
-        this.user = user;
-    }
+  public IncomingFriendRequestImpl(User user) {
+    this.user = user;
+  }
 
-    @Override
-    public RelationshipType getType()
-    {
-        return RelationshipType.INCOMING_FRIEND_REQUEST;
-    }
+  @Override
+  public RelationshipType getType() {
+    return RelationshipType.INCOMING_FRIEND_REQUEST;
+  }
 
-    @Override
-    public User getUser()
-    {
-        return user;
-    }
+  @Override
+  public User getUser() {
+    return user;
+  }
 
-    @Override
-    public RestAction accept()
-    {
-        return null;
-    }
+  @Override
+  public RestAction accept() {
+    return null;
+  }
 
-    @Override
-    public RestAction ignore()
-    {
-        return null;
-    }
+  @Override
+  public RestAction ignore() {
+    return null;
+  }
 
-    @Override
-    public String toString()
-    {
-        return "IFR(" + user.toString() + ")";
-    }
+  @Override
+  public String toString() {
+    return "IFR(" + user.toString() + ")";
+  }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (!(o instanceof IncomingFriendRequest))
-            return false;
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof IncomingFriendRequest)) return false;
 
-        IncomingFriendRequest oIFR = (IncomingFriendRequest) o;
-        return user.equals(oIFR.getUser());
-    }
+    IncomingFriendRequest oIFR = (IncomingFriendRequest) o;
+    return user.equals(oIFR.getUser());
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return ("IFR " + user.getId()).hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return ("IFR " + user.getId()).hashCode();
+  }
 }

@@ -22,23 +22,20 @@ import net.dv8tion.jda.core.JDA;
  * <b><u>SelfUpdateMobileEvent</u></b><br>
  * Fired if you login to your discord account with a mobile device for the first time.<br>
  */
-public class SelfUpdateMobileEvent extends GenericSelfUpdateEvent
-{
-    private final boolean wasMobile;
+public class SelfUpdateMobileEvent extends GenericSelfUpdateEvent {
+  private final boolean wasMobile;
 
-    public SelfUpdateMobileEvent(JDA api, long responseNumber, boolean wasMobile)
-    {
-        super(api, responseNumber);
-        this.wasMobile = wasMobile;
-    }
+  public SelfUpdateMobileEvent(JDA api, long responseNumber, boolean wasMobile) {
+    super(api, responseNumber);
+    this.wasMobile = wasMobile;
+  }
 
-    /**
-     * Returns the old mobile status. <i>Should</i> always be {@code false}.
-     *
-     * @return The mobile status.
-     */
-    public boolean wasMobile()
-    {
-        return wasMobile;
-    }
+  /**
+   * Returns the old mobile status. <i>Should</i> always be {@code false}.
+   *
+   * @return The mobile status.
+   */
+  public boolean wasMobile() {
+    return wasMobile;
+  }
 }

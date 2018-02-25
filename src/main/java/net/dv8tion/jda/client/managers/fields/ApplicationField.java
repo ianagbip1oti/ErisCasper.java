@@ -16,28 +16,22 @@
 
 package net.dv8tion.jda.client.managers.fields;
 
+import java.util.function.Supplier;
 import net.dv8tion.jda.client.managers.ApplicationManagerUpdatable;
 import net.dv8tion.jda.core.managers.fields.Field;
 
-import java.util.function.Supplier;
-
 /**
- * Specification AMF for
- * an {@link net.dv8tion.jda.client.managers.ApplicationManagerUpdatable ApplicationManagerUpdatable}
- * field.
+ * Specification AMF for an {@link net.dv8tion.jda.client.managers.ApplicationManagerUpdatable
+ * ApplicationManagerUpdatable} field.
  *
- * <p><b>This class is abstract and requires an implementation
- * for {@link #checkValue(Object)}</b>
+ * <p><b>This class is abstract and requires an implementation for {@link #checkValue(Object)}</b>
  *
- * @param  <T>
- *         The Field-Type for this ApplicationField
- *
- * @since  3.0
+ * @param  <T> The Field-Type for this ApplicationField
+ * @since 3.0
  */
-public abstract class ApplicationField<T> extends Field<T, ApplicationManagerUpdatable>
-{
-    public ApplicationField(final ApplicationManagerUpdatable manager, final Supplier<T> originalValue)
-    {
-        super(manager, originalValue);
-    }
+public abstract class ApplicationField<T> extends Field<T, ApplicationManagerUpdatable> {
+  public ApplicationField(
+      final ApplicationManagerUpdatable manager, final Supplier<T> originalValue) {
+    super(manager, originalValue);
+  }
 }

@@ -18,10 +18,12 @@ package net.dv8tion.jda.client.entities;
 
 import net.dv8tion.jda.core.entities.User;
 
-public interface CallUser
-{
-    User getUser();
-    Call getCall();
-    CallVoiceState getVoiceState();
-    boolean isRinging();
+public interface CallUser {
+  User getUser();
+
+  Call getCall();
+
+  CallVoiceState getVoiceState();
+
+  boolean isRinging();
 }

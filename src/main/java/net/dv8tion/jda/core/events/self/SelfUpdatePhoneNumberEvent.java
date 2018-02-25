@@ -22,23 +22,20 @@ import net.dv8tion.jda.core.JDA;
  * <b><u>SelfUpdatePhoneNumberEvent</u></b><br>
  * Fired if you change the phone number associated with your account.<br>
  */
-public class SelfUpdatePhoneNumberEvent extends GenericSelfUpdateEvent
-{
-    private final String oldPhoneNumber;
+public class SelfUpdatePhoneNumberEvent extends GenericSelfUpdateEvent {
+  private final String oldPhoneNumber;
 
-    public SelfUpdatePhoneNumberEvent(JDA api, long responseNumber, String oldPhoneNumber)
-    {
-        super(api, responseNumber);
-        this.oldPhoneNumber = oldPhoneNumber;
-    }
+  public SelfUpdatePhoneNumberEvent(JDA api, long responseNumber, String oldPhoneNumber) {
+    super(api, responseNumber);
+    this.oldPhoneNumber = oldPhoneNumber;
+  }
 
-    /**
-     * Returns the old phone number or {@code null} if no phone number was previously set.
-     *
-     * @return The old phone number or {@code null}.
-     */
-    public String getOldPhoneNumber()
-    {
-        return oldPhoneNumber;
-    }
+  /**
+   * Returns the old phone number or {@code null} if no phone number was previously set.
+   *
+   * @return The old phone number or {@code null}.
+   */
+  public String getOldPhoneNumber() {
+    return oldPhoneNumber;
+  }
 }

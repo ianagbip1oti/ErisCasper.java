@@ -18,23 +18,25 @@ package net.dv8tion.jda.core.events.self;
 
 import net.dv8tion.jda.core.JDA;
 
-public class SelfUpdateAvatarEvent extends GenericSelfUpdateEvent
-{
-    private final String oldAvatarId;
+public class SelfUpdateAvatarEvent extends GenericSelfUpdateEvent {
+  private final String oldAvatarId;
 
-    public SelfUpdateAvatarEvent(JDA api, long responseNumber, String oldAvatarId)
-    {
-        super(api, responseNumber);
-        this.oldAvatarId = oldAvatarId;
-    }
+  public SelfUpdateAvatarEvent(JDA api, long responseNumber, String oldAvatarId) {
+    super(api, responseNumber);
+    this.oldAvatarId = oldAvatarId;
+  }
 
-    public String getOldAvatarId()
-    {
-        return oldAvatarId;
-    }
+  public String getOldAvatarId() {
+    return oldAvatarId;
+  }
 
-    public String getOldAvatarUrl()
-    {
-        return oldAvatarId == null ? null : "https://cdn.discordapp.com/avatars/" + getSelfUser().getId() + "/" + oldAvatarId + ".jpg";
-    }
+  public String getOldAvatarUrl() {
+    return oldAvatarId == null
+        ? null
+        : "https://cdn.discordapp.com/avatars/"
+            + getSelfUser().getId()
+            + "/"
+            + oldAvatarId
+            + ".jpg";
+  }
 }

@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * Events that track updates for existing {@link net.dv8tion.jda.core.entities.Emote Emotes}
- *
- */
+/** Events that track updates for existing {@link net.dv8tion.jda.core.entities.Emote Emotes} */
 package net.dv8tion.jda.core.events.emote.update;

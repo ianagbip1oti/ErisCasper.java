@@ -18,18 +18,15 @@ package net.dv8tion.jda.core.events.self;
 
 import net.dv8tion.jda.core.JDA;
 
-public class SelfUpdateEmailEvent extends GenericSelfUpdateEvent
-{
-    private final String oldEmail;
+public class SelfUpdateEmailEvent extends GenericSelfUpdateEvent {
+  private final String oldEmail;
 
-    public SelfUpdateEmailEvent(JDA api, long responseNumber, String oldEmail)
-    {
-        super(api, responseNumber);
-        this.oldEmail = oldEmail;
-    }
+  public SelfUpdateEmailEvent(JDA api, long responseNumber, String oldEmail) {
+    super(api, responseNumber);
+    this.oldEmail = oldEmail;
+  }
 
-    public String getOldEmail()
-    {
-        return oldEmail;
-    }
+  public String getOldEmail() {
+    return oldEmail;
+  }
 }

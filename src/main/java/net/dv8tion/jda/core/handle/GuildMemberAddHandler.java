@@ -21,37 +21,36 @@ import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
 import org.json.JSONObject;
 
-public class GuildMemberAddHandler extends SocketHandler
-{
+public class GuildMemberAddHandler extends SocketHandler {
 
-    public GuildMemberAddHandler(JDAImpl api)
-    {
-        super(api);
-    }
+  public GuildMemberAddHandler(JDAImpl api) {
+    super(api);
+  }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long id = content.getLong("guild_id");
-        if (api.getGuildLock().isLocked(id))
-            return id;
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long id = content.getLong("guild_id");
+    if (api.getGuildLock().isLocked(id)) return id;
 
-        GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
-        if (guild == null)
-        {
-            api.getEventCache().cache(EventCache.Type.GUILD, id, () ->
-            {
+    GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
+    if (guild == null) {
+      api.getEventCache()
+          .cache(
+              EventCache.Type.GUILD,
+              id,
+              () -> {
                 handle(responseNumber, allContent);
-            });
-            return null;
-        }
-
-        Member member = api.getEntityBuilder().createMember(guild, content);
-        api.getEventManager().handle(
-                new GuildMemberJoinEvent(
-                        api, responseNumber,
-                        guild, member));
-        api.getEventCache().playbackCache(EventCache.Type.USER, member.getUser().getIdLong());
-        return null;
+              });
+      return null;
     }
+
+    Member member = api.getEntityBuilder().createMember(guild, content);
+    api.getEventManager()
+        .handle(
+            new GuildMemberJoinEvent(
+                api, responseNumber,
+                guild, member));
+    api.getEventCache().playbackCache(EventCache.Type.USER, member.getUser().getIdLong());
+    return null;
+  }
 }

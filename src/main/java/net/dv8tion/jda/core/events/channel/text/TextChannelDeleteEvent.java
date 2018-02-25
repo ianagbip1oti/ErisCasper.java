@@ -24,10 +24,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
  * <br>
  * Use: Detect when a TextChannel has been deleted.
  */
-public class TextChannelDeleteEvent extends GenericTextChannelEvent
-{
-    public TextChannelDeleteEvent(JDA api, long responseNumber, TextChannel channel)
-    {
-        super(api, responseNumber, channel);
-    }
+public class TextChannelDeleteEvent extends GenericTextChannelEvent {
+  public TextChannelDeleteEvent(JDA api, long responseNumber, TextChannel channel) {
+    super(api, responseNumber, channel);
+  }
 }

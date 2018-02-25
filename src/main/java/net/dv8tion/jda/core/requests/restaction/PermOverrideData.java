@@ -19,31 +19,28 @@ package net.dv8tion.jda.core.requests.restaction;
 import org.json.JSONObject;
 import org.json.JSONString;
 
-class PermOverrideData implements JSONString
-{
-    public static final int ROLE_TYPE = 0;
-    public static final int MEMBER_TYPE = 1;
-    protected final int type;
-    protected final long id;
-    protected final long allow;
-    protected final long deny;
+class PermOverrideData implements JSONString {
+  public static final int ROLE_TYPE = 0;
+  public static final int MEMBER_TYPE = 1;
+  protected final int type;
+  protected final long id;
+  protected final long allow;
+  protected final long deny;
 
-    protected PermOverrideData(int type, long id, long allow, long deny)
-    {
-        this.type = type;
-        this.id = id;
-        this.allow = allow;
-        this.deny = deny;
-    }
+  protected PermOverrideData(int type, long id, long allow, long deny) {
+    this.type = type;
+    this.id = id;
+    this.allow = allow;
+    this.deny = deny;
+  }
 
-    @Override
-    public String toJSONString()
-    {
-        final JSONObject o = new JSONObject();
-        o.put("type",  type);
-        o.put("id",    id);
-        o.put("allow", allow);
-        o.put("deny",  deny);
-        return o.toString();
-    }
+  @Override
+  public String toJSONString() {
+    final JSONObject o = new JSONObject();
+    o.put("type", type);
+    o.put("id", id);
+    o.put("allow", allow);
+    o.put("deny", deny);
+    return o.toString();
+  }
 }

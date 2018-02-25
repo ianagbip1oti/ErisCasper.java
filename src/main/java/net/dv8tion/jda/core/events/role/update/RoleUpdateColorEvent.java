@@ -16,23 +16,19 @@
 
 package net.dv8tion.jda.core.events.role.update;
 
+import java.awt.Color;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Role;
 
-import java.awt.Color;
+public class RoleUpdateColorEvent extends GenericRoleUpdateEvent {
+  private final Color oldColor;
 
-public class RoleUpdateColorEvent extends GenericRoleUpdateEvent
-{
-    private final Color oldColor;
+  public RoleUpdateColorEvent(JDA api, long responseNumber, Role role, Color oldColor) {
+    super(api, responseNumber, role);
+    this.oldColor = oldColor;
+  }
 
-    public RoleUpdateColorEvent(JDA api, long responseNumber, Role role, Color oldColor)
-    {
-        super(api, responseNumber, role);
-        this.oldColor = oldColor;
-    }
-
-    public Color getOldColor()
-    {
-        return oldColor;
-    }
+  public Color getOldColor() {
+    return oldColor;
+  }
 }

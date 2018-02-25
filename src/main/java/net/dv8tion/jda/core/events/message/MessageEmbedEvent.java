@@ -15,52 +15,49 @@
  */
 package net.dv8tion.jda.core.events.message;
 
+import java.util.Collections;
+import java.util.List;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 
-import java.util.Collections;
-import java.util.List;
-
 /**
  * <b><u>MessageEmbedEvent</u></b><br>
- * Fired if a Message contains an {@link net.dv8tion.jda.core.entities.MessageEmbed Embed} in a {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel}.<br>
+ * Fired if a Message contains an {@link net.dv8tion.jda.core.entities.MessageEmbed Embed} in a
+ * {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel}.<br>
  * <br>
  * Use: Grab MessageEmbeds from any message. No matter if private or guild.
  */
-public class MessageEmbedEvent extends GenericMessageEvent
-{
-    private final List<MessageEmbed> embeds;
+public class MessageEmbedEvent extends GenericMessageEvent {
+  private final List<MessageEmbed> embeds;
 
-    public MessageEmbedEvent(JDA api, long responseNumber, long messageId, MessageChannel channel, List<MessageEmbed> embeds)
-    {
-        super(api, responseNumber, messageId, channel);
-        this.embeds = Collections.unmodifiableList(embeds);
-    }
+  public MessageEmbedEvent(
+      JDA api,
+      long responseNumber,
+      long messageId,
+      MessageChannel channel,
+      List<MessageEmbed> embeds) {
+    super(api, responseNumber, messageId, channel);
+    this.embeds = Collections.unmodifiableList(embeds);
+  }
 
-    public List<MessageEmbed> getMessageEmbeds()
-    {
-        return embeds;
-    }
+  public List<MessageEmbed> getMessageEmbeds() {
+    return embeds;
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) channel : null;
-    }
+  public PrivateChannel getPrivateChannel() {
+    return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) channel : null;
+  }
 
-    public Group getGroup()
-    {
-        return isFromType(ChannelType.GROUP) ? (Group) channel : null;
-    }
+  public Group getGroup() {
+    return isFromType(ChannelType.GROUP) ? (Group) channel : null;
+  }
 
-    public TextChannel getTextChannel()
-    {
-        return isFromType(ChannelType.TEXT) ? (TextChannel) channel : null;
-    }
+  public TextChannel getTextChannel() {
+    return isFromType(ChannelType.TEXT) ? (TextChannel) channel : null;
+  }
 
-    public Guild getGuild()
-    {
-        return isFromType(ChannelType.TEXT) ? getTextChannel().getGuild() : null;
-    }
-
+  public Guild getGuild() {
+    return isFromType(ChannelType.TEXT) ? getTextChannel().getGuild() : null;
+  }
 }

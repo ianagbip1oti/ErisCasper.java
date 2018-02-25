@@ -20,15 +20,12 @@ import net.dv8tion.jda.client.entities.IncomingFriendRequest;
 import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.core.JDA;
 
-public class FriendRequestIgnoredEvent extends GenericRelationshipRemoveEvent
-{
-    public FriendRequestIgnoredEvent(JDA api, long responseNumber, Relationship relationship)
-    {
-        super(api, responseNumber, relationship);
-    }
+public class FriendRequestIgnoredEvent extends GenericRelationshipRemoveEvent {
+  public FriendRequestIgnoredEvent(JDA api, long responseNumber, Relationship relationship) {
+    super(api, responseNumber, relationship);
+  }
 
-    public IncomingFriendRequest getFriendRequest()
-    {
-        return (IncomingFriendRequest) relationship;
-    }
+  public IncomingFriendRequest getFriendRequest() {
+    return (IncomingFriendRequest) relationship;
+  }
 }

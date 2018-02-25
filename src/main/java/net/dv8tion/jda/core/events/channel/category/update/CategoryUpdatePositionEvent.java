@@ -21,27 +21,27 @@ import net.dv8tion.jda.core.entities.Category;
 
 /**
  * <b><u>CategoryUpdatePositionEvent</u></b>
- * <p>Fired when the position of a {@link net.dv8tion.jda.core.entities.Category Category} is updated.
+ *
+ * <p>Fired when the position of a {@link net.dv8tion.jda.core.entities.Category Category} is
+ * updated.
  *
  * <p>Use: Retrieve the old position
  */
-public class CategoryUpdatePositionEvent extends GenericCategoryUpdateEvent
-{
-    protected final int oldPosition;
+public class CategoryUpdatePositionEvent extends GenericCategoryUpdateEvent {
+  protected final int oldPosition;
 
-    public CategoryUpdatePositionEvent(JDA api, long responseNumber, Category category, int oldPosition)
-    {
-        super(api, responseNumber, category);
-        this.oldPosition = oldPosition;
-    }
+  public CategoryUpdatePositionEvent(
+      JDA api, long responseNumber, Category category, int oldPosition) {
+    super(api, responseNumber, category);
+    this.oldPosition = oldPosition;
+  }
 
-    /**
-     * The previous position of this {@link net.dv8tion.jda.core.entities.Category Category}
-     *
-     * @return The previous position
-     */
-    public int getOldPosition()
-    {
-        return oldPosition;
-    }
+  /**
+   * The previous position of this {@link net.dv8tion.jda.core.entities.Category Category}
+   *
+   * @return The previous position
+   */
+  public int getOldPosition() {
+    return oldPosition;
+  }
 }

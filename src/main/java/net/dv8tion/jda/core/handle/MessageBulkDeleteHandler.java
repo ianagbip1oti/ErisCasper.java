@@ -16,59 +16,59 @@
 
 package net.dv8tion.jda.core.handle;
 
+import java.util.LinkedList;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.message.MessageBulkDeleteEvent;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
+public class MessageBulkDeleteHandler extends SocketHandler {
+  public MessageBulkDeleteHandler(JDAImpl api) {
+    super(api);
+  }
 
-public class MessageBulkDeleteHandler extends SocketHandler
-{
-    public MessageBulkDeleteHandler(JDAImpl api)
-    {
-        super(api);
-    }
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long channelId = content.getLong("channel_id");
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long channelId = content.getLong("channel_id");
-
-        if (api.isBulkDeleteSplittingEnabled())
-        {
-            SocketHandler handler = api.getClient().getHandler("MESSAGE_DELETE");
-            content.getJSONArray("ids").forEach(id ->
-            {
-                handler.handle(responseNumber, new JSONObject()
-                    .put("t", "MESSAGE_DELETE")
-                    .put("d", new JSONObject()
-                        .put("channel_id", Long.toUnsignedString(channelId))
-                        .put("id", id)));
-            });
-        }
-        else
-        {
-            TextChannel channel = api.getTextChannelMap().get(channelId);
-            if (channel == null)
-            {
-                api.getEventCache().cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
-                EventCache.LOG.debug("Received a Bulk Message Delete for a TextChannel that is not yet cached.");
-                return null;
-            }
-
-            if (api.getGuildLock().isLocked(channel.getGuild().getIdLong()))
-            {
-                return channel.getGuild().getIdLong();
-            }
-
-            LinkedList<String> msgIds = new LinkedList<>();
-            content.getJSONArray("ids").forEach(id -> msgIds.add((String) id));
-            api.getEventManager().handle(
-                    new MessageBulkDeleteEvent(
-                            api, responseNumber,
-                            channel, msgIds));
-        }
+    if (api.isBulkDeleteSplittingEnabled()) {
+      SocketHandler handler = api.getClient().getHandler("MESSAGE_DELETE");
+      content
+          .getJSONArray("ids")
+          .forEach(
+              id -> {
+                handler.handle(
+                    responseNumber,
+                    new JSONObject()
+                        .put("t", "MESSAGE_DELETE")
+                        .put(
+                            "d",
+                            new JSONObject()
+                                .put("channel_id", Long.toUnsignedString(channelId))
+                                .put("id", id)));
+              });
+    } else {
+      TextChannel channel = api.getTextChannelMap().get(channelId);
+      if (channel == null) {
+        api.getEventCache()
+            .cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
+        EventCache.LOG.debug(
+            "Received a Bulk Message Delete for a TextChannel that is not yet cached.");
         return null;
+      }
+
+      if (api.getGuildLock().isLocked(channel.getGuild().getIdLong())) {
+        return channel.getGuild().getIdLong();
+      }
+
+      LinkedList<String> msgIds = new LinkedList<>();
+      content.getJSONArray("ids").forEach(id -> msgIds.add((String) id));
+      api.getEventManager()
+          .handle(
+              new MessageBulkDeleteEvent(
+                  api, responseNumber,
+                  channel, msgIds));
     }
+    return null;
+  }
 }

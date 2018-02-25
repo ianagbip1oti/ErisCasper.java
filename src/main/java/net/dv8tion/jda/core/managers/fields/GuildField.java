@@ -16,27 +16,20 @@
 
 package net.dv8tion.jda.core.managers.fields;
 
+import java.util.function.Supplier;
 import net.dv8tion.jda.core.managers.GuildManagerUpdatable;
 
-import java.util.function.Supplier;
-
 /**
- * Specification AMF for
- * an {@link net.dv8tion.jda.core.managers.GuildManagerUpdatable GuildManagerUpdatable}
- * field.
+ * Specification AMF for an {@link net.dv8tion.jda.core.managers.GuildManagerUpdatable
+ * GuildManagerUpdatable} field.
  *
- * <p><b>This class is abstract and requires an implementation
- * for {@link #checkValue(Object)}</b>
+ * <p><b>This class is abstract and requires an implementation for {@link #checkValue(Object)}</b>
  *
- * @param  <T>
- *         The Field-Type for this GuildField
- *
- * @since  3.0
+ * @param  <T> The Field-Type for this GuildField
+ * @since 3.0
  */
-public abstract class GuildField<T> extends Field<T, GuildManagerUpdatable>
-{
-    public GuildField(GuildManagerUpdatable manager, Supplier<T> originalValue)
-    {
-        super(manager, originalValue);
-    }
+public abstract class GuildField<T> extends Field<T, GuildManagerUpdatable> {
+  public GuildField(GuildManagerUpdatable manager, Supplier<T> originalValue) {
+    super(manager, originalValue);
+  }
 }

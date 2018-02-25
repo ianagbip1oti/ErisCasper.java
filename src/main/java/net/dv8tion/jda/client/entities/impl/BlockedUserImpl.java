@@ -21,52 +21,43 @@ import net.dv8tion.jda.client.entities.RelationshipType;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.requests.RestAction;
 
-public class BlockedUserImpl implements BlockedUser
-{
-    private final User user;
+public class BlockedUserImpl implements BlockedUser {
+  private final User user;
 
-    public BlockedUserImpl(User user)
-    {
-        this.user = user;
-    }
+  public BlockedUserImpl(User user) {
+    this.user = user;
+  }
 
-    @Override
-    public RelationshipType getType()
-    {
-        return RelationshipType.BLOCKED;
-    }
+  @Override
+  public RelationshipType getType() {
+    return RelationshipType.BLOCKED;
+  }
 
-    @Override
-    public User getUser()
-    {
-        return user;
-    }
+  @Override
+  public User getUser() {
+    return user;
+  }
 
-    @Override
-    public RestAction unblockUser()
-    {
-        return null;
-    }
+  @Override
+  public RestAction unblockUser() {
+    return null;
+  }
 
-    @Override
-    public String toString()
-    {
-        return "BlockedUser:" + user.getName() + "(" + user.getIdLong() + ")";
-    }
+  @Override
+  public String toString() {
+    return "BlockedUser:" + user.getName() + "(" + user.getIdLong() + ")";
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return ("BlockedUser " + user.getId()).hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return ("BlockedUser " + user.getId()).hashCode();
+  }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (!(o instanceof BlockedUser))
-            return false;
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof BlockedUser)) return false;
 
-        BlockedUser oBU = (BlockedUser) o;
-        return this.user.equals(oBU.getUser());
-    }
+    BlockedUser oBU = (BlockedUser) o;
+    return this.user.equals(oBU.getUser());
+  }
 }

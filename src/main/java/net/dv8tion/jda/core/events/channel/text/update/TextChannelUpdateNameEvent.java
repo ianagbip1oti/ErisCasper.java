@@ -24,17 +24,16 @@ import net.dv8tion.jda.core.entities.TextChannel;
  * <br>
  * Use: Detect when a TextChannel name changes and get it's previous name.
  */
-public class TextChannelUpdateNameEvent extends GenericTextChannelUpdateEvent
-{
-    private final String oldName;
-    public TextChannelUpdateNameEvent(JDA api, long responseNumber, TextChannel channel, String oldName)
-    {
-        super(api, responseNumber, channel);
-        this.oldName = oldName;
-    }
+public class TextChannelUpdateNameEvent extends GenericTextChannelUpdateEvent {
+  private final String oldName;
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public TextChannelUpdateNameEvent(
+      JDA api, long responseNumber, TextChannel channel, String oldName) {
+    super(api, responseNumber, channel);
+    this.oldName = oldName;
+  }
+
+  public String getOldName() {
+    return oldName;
+  }
 }

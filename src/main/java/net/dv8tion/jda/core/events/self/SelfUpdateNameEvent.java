@@ -18,25 +18,22 @@ package net.dv8tion.jda.core.events.self;
 
 import net.dv8tion.jda.core.JDA;
 
-public class SelfUpdateNameEvent extends GenericSelfUpdateEvent
-{
-    private final String oldName;
-    private final String oldDiscriminator;
+public class SelfUpdateNameEvent extends GenericSelfUpdateEvent {
+  private final String oldName;
+  private final String oldDiscriminator;
 
-    public SelfUpdateNameEvent(JDA api, long responseNumber, String oldName, String oldDiscriminator)
-    {
-        super(api, responseNumber);
-        this.oldName = oldName;
-        this.oldDiscriminator = oldDiscriminator;
-    }
+  public SelfUpdateNameEvent(
+      JDA api, long responseNumber, String oldName, String oldDiscriminator) {
+    super(api, responseNumber);
+    this.oldName = oldName;
+    this.oldDiscriminator = oldDiscriminator;
+  }
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public String getOldName() {
+    return oldName;
+  }
 
-    public String getOldDiscriminator()
-    {
-        return oldDiscriminator;
-    }
+  public String getOldDiscriminator() {
+    return oldDiscriminator;
+  }
 }

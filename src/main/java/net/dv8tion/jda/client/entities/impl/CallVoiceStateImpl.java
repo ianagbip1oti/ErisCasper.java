@@ -22,141 +22,118 @@ import net.dv8tion.jda.core.entities.AudioChannel;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.User;
 
-public class CallVoiceStateImpl implements CallVoiceState
-{
-    private final CallUser cUser;
+public class CallVoiceStateImpl implements CallVoiceState {
+  private final CallUser cUser;
 
-    private String sessionId;
-    private boolean selfMuted = false;
-    private boolean selfDeafened = false;
-    private boolean inCall = false;
+  private String sessionId;
+  private boolean selfMuted = false;
+  private boolean selfDeafened = false;
+  private boolean inCall = false;
 
-    public CallVoiceStateImpl(CallUser cUser)
-    {
-        this.cUser = cUser;
-    }
+  public CallVoiceStateImpl(CallUser cUser) {
+    this.cUser = cUser;
+  }
 
-    @Override
-    public boolean isSelfMuted()
-    {
-        return selfMuted;
-    }
+  @Override
+  public boolean isSelfMuted() {
+    return selfMuted;
+  }
 
-    @Override
-    public boolean isSelfDeafened()
-    {
-        return selfDeafened;
-    }
+  @Override
+  public boolean isSelfDeafened() {
+    return selfDeafened;
+  }
 
-    @Override
-    public JDA getJDA()
-    {
-        return cUser.getUser().getJDA();
-    }
+  @Override
+  public JDA getJDA() {
+    return cUser.getUser().getJDA();
+  }
 
-    @Override
-    public AudioChannel getAudioChannel()
-    {
-        return getCall();
-    }
+  @Override
+  public AudioChannel getAudioChannel() {
+    return getCall();
+  }
 
-    @Override
-    public String getSessionId()
-    {
-        return sessionId;
-    }
+  @Override
+  public String getSessionId() {
+    return sessionId;
+  }
 
-    @Override
-    public User getUser()
-    {
-        return cUser.getUser();
-    }
+  @Override
+  public User getUser() {
+    return cUser.getUser();
+  }
 
-    @Override
-    public Call getCall()
-    {
-        return cUser.getCall();
-    }
+  @Override
+  public Call getCall() {
+    return cUser.getCall();
+  }
 
-    @Override
-    public CallUser getCallUser()
-    {
-        return cUser;
-    }
+  @Override
+  public CallUser getCallUser() {
+    return cUser;
+  }
 
-    @Override
-    public boolean isInCall()
-    {
-        return inCall;
-    }
+  @Override
+  public boolean isInCall() {
+    return inCall;
+  }
 
-    @Override
-    public boolean isGroupCall()
-    {
-        return getCall().isGroupCall();
-    }
+  @Override
+  public boolean isGroupCall() {
+    return getCall().isGroupCall();
+  }
 
-    @Override
-    public CallableChannel getCallableChannel()
-    {
-        return getCall().getCallableChannel();
-    }
+  @Override
+  public CallableChannel getCallableChannel() {
+    return getCall().getCallableChannel();
+  }
 
-    @Override
-    public Group getGroup()
-    {
-        return getCall().getGroup();
-    }
+  @Override
+  public Group getGroup() {
+    return getCall().getGroup();
+  }
 
-    @Override
-    public PrivateChannel getPrivateChannel()
-    {
-        return getCall().getPrivateChannel();
-    }
+  @Override
+  public PrivateChannel getPrivateChannel() {
+    return getCall().getPrivateChannel();
+  }
 
-    @Override
-    public String toString()
-    {
-        return "CallVS(" + cUser.toString() + ")";
-    }
+  @Override
+  public String toString() {
+    return "CallVS(" + cUser.toString() + ")";
+  }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (!(o instanceof CallVoiceState))
-            return false;
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof CallVoiceState)) return false;
 
-        CallVoiceState oCVS = (CallVoiceState) o;
-        return cUser.equals(oCVS.getCallUser());
-    }
+    CallVoiceState oCVS = (CallVoiceState) o;
+    return cUser.equals(oCVS.getCallUser());
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return ("CallVS " + cUser.toString()).hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return ("CallVS " + cUser.toString()).hashCode();
+  }
 
-    public CallVoiceStateImpl setSelfMuted(boolean selfMuted)
-    {
-        this.selfMuted = selfMuted;
-        return this;
-    }
+  public CallVoiceStateImpl setSelfMuted(boolean selfMuted) {
+    this.selfMuted = selfMuted;
+    return this;
+  }
 
-    public CallVoiceStateImpl setSelfDeafened(boolean selfDeafened)
-    {
-        this.selfDeafened = selfDeafened;
-        return this;
-    }
+  public CallVoiceStateImpl setSelfDeafened(boolean selfDeafened) {
+    this.selfDeafened = selfDeafened;
+    return this;
+  }
 
-    public CallVoiceStateImpl setSessionId(String sessionId)
-    {
-        this.sessionId = sessionId;
-        return this;
-    }
+  public CallVoiceStateImpl setSessionId(String sessionId) {
+    this.sessionId = sessionId;
+    return this;
+  }
 
-    public CallVoiceStateImpl setInCall(boolean inCall)
-    {
-        this.inCall = inCall;
-        return this;
-    }
+  public CallVoiceStateImpl setInCall(boolean inCall) {
+    this.inCall = inCall;
+    return this;
+  }
 }

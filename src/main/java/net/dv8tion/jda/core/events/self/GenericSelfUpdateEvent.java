@@ -20,15 +20,12 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.SelfUser;
 import net.dv8tion.jda.core.events.Event;
 
-public abstract class GenericSelfUpdateEvent extends Event
-{
-    public GenericSelfUpdateEvent(JDA api, long responseNumber)
-    {
-        super(api, responseNumber);
-    }
+public abstract class GenericSelfUpdateEvent extends Event {
+  public GenericSelfUpdateEvent(JDA api, long responseNumber) {
+    super(api, responseNumber);
+  }
 
-    public SelfUser getSelfUser()
-    {
-        return api.getSelfUser();
-    }
+  public SelfUser getSelfUser() {
+    return api.getSelfUser();
+  }
 }

@@ -16,12 +16,10 @@
 
 package net.dv8tion.jda.client.entities;
 
+import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.requests.RestAction;
 
-import javax.annotation.CheckReturnValue;
-
-public interface BlockedUser extends Relationship
-{
-    @CheckReturnValue
-    RestAction unblockUser();
+public interface BlockedUser extends Relationship {
+  @CheckReturnValue
+  RestAction unblockUser();
 }

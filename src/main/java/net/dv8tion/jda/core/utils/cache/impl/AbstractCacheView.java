@@ -17,118 +17,96 @@
 package net.dv8tion.jda.core.utils.cache.impl;
 
 import gnu.trove.map.TLongObjectMap;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
+import javax.annotation.Nonnull;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.MiscUtil;
 import net.dv8tion.jda.core.utils.cache.CacheView;
 import org.apache.commons.collections4.iterators.ArrayIterator;
 
-import javax.annotation.Nonnull;
-import java.util.*;
-import java.util.function.Function;
-import java.util.stream.Stream;
-import java.util.stream.StreamSupport;
+public abstract class AbstractCacheView<T> implements CacheView<T> {
+  protected final TLongObjectMap<T> elements = MiscUtil.newLongMap();
+  protected final Function<T, String> nameMapper;
 
-public abstract class AbstractCacheView<T> implements CacheView<T>
-{
-    protected final TLongObjectMap<T> elements = MiscUtil.newLongMap();
-    protected final Function<T, String> nameMapper;
+  protected AbstractCacheView(Function<T, String> nameMapper) {
+    this.nameMapper = nameMapper;
+  }
 
-    protected AbstractCacheView(Function<T, String> nameMapper)
-    {
-        this.nameMapper = nameMapper;
-    }
+  public void clear() {
+    elements.clear();
+  }
 
-    public void clear()
-    {
-        elements.clear();
-    }
+  public TLongObjectMap<T> getMap() {
+    return elements;
+  }
 
-    public TLongObjectMap<T> getMap()
-    {
-        return elements;
-    }
+  @Override
+  public List<T> asList() {
+    ArrayList<T> list = new ArrayList<>(elements.size());
+    elements.forEachValue(list::add);
+    return Collections.unmodifiableList(list);
+  }
 
-    @Override
-    public List<T> asList()
-    {
-        ArrayList<T> list = new ArrayList<>(elements.size());
-        elements.forEachValue(list::add);
-        return Collections.unmodifiableList(list);
-    }
+  @Override
+  public Set<T> asSet() {
+    HashSet<T> set = new HashSet<>(elements.size());
+    elements.forEachValue(set::add);
+    return Collections.unmodifiableSet(set);
+  }
 
-    @Override
-    public Set<T> asSet()
-    {
-        HashSet<T> set = new HashSet<>(elements.size());
-        elements.forEachValue(set::add);
-        return Collections.unmodifiableSet(set);
-    }
+  @Override
+  public long size() {
+    return elements.size();
+  }
 
-    @Override
-    public long size()
-    {
-        return elements.size();
-    }
+  @Override
+  public boolean isEmpty() {
+    return elements.isEmpty();
+  }
 
-    @Override
-    public boolean isEmpty()
-    {
-        return elements.isEmpty();
-    }
+  @Override
+  public List<T> getElementsByName(String name, boolean ignoreCase) {
+    Checks.notEmpty(name, "Name");
+    if (elements.isEmpty()) return Collections.emptyList();
+    if (nameMapper == null) // no getName method available
+    throw new UnsupportedOperationException("The contained elements are not assigned with names.");
 
-    @Override
-    public List<T> getElementsByName(String name, boolean ignoreCase)
-    {
-        Checks.notEmpty(name, "Name");
-        if (elements.isEmpty())
-            return Collections.emptyList();
-        if (nameMapper == null) // no getName method available
-            throw new UnsupportedOperationException("The contained elements are not assigned with names.");
-
-        List<T> list = new LinkedList<>();
-        for (T elem : elements.valueCollection())
-        {
-            String elementName = nameMapper.apply(elem);
-            if (elementName != null)
-            {
-                if (ignoreCase)
-                {
-                    if (elementName.equalsIgnoreCase(name))
-                        list.add(elem);
-                }
-                else
-                {
-                    if (elementName.equals(name))
-                        list.add(elem);
-                }
-            }
+    List<T> list = new LinkedList<>();
+    for (T elem : elements.valueCollection()) {
+      String elementName = nameMapper.apply(elem);
+      if (elementName != null) {
+        if (ignoreCase) {
+          if (elementName.equalsIgnoreCase(name)) list.add(elem);
+        } else {
+          if (elementName.equals(name)) list.add(elem);
         }
-
-        return list;
+      }
     }
 
-    @Override
-    public Spliterator<T> spliterator()
-    {
-        return Spliterators.spliterator(elements.values(), Spliterator.IMMUTABLE);
-    }
+    return list;
+  }
 
-    @Override
-    public Stream<T> stream()
-    {
-        return StreamSupport.stream(spliterator(), false);
-    }
+  @Override
+  public Spliterator<T> spliterator() {
+    return Spliterators.spliterator(elements.values(), Spliterator.IMMUTABLE);
+  }
 
-    @Override
-    public Stream<T> parallelStream()
-    {
-        return StreamSupport.stream(spliterator(), true);
-    }
+  @Override
+  public Stream<T> stream() {
+    return StreamSupport.stream(spliterator(), false);
+  }
 
-    @Nonnull
-    @Override
-    public Iterator<T> iterator()
-    {
-        return new ArrayIterator<>(elements.values());
-    }
+  @Override
+  public Stream<T> parallelStream() {
+    return StreamSupport.stream(spliterator(), true);
+  }
+
+  @Nonnull
+  @Override
+  public Iterator<T> iterator() {
+    return new ArrayIterator<>(elements.values());
+  }
 }

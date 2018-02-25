@@ -16,6 +16,7 @@
 
 package net.dv8tion.jda.core.events.http;
 
+import java.util.Set;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.requests.Request;
 import net.dv8tion.jda.core.requests.Response;
@@ -27,105 +28,85 @@ import okhttp3.ResponseBody;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.Collections;
-import java.util.Set;
-
 /**
  * Fired when a Rest request has been executed.
- * 
+ *
  * <p>Depending on the request and its result not all values have to be populated.
  */
-public class HttpRequestEvent extends Event
-{
-    private final Request<?> request;
-    private final Response response;
+public class HttpRequestEvent extends Event {
+  private final Request<?> request;
+  private final Response response;
 
-    public HttpRequestEvent(final Request<?> request, final Response response)
-    {
-        super(request.getJDA());
+  public HttpRequestEvent(final Request<?> request, final Response response) {
+    super(request.getJDA());
 
-        this.request = request;
-        this.response = response;
-    }
+    this.request = request;
+    this.response = response;
+  }
 
-    public Request<?> getRequest()
-    {
-        return this.request;
-    }
+  public Request<?> getRequest() {
+    return this.request;
+  }
 
-    public RequestBody getRequestBody()
-    {
-        return this.request.getBody();
-    }
+  public RequestBody getRequestBody() {
+    return this.request.getBody();
+  }
 
-    public Object getRequestBodyRaw()
-    {
-        return this.request.getRawBody();
-    }
+  public Object getRequestBodyRaw() {
+    return this.request.getRawBody();
+  }
 
-    public Headers getRequestHeaders()
-    {
-        return this.response.getRawResponse() == null ? null : this.response.getRawResponse().request().headers();
-    }
+  public Headers getRequestHeaders() {
+    return this.response.getRawResponse() == null
+        ? null
+        : this.response.getRawResponse().request().headers();
+  }
 
-    public okhttp3.Request getRequestRaw()
-    {
-        return this.response.getRawResponse() == null ? null : this.response.getRawResponse().request();
-    }
+  public okhttp3.Request getRequestRaw() {
+    return this.response.getRawResponse() == null ? null : this.response.getRawResponse().request();
+  }
 
-    public Response getResponse()
-    {
-        return this.response;
-    }
+  public Response getResponse() {
+    return this.response;
+  }
 
-    public ResponseBody getResponseBody()
-    {
-        return this.response.getRawResponse() == null ? null : this.response.getRawResponse().body();
-    }
+  public ResponseBody getResponseBody() {
+    return this.response.getRawResponse() == null ? null : this.response.getRawResponse().body();
+  }
 
-    public JSONArray getResponseBodyAsArray()
-    {
-        return this.response.getArray();
-    }
+  public JSONArray getResponseBodyAsArray() {
+    return this.response.getArray();
+  }
 
-    public JSONObject getResponseBodyAsObject()
-    {
-        return this.response.getObject();
-    }
+  public JSONObject getResponseBodyAsObject() {
+    return this.response.getObject();
+  }
 
-    public String getResponseBodyAsString()
-    {
-        return this.response.getString();
-    }
+  public String getResponseBodyAsString() {
+    return this.response.getString();
+  }
 
-    public Headers getResponseHeaders()
-    {
-        return this.response.getRawResponse() == null ? null : this.response.getRawResponse().headers();
-    }
+  public Headers getResponseHeaders() {
+    return this.response.getRawResponse() == null ? null : this.response.getRawResponse().headers();
+  }
 
-    public okhttp3.Response getResponseRaw()
-    {
-        return this.response.getRawResponse();
-    }
+  public okhttp3.Response getResponseRaw() {
+    return this.response.getRawResponse();
+  }
 
-    public Set<String> getCFRays()
-    {
-        return this.response.getCFRays();
-    }
+  public Set<String> getCFRays() {
+    return this.response.getCFRays();
+  }
 
-    public RestAction<?> getRestAction()
-    {
-        return this.request.getRestAction();
-    }
+  public RestAction<?> getRestAction() {
+    return this.request.getRestAction();
+  }
 
-    public CompiledRoute getRoute()
-    {
-        return this.request.getRoute();
-    }
+  public CompiledRoute getRoute() {
+    return this.request.getRoute();
+  }
 
-    public boolean isRateLimit()
-    {
-        return this.response.isRateLimit();
-    }
-
+  public boolean isRateLimit() {
+    return this.response.isRateLimit();
+  }
 }

@@ -15,16 +15,17 @@
  */
 
 /**
- * Managers that allow to modify (PATCH) existing entities
- * with either an update task or atomic setters. This also includes classes which allow to
- * operate on entities like the moderation of a {@link net.dv8tion.jda.core.entities.Guild Guild}.
+ * Managers that allow to modify (PATCH) existing entities with either an update task or atomic
+ * setters. This also includes classes which allow to operate on entities like the moderation of a
+ * {@link net.dv8tion.jda.core.entities.Guild Guild}.
  *
- * <p>XYZManager types allow to directly modify a single value
- * without an update task. (Auto-Updating Manager)
+ * <p>XYZManager types allow to directly modify a single value without an update task.
+ * (Auto-Updating Manager)
  *
- * <p>XYZManagerUpdatable types allow to bulk modify multiple values
- * and then update it using an update() task. (Updatable Manager)
- * <br>This uses {@link net.dv8tion.jda.core.managers.fields.Field Fields} from the {@link net.dv8tion.jda.core.managers.fields fields pacakge}!
+ * <p>XYZManagerUpdatable types allow to bulk modify multiple values and then update it using an
+ * update() task. (Updatable Manager) <br>
+ * This uses {@link net.dv8tion.jda.core.managers.fields.Field Fields} from the {@link
+ * net.dv8tion.jda.core.managers.fields fields pacakge}!
  *
  * <p>All managers require a RestAction executions.
  */

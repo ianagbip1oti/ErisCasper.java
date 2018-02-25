@@ -16,32 +16,28 @@
 
 package net.dv8tion.jda.core.events.emote.update;
 
-import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.entities.Emote;
-import net.dv8tion.jda.core.entities.Role;
-
 import java.util.Collection;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
+import net.dv8tion.jda.core.JDA;
+import net.dv8tion.jda.core.entities.Emote;
+import net.dv8tion.jda.core.entities.Role;
 
-public class EmoteUpdateRolesEvent extends GenericEmoteUpdateEvent
-{
-    protected final List<Role> oldRoles;
+public class EmoteUpdateRolesEvent extends GenericEmoteUpdateEvent {
+  protected final List<Role> oldRoles;
 
-    public EmoteUpdateRolesEvent(JDA api, long responseNumber, Emote emote, Collection<Role> oldRoles)
-    {
-        super(api, responseNumber, emote);
-        this.oldRoles = Collections.unmodifiableList(new LinkedList<>(oldRoles));
-    }
+  public EmoteUpdateRolesEvent(
+      JDA api, long responseNumber, Emote emote, Collection<Role> oldRoles) {
+    super(api, responseNumber, emote);
+    this.oldRoles = Collections.unmodifiableList(new LinkedList<>(oldRoles));
+  }
 
-    public List<Role> getOldRoles()
-    {
-        return oldRoles;
-    }
+  public List<Role> getOldRoles() {
+    return oldRoles;
+  }
 
-    public List<Role> getNewRoles()
-    {
-        return emote.getRoles();
-    }
+  public List<Role> getNewRoles() {
+    return emote.getRoles();
+  }
 }

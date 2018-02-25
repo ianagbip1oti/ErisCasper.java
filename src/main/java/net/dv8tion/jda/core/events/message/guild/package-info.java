@@ -15,8 +15,8 @@
  */
 
 /**
- * Events for {@link net.dv8tion.jda.core.entities.Message Messages}
- * in {@link net.dv8tion.jda.core.entities.TextChannel TextChannels}
- * of a {@link net.dv8tion.jda.core.entities.Guild Guild}!
+ * Events for {@link net.dv8tion.jda.core.entities.Message Messages} in {@link
+ * net.dv8tion.jda.core.entities.TextChannel TextChannels} of a {@link
+ * net.dv8tion.jda.core.entities.Guild Guild}!
  */
 package net.dv8tion.jda.core.events.message.guild;

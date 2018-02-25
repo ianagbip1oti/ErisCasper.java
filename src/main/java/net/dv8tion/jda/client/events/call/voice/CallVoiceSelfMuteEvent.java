@@ -19,18 +19,15 @@ package net.dv8tion.jda.client.events.call.voice;
 import net.dv8tion.jda.client.entities.CallUser;
 import net.dv8tion.jda.core.JDA;
 
-public class CallVoiceSelfMuteEvent extends GenericCallVoiceEvent
-{
-    protected final boolean selfMuted;
+public class CallVoiceSelfMuteEvent extends GenericCallVoiceEvent {
+  protected final boolean selfMuted;
 
-    public CallVoiceSelfMuteEvent(JDA api, long responseNumber, CallUser cUser)
-    {
-        super(api, responseNumber, cUser);
-        this.selfMuted = cUser.getVoiceState().isSelfMuted();
-    }
+  public CallVoiceSelfMuteEvent(JDA api, long responseNumber, CallUser cUser) {
+    super(api, responseNumber, cUser);
+    this.selfMuted = cUser.getVoiceState().isSelfMuted();
+  }
 
-    public boolean isSelfMuted()
-    {
-        return selfMuted;
-    }
+  public boolean isSelfMuted() {
+    return selfMuted;
+  }
 }

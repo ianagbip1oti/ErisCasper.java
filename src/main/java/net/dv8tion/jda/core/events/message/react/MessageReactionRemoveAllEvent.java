@@ -21,33 +21,27 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.GenericMessageEvent;
 
-public class MessageReactionRemoveAllEvent extends GenericMessageEvent
-{
+public class MessageReactionRemoveAllEvent extends GenericMessageEvent {
 
-    public MessageReactionRemoveAllEvent(JDA api, long responseNumber, long messageId, MessageChannel channel)
-    {
-        super(api, responseNumber, messageId, channel);
-    }
+  public MessageReactionRemoveAllEvent(
+      JDA api, long responseNumber, long messageId, MessageChannel channel) {
+    super(api, responseNumber, messageId, channel);
+  }
 
-    public Guild getGuild()
-    {
-        TextChannel channel = getTextChannel();
-        return channel != null ? channel.getGuild() : null;
-    }
+  public Guild getGuild() {
+    TextChannel channel = getTextChannel();
+    return channel != null ? channel.getGuild() : null;
+  }
 
-    public TextChannel getTextChannel()
-    {
-        return isFromType(ChannelType.TEXT) ? (TextChannel) getChannel() : null;
-    }
+  public TextChannel getTextChannel() {
+    return isFromType(ChannelType.TEXT) ? (TextChannel) getChannel() : null;
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) getChannel() : null;
-    }
+  public PrivateChannel getPrivateChannel() {
+    return isFromType(ChannelType.PRIVATE) ? (PrivateChannel) getChannel() : null;
+  }
 
-    public Group getGroup()
-    {
-        return isFromType(ChannelType.GROUP) ? (Group) getChannel() : null;
-    }
-
+  public Group getGroup() {
+    return isFromType(ChannelType.GROUP) ? (Group) getChannel() : null;
+  }
 }

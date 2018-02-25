@@ -20,10 +20,9 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.MessageReaction;
 import net.dv8tion.jda.core.entities.User;
 
-public class PrivateMessageReactionAddEvent extends GenericPrivateMessageReactionEvent
-{
-    public PrivateMessageReactionAddEvent(JDA api, long responseNumber, User user, MessageReaction reaction)
-    {
-        super(api, responseNumber, user, reaction);
-    }
+public class PrivateMessageReactionAddEvent extends GenericPrivateMessageReactionEvent {
+  public PrivateMessageReactionAddEvent(
+      JDA api, long responseNumber, User user, MessageReaction reaction) {
+    super(api, responseNumber, user, reaction);
+  }
 }

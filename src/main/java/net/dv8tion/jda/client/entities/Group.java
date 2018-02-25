@@ -16,35 +16,38 @@
 
 package net.dv8tion.jda.client.entities;
 
+import java.util.List;
+import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 
-import javax.annotation.CheckReturnValue;
-import java.util.List;
+public interface Group extends MessageChannel, CallableChannel {
+  /**
+   * Returns the name set for this group.<br>
+   * If no name has been set for this group, then null is returned.
+   *
+   * @return Possibly-null name of the group.
+   */
+  String getName();
 
-public interface Group extends MessageChannel, CallableChannel
-{
-    /**
-     * Returns the name set for this group.<br>
-     * If no name has been set for this group, then null is returned.
-     *
-     * @return
-     *      Possibly-null name of the group.
-     */
-    String getName();
-    String getIconId();
-    String getIconUrl();
+  String getIconId();
 
-    User getOwner();
-    SnowflakeCacheView<User> getUserCache();
-    List<User> getUsers();
-    List<User> getNonFriendUsers();
-    List<Friend> getFriends();
+  String getIconUrl();
 
-    //getGroupManager()
+  User getOwner();
 
-    @CheckReturnValue
-    RestAction leaveGroup();
+  SnowflakeCacheView<User> getUserCache();
+
+  List<User> getUsers();
+
+  List<User> getNonFriendUsers();
+
+  List<Friend> getFriends();
+
+  // getGroupManager()
+
+  @CheckReturnValue
+  RestAction leaveGroup();
 }

@@ -24,18 +24,16 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel, affected Guild and previous user limit.
  */
-public class VoiceChannelUpdateUserLimitEvent extends GenericVoiceChannelUpdateEvent
-{
-    protected final int oldUserLimit;
+public class VoiceChannelUpdateUserLimitEvent extends GenericVoiceChannelUpdateEvent {
+  protected final int oldUserLimit;
 
-    public VoiceChannelUpdateUserLimitEvent(JDA api, long responseNumber, VoiceChannel channel, int oldUserLimit)
-    {
-        super(api, responseNumber, channel);
-        this.oldUserLimit = oldUserLimit;
-    }
+  public VoiceChannelUpdateUserLimitEvent(
+      JDA api, long responseNumber, VoiceChannel channel, int oldUserLimit) {
+    super(api, responseNumber, channel);
+    this.oldUserLimit = oldUserLimit;
+  }
 
-    public int getOldUserLimit()
-    {
-        return oldUserLimit;
-    }
+  public int getOldUserLimit() {
+    return oldUserLimit;
+  }
 }

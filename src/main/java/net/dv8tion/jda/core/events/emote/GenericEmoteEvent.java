@@ -21,29 +21,24 @@ import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.Event;
 
-public class GenericEmoteEvent extends Event
-{
+public class GenericEmoteEvent extends Event {
 
-    protected final Emote emote;
+  protected final Emote emote;
 
-    public GenericEmoteEvent(JDA api, long responseNumber, Emote emote)
-    {
-        super(api, responseNumber);
-        this.emote = emote;
-    }
+  public GenericEmoteEvent(JDA api, long responseNumber, Emote emote) {
+    super(api, responseNumber);
+    this.emote = emote;
+  }
 
-    public Guild getGuild()
-    {
-        return emote.getGuild();
-    }
+  public Guild getGuild() {
+    return emote.getGuild();
+  }
 
-    public Emote getEmote()
-    {
-        return emote;
-    }
+  public Emote getEmote() {
+    return emote;
+  }
 
-    public boolean isManaged()
-    {
-        return emote.isManaged();
-    }
+  public boolean isManaged() {
+    return emote.isManaged();
+  }
 }

@@ -16,31 +16,29 @@
 
 package net.dv8tion.jda.core.events.guild.update;
 
+import java.util.Set;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-import java.util.Set;
-
 /**
- * This event is fired, when the Set of features of a {@link net.dv8tion.jda.core.entities.Guild Guild} changes.
+ * This event is fired, when the Set of features of a {@link net.dv8tion.jda.core.entities.Guild
+ * Guild} changes.
  */
-public class GuildUpdateFeaturesEvent extends GenericGuildUpdateEvent
-{
-    private final Set<String> oldFeatures;
+public class GuildUpdateFeaturesEvent extends GenericGuildUpdateEvent {
+  private final Set<String> oldFeatures;
 
-    public GuildUpdateFeaturesEvent(JDA api, long responseNumber, Guild guild, Set<String> oldFeatures)
-    {
-        super(api, responseNumber, guild);
-        this.oldFeatures = oldFeatures;
-    }
+  public GuildUpdateFeaturesEvent(
+      JDA api, long responseNumber, Guild guild, Set<String> oldFeatures) {
+    super(api, responseNumber, guild);
+    this.oldFeatures = oldFeatures;
+  }
 
-    /**
-     * The old Set of features before the {@link net.dv8tion.jda.core.entities.Guild Guild} update.
-     *
-     * @return Never-null, unmodifiable Set of the old features
-     */
-    public Set<String> getOldFeatures()
-    {
-        return oldFeatures;
-    }
+  /**
+   * The old Set of features before the {@link net.dv8tion.jda.core.entities.Guild Guild} update.
+   *
+   * @return Never-null, unmodifiable Set of the old features
+   */
+  public Set<String> getOldFeatures() {
+    return oldFeatures;
+  }
 }

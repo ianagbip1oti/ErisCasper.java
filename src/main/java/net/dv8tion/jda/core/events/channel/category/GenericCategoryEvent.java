@@ -23,57 +23,52 @@ import net.dv8tion.jda.core.events.Event;
 
 /**
  * <b><u>GenericCategoryEvent</u></b>
- * <p>Fired for all {@link net.dv8tion.jda.core.entities.Category Category} events.
- * <br>Every category event is a subclass of this event and can be casted (no exceptions)
+ *
+ * <p>Fired for all {@link net.dv8tion.jda.core.entities.Category Category} events. <br>
+ * Every category event is a subclass of this event and can be casted (no exceptions)
  */
-public abstract class GenericCategoryEvent extends Event
-{
-    protected final Category category;
+public abstract class GenericCategoryEvent extends Event {
+  protected final Category category;
 
-    public GenericCategoryEvent(JDA api, long responseNumber, Category category)
-    {
-        super(api, responseNumber);
-        this.category = category;
-    }
+  public GenericCategoryEvent(JDA api, long responseNumber, Category category) {
+    super(api, responseNumber);
+    this.category = category;
+  }
 
-    /**
-     * The responsible {@link net.dv8tion.jda.core.entities.Category Category}
-     *
-     * @return The Category
-     */
-    public Category getCategory()
-    {
-        return category;
-    }
+  /**
+   * The responsible {@link net.dv8tion.jda.core.entities.Category Category}
+   *
+   * @return The Category
+   */
+  public Category getCategory() {
+    return category;
+  }
 
-    /**
-     * The snowflake ID for the responsible {@link net.dv8tion.jda.core.entities.Category Category}
-     *
-     * @return The ID for the category
-     */
-    public String getId()
-    {
-        return Long.toUnsignedString(getIdLong());
-    }
+  /**
+   * The snowflake ID for the responsible {@link net.dv8tion.jda.core.entities.Category Category}
+   *
+   * @return The ID for the category
+   */
+  public String getId() {
+    return Long.toUnsignedString(getIdLong());
+  }
 
-    /**
-     * The snowflake ID for the responsible {@link net.dv8tion.jda.core.entities.Category Category}
-     *
-     * @return The ID for the category
-     */
-    public long getIdLong()
-    {
-        return category.getIdLong();
-    }
+  /**
+   * The snowflake ID for the responsible {@link net.dv8tion.jda.core.entities.Category Category}
+   *
+   * @return The ID for the category
+   */
+  public long getIdLong() {
+    return category.getIdLong();
+  }
 
-    /**
-     * The {@link net.dv8tion.jda.core.entities.Guild Guild}
-     * the responsible {@link net.dv8tion.jda.core.entities.Category Category} is part of.
-     *
-     * @return The {@link net.dv8tion.jda.core.entities.Guild Guild}
-     */
-    public Guild getGuild()
-    {
-        return category.getGuild();
-    }
+  /**
+   * The {@link net.dv8tion.jda.core.entities.Guild Guild} the responsible {@link
+   * net.dv8tion.jda.core.entities.Category Category} is part of.
+   *
+   * @return The {@link net.dv8tion.jda.core.entities.Guild Guild}
+   */
+  public Guild getGuild() {
+    return category.getGuild();
+  }
 }

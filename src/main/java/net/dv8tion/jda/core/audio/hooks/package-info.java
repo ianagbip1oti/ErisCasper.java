@@ -15,8 +15,8 @@
  */
 
 /**
- * Listeners that can be used to monitor
- * the {@link net.dv8tion.jda.core.audio.hooks.ConnectionStatus ConnectionStatus} or
- * ping of an existing {@link net.dv8tion.jda.core.audio.AudioConnection AudioConnection}.
+ * Listeners that can be used to monitor the {@link
+ * net.dv8tion.jda.core.audio.hooks.ConnectionStatus ConnectionStatus} or ping of an existing {@link
+ * net.dv8tion.jda.core.audio.AudioConnection AudioConnection}.
  */
 package net.dv8tion.jda.core.audio.hooks;

@@ -19,59 +19,49 @@ package net.dv8tion.jda.core.audio;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 
-public class ConnectionRequest
-{
-    protected final long guildId;
-    protected long nextAttemptEpoch;
-    protected ConnectionStage stage;
-    protected VoiceChannel channel;
+public class ConnectionRequest {
+  protected final long guildId;
+  protected long nextAttemptEpoch;
+  protected ConnectionStage stage;
+  protected VoiceChannel channel;
 
-    public ConnectionRequest(Guild guild)
-    {
-        this.stage = ConnectionStage.DISCONNECT;
-        this.guildId = guild.getIdLong();
-    }
+  public ConnectionRequest(Guild guild) {
+    this.stage = ConnectionStage.DISCONNECT;
+    this.guildId = guild.getIdLong();
+  }
 
-    public ConnectionRequest(VoiceChannel channel, ConnectionStage stage)
-    {
-        this.channel = channel;
-        this.guildId = channel.getGuild().getIdLong();
-        this.stage = stage;
-        this.nextAttemptEpoch = System.currentTimeMillis();
-    }
+  public ConnectionRequest(VoiceChannel channel, ConnectionStage stage) {
+    this.channel = channel;
+    this.guildId = channel.getGuild().getIdLong();
+    this.stage = stage;
+    this.nextAttemptEpoch = System.currentTimeMillis();
+  }
 
-    public void setStage(ConnectionStage stage)
-    {
-        this.stage = stage;
-    }
+  public void setStage(ConnectionStage stage) {
+    this.stage = stage;
+  }
 
-    public void setChannel(VoiceChannel channel)
-    {
-        this.channel = channel;
-    }
+  public void setChannel(VoiceChannel channel) {
+    this.channel = channel;
+  }
 
-    public void setNextAttemptEpoch(long epochMillis)
-    {
-        this.nextAttemptEpoch = epochMillis;
-    }
+  public void setNextAttemptEpoch(long epochMillis) {
+    this.nextAttemptEpoch = epochMillis;
+  }
 
-    public VoiceChannel getChannel()
-    {
-        return channel;
-    }
+  public VoiceChannel getChannel() {
+    return channel;
+  }
 
-    public ConnectionStage getStage()
-    {
-        return stage;
-    }
+  public ConnectionStage getStage() {
+    return stage;
+  }
 
-    public long getNextAttemptEpoch()
-    {
-        return nextAttemptEpoch;
-    }
+  public long getNextAttemptEpoch() {
+    return nextAttemptEpoch;
+  }
 
-    public long getGuildIdLong()
-    {
-        return guildId;
-    }
+  public long getGuildIdLong() {
+    return guildId;
+  }
 }

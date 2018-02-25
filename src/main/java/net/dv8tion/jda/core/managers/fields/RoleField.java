@@ -16,28 +16,22 @@
 
 package net.dv8tion.jda.core.managers.fields;
 
+import java.util.function.Supplier;
 import net.dv8tion.jda.core.managers.RoleManagerUpdatable;
 
-import java.util.function.Supplier;
-
 /**
- * Specification AMF for
- * an {@link net.dv8tion.jda.core.managers.RoleManagerUpdatable RoleManagerUpdatable}
- * field.
+ * Specification AMF for an {@link net.dv8tion.jda.core.managers.RoleManagerUpdatable
+ * RoleManagerUpdatable} field.
  *
- * <p><b>This class is abstract and requires an implementation
- * for {@link #checkValue(Object)}</b>
- * <br>Known specification {@link net.dv8tion.jda.core.managers.fields.PermissionField PermissionField}.
+ * <p><b>This class is abstract and requires an implementation for {@link #checkValue(Object)}</b>
+ * <br>
+ * Known specification {@link net.dv8tion.jda.core.managers.fields.PermissionField PermissionField}.
  *
- * @param  <T>
- *         The Field-Type for this RoleField
- *
- * @since  3.0
+ * @param  <T> The Field-Type for this RoleField
+ * @since 3.0
  */
-public abstract class RoleField<T> extends Field<T, RoleManagerUpdatable>
-{
-    public RoleField(RoleManagerUpdatable manager, Supplier<T> originalValue)
-    {
-        super(manager, originalValue);
-    }
+public abstract class RoleField<T> extends Field<T, RoleManagerUpdatable> {
+  public RoleField(RoleManagerUpdatable manager, Supplier<T> originalValue) {
+    super(manager, originalValue);
+  }
 }

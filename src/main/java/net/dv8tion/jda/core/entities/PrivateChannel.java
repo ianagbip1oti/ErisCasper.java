@@ -15,38 +15,36 @@
  */
 package net.dv8tion.jda.core.entities;
 
+import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.CallableChannel;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.requests.RestAction;
 
-import javax.annotation.CheckReturnValue;
+/** Represents the connection used for direct messaging. */
+public interface PrivateChannel extends MessageChannel, CallableChannel, IFakeable {
+  /**
+   * The {@link net.dv8tion.jda.core.entities.User User} that this {@link
+   * net.dv8tion.jda.core.entities.PrivateChannel PrivateChannel} communicates with.
+   *
+   * @return A non-null {@link net.dv8tion.jda.core.entities.User User}.
+   */
+  User getUser();
 
-/**
- * Represents the connection used for direct messaging.
- */
-public interface PrivateChannel extends MessageChannel, CallableChannel, IFakeable
-{
-    /**
-     * The {@link net.dv8tion.jda.core.entities.User User} that this {@link net.dv8tion.jda.core.entities.PrivateChannel PrivateChannel} communicates with.
-     *
-     * @return A non-null {@link net.dv8tion.jda.core.entities.User User}.
-     */
-    User getUser();
+  /**
+   * Returns the {@link net.dv8tion.jda.core.JDA JDA} instance of this PrivateChannel
+   *
+   * @return the corresponding JDA instance
+   */
+  JDA getJDA();
 
-    /**
-     * Returns the {@link net.dv8tion.jda.core.JDA JDA} instance of this PrivateChannel
-     *
-     * @return the corresponding JDA instance
-     */
-    JDA getJDA();
-
-    /**
-     * Closes a PrivateChannel. After being closed successfully the PrivateChannel is removed from the JDA mapping.
-     * <br>As a note, this does not remove the history of the PrivateChannel. If the channel is reopened the history will
-     * still be present.
-     *
-     * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
-     */
-    @CheckReturnValue
-    RestAction<Void> close();
+  /**
+   * Closes a PrivateChannel. After being closed successfully the PrivateChannel is removed from the
+   * JDA mapping. <br>
+   * As a note, this does not remove the history of the PrivateChannel. If the channel is reopened
+   * the history will still be present.
+   *
+   * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
+   */
+  @CheckReturnValue
+  RestAction<Void> close();
 }

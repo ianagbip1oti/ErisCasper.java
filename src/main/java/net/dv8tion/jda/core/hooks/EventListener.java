@@ -20,11 +20,10 @@ import net.dv8tion.jda.core.events.Event;
 /**
  * JDA pushes {@link net.dv8tion.jda.core.events.Event Events} to the registered EventListeners.
  *
- * <p>Register an EventListener with either a {@link net.dv8tion.jda.core.JDA JDA} object
- * <br>or the {@link net.dv8tion.jda.core.JDABuilder JDABuilder}.
+ * <p>Register an EventListener with either a {@link net.dv8tion.jda.core.JDA JDA} object <br>
+ * or the {@link net.dv8tion.jda.core.JDABuilder JDABuilder}.
  *
- * <p><b>Examples: </b>
- * <br>
+ * <p><b>Examples: </b> <br>
  * <code>
  *     JDA jda = new {@link net.dv8tion.jda.core.JDABuilder JDABuilder}(AccountType.BOT).{@link net.dv8tion.jda.core.JDABuilder#addEventListener(Object...) addEventListener(listeners)}.buildBlocking();<br>
  *     {@link net.dv8tion.jda.core.JDA#addEventListener(Object...) jda.addEventListener(listeners)};
@@ -34,17 +33,15 @@ import net.dv8tion.jda.core.events.Event;
  * @see net.dv8tion.jda.core.hooks.InterfacedEventManager
  */
 @FunctionalInterface
-public interface EventListener
-{
+public interface EventListener {
 
-    /**
-     * Handles any {@link net.dv8tion.jda.core.events.Event Event}.
-     *
-     * <p>To get specific events with Methods like {@code onMessageReceived(MessageReceivedEvent event)}
-     * take a look at: {@link net.dv8tion.jda.core.hooks.ListenerAdapter ListenerAdapter}
-     *
-     * @param  event
-     *         The Event to handle.
-     */
-    void onEvent(Event event);
+  /**
+   * Handles any {@link net.dv8tion.jda.core.events.Event Event}.
+   *
+   * <p>To get specific events with Methods like {@code onMessageReceived(MessageReceivedEvent
+   * event)} take a look at: {@link net.dv8tion.jda.core.hooks.ListenerAdapter ListenerAdapter}
+   *
+   * @param event The Event to handle.
+   */
+  void onEvent(Event event);
 }

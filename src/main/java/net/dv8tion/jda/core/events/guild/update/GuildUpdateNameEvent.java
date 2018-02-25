@@ -19,18 +19,15 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateNameEvent extends GenericGuildUpdateEvent
-{
-    private final String oldName;
+public class GuildUpdateNameEvent extends GenericGuildUpdateEvent {
+  private final String oldName;
 
-    public GuildUpdateNameEvent(JDA api, long responseNumber, Guild guild, String oldName)
-    {
-        super(api, responseNumber, guild);
-        this.oldName = oldName;
-    }
+  public GuildUpdateNameEvent(JDA api, long responseNumber, Guild guild, String oldName) {
+    super(api, responseNumber, guild);
+    this.oldName = oldName;
+  }
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public String getOldName() {
+    return oldName;
+  }
 }
