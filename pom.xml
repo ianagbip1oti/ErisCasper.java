@@ -17,11 +17,13 @@
     <lib.jsr305.version>3.0.2</lib.jsr305.version>
     <lib.nv-websocket-client.version>2.2</lib.nv-websocket-client.version>
     <lib.okhttp.version>3.8.1</lib.okhttp.version>
+    <lib.okio.version>1.13.0</lib.okio.version>
     <lib.slf4j-api.version>1.7.25</lib.slf4j-api.version>
     <lib.trove4j.version>3.0.3</lib.trove4j.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
     <plugin.deploy.version>2.8.2</plugin.deploy.version>
+    <plugin.dependency.version>3.0.2</plugin.dependency.version>
     <plugin.enforcer.version>3.0.0-M1</plugin.enforcer.version>
     <plugin.install.version>2.5.2</plugin.install.version>
     <plugin.jar.version>3.0.2</plugin.jar.version>
@@ -58,6 +60,11 @@
       <version>${lib.okhttp.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio</artifactId>
+      <version>${lib.okio.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${lib.slf4j-api.version}</version>
@@ -82,6 +89,25 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>${plugin.dependency.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>analyze-only</goal>
+              <goal>analyze-duplicate</goal>
+              <goal>analyze-dep-mgt</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <failOnWarning>true</failOnWarning>
+          <ignoreNonCompile>false</ignoreNonCompile>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-deploy-plugin</artifactId>
         <version>${plugin.deploy.version}</version>
       </plugin>
@@ -91,8 +117,7 @@
         <version>${plugin.enforcer.version}</version>
         <executions>
           <execution>
-            <id>default</id>
-            <phase>test</phase>
+            <phase>verify</phase>
             <goals>
               <goal>enforce</goal>
             </goals>
