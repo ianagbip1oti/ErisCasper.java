@@ -22,9 +22,6 @@ import net.dv8tion.jda.bot.entities.impl.JDABotImpl;
 import net.dv8tion.jda.client.entities.impl.JDAClientImpl;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.audio.AudioWebSocket;
-import net.dv8tion.jda.core.audio.factory.DefaultSendFactory;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.StatusChangeEvent;
 import net.dv8tion.jda.core.exceptions.AccountTypeException;
@@ -32,7 +29,6 @@ import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.handle.EventCache;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.hooks.InterfacedEventManager;
-import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.managers.impl.PresenceImpl;
 import net.dv8tion.jda.core.requests.*;
@@ -40,7 +36,6 @@ import net.dv8tion.jda.core.requests.restaction.GuildAction;
 import net.dv8tion.jda.core.utils.*;
 import net.dv8tion.jda.core.utils.cache.CacheView;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
-import net.dv8tion.jda.core.utils.cache.impl.AbstractCacheView;
 import net.dv8tion.jda.core.utils.cache.impl.SnowflakeCacheViewImpl;
 import net.dv8tion.jda.core.utils.tuple.Pair;
 import okhttp3.OkHttpClient;
@@ -63,13 +58,10 @@ public class JDAImpl implements JDA
     protected final SnowflakeCacheViewImpl<Guild> guildCache = new SnowflakeCacheViewImpl<>(Guild::getName);
     protected final SnowflakeCacheViewImpl<Category> categories = new SnowflakeCacheViewImpl<>(Channel::getName);
     protected final SnowflakeCacheViewImpl<TextChannel> textChannelCache = new SnowflakeCacheViewImpl<>(Channel::getName);
-    protected final SnowflakeCacheViewImpl<VoiceChannel> voiceChannelCache = new SnowflakeCacheViewImpl<>(Channel::getName);
     protected final SnowflakeCacheViewImpl<PrivateChannel> privateChannelCache = new SnowflakeCacheViewImpl<>(MessageChannel::getName);
 
     protected final TLongObjectMap<User> fakeUsers = MiscUtil.newLongMap();
     protected final TLongObjectMap<PrivateChannel> fakePrivateChannels = MiscUtil.newLongMap();
-
-    protected final AbstractCacheView<AudioManager> audioManagers = new CacheView.SimpleCacheView<>(m -> m.getGuild().getName());
 
     protected final ConcurrentMap<String, String> contextMap;
     protected final OkHttpClient.Builder httpClientBuilder;
@@ -90,7 +82,6 @@ public class JDAImpl implements JDA
     protected WebSocketClient client;
     protected Requester requester;
     protected IEventManager eventManager = new InterfacedEventManager();
-    protected IAudioSendFactory audioSendFactory = new DefaultSendFactory();
     protected ScheduledThreadPoolExecutor audioKeepAlivePool;
     protected Status status = Status.INITIALIZING;
     protected SelfUser selfUser;
@@ -423,12 +414,6 @@ public class JDAImpl implements JDA
     }
 
     @Override
-    public CacheView<AudioManager> getAudioManagerCache()
-    {
-        return audioManagers;
-    }
-
-    @Override
     public SnowflakeCacheView<Guild> getGuildCache()
     {
         return guildCache;
@@ -456,12 +441,6 @@ public class JDAImpl implements JDA
     public SnowflakeCacheView<TextChannel> getTextChannelCache()
     {
         return textChannelCache;
-    }
-
-    @Override
-    public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache()
-    {
-        return voiceChannelCache;
     }
 
     @Override
@@ -497,8 +476,6 @@ public class JDAImpl implements JDA
             return;
 
         setStatus(Status.SHUTTING_DOWN);
-        audioManagers.forEach(AudioManager::closeAudioConnection);
-        audioManagers.clear();
 
         if (audioKeepAlivePool != null)
             audioKeepAlivePool.shutdownNow();
@@ -629,17 +606,6 @@ public class JDAImpl implements JDA
         return this.guildLock;
     }
 
-    public IAudioSendFactory getAudioSendFactory()
-    {
-        return audioSendFactory;
-    }
-
-    public void setAudioSendFactory(IAudioSendFactory factory)
-    {
-        Checks.notNull(factory, "Provided IAudioSendFactory");
-        this.audioSendFactory = factory;
-    }
-
     public void setPing(long ping)
     {
         this.ping = ping;
@@ -685,11 +651,6 @@ public class JDAImpl implements JDA
         return textChannelCache.getMap();
     }
 
-    public TLongObjectMap<VoiceChannel> getVoiceChannelMap()
-    {
-        return voiceChannelCache.getMap();
-    }
-
     public TLongObjectMap<PrivateChannel> getPrivateChannelMap()
     {
         return privateChannelCache.getMap();
@@ -703,11 +664,6 @@ public class JDAImpl implements JDA
     public TLongObjectMap<PrivateChannel> getFakePrivateChannelMap()
     {
         return fakePrivateChannels;
-    }
-
-    public TLongObjectMap<AudioManager> getAudioManagerMap()
-    {
-        return audioManagers.getMap();
     }
 
     public void setSelfUser(SelfUser selfUser)
@@ -752,21 +708,6 @@ public class JDAImpl implements JDA
             thread.setDaemon(true);
             return thread;
         }
-    }
-
-    public ScheduledThreadPoolExecutor getAudioKeepAlivePool()
-    {
-        ScheduledThreadPoolExecutor akap = audioKeepAlivePool;
-        if (akap == null)
-        {
-            synchronized (akapLock)
-            {
-                akap = audioKeepAlivePool;
-                if (akap == null)
-                    akap = audioKeepAlivePool = new ScheduledThreadPoolExecutor(1, new AudioWebSocket.KeepAliveThreadFactory(this));
-            }
-        }
-        return akap;
     }
 
     public String getGatewayUrl()

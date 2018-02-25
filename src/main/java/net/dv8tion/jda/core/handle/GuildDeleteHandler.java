@@ -24,7 +24,6 @@ import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.client.entities.RelationshipType;
 import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.impl.GuildImpl;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
@@ -32,8 +31,6 @@ import net.dv8tion.jda.core.entities.impl.PrivateChannelImpl;
 import net.dv8tion.jda.core.entities.impl.UserImpl;
 import net.dv8tion.jda.core.events.guild.GuildLeaveEvent;
 import net.dv8tion.jda.core.events.guild.GuildUnavailableEvent;
-import net.dv8tion.jda.core.managers.AudioManager;
-import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
 import net.dv8tion.jda.core.requests.WebSocketClient;
 import net.dv8tion.jda.core.utils.Helpers;
 import org.json.JSONObject;
@@ -75,17 +72,6 @@ public class GuildDeleteHandler extends SocketHandler
                     api, responseNumber,
                     guild));
             return null;
-        }
-
-        api.getClient().removeAudioConnection(id);
-        final TLongObjectMap<AudioManager> audioManagerMap = api.getAudioManagerMap();
-        synchronized (audioManagerMap)
-        {
-            final AudioManagerImpl manager = (AudioManagerImpl) audioManagerMap.get(id);
-            if (manager != null) // close existing audio connection if needed
-                manager.closeAudioConnection(ConnectionStatus.DISCONNECTED_REMOVED_FROM_GUILD);
-            // remove manager from central map to avoid old guild references
-            audioManagerMap.remove(id);
         }
 
         //cleaning up all users that we do not share a guild with anymore
@@ -153,7 +139,6 @@ public class GuildDeleteHandler extends SocketHandler
 
         api.getGuildMap().remove(id);
         guild.getTextChannelCache().forEach(chan -> api.getTextChannelMap().remove(chan.getIdLong()));
-        guild.getVoiceChannelCache().forEach(chan -> api.getVoiceChannelMap().remove(chan.getIdLong()));
         guild.getCategoryCache().forEach(chan -> api.getCategoryMap().remove(chan.getIdLong()));
         api.getEventManager().handle(
             new GuildLeaveEvent(

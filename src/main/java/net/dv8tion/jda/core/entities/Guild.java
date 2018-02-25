@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.entities;
 import net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Region;
-import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.dv8tion.jda.core.managers.GuildManager;
 import net.dv8tion.jda.core.managers.GuildManagerUpdatable;
@@ -145,19 +144,6 @@ public interface Guild extends ISnowflake
      */
     @CheckReturnValue
     RestAction<String> getVanityUrl();
-
-    /**
-     * Provides the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} that has been set as the channel
-     * which {@link net.dv8tion.jda.core.entities.Member Members} will be moved to after they have been inactive in a
-     * {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} for longer than {@link #getAfkTimeout()}.
-     * <br>If no channel has been set as the AFK channel, this returns {@code null}.
-     * <p>
-     * This value can be modified using {@link net.dv8tion.jda.core.managers.GuildManager#setAfkChannel(VoiceChannel)}
-     * or {@link net.dv8tion.jda.core.managers.GuildManagerUpdatable#getAfkChannelField()}.
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} that is the AFK Channel.
-     */
-    VoiceChannel getAfkChannel();
 
     /**
      * Provides the {@link net.dv8tion.jda.core.entities.TextChannel TextChannel} that has been set as the channel
@@ -540,80 +526,6 @@ public interface Guild extends ISnowflake
     SnowflakeCacheView<TextChannel> getTextChannelCache();
 
     /**
-     * Gets a {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} from this guild that has the same id as the
-     * one provided. This method is similar to {@link net.dv8tion.jda.core.JDA#getVoiceChannelById(String)}, but it only
-     * checks this specific Guild for a VoiceChannel.
-     * <br>If there is no {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id
-     *         The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     *
-     * @throws java.lang.NumberFormatException
-     *         If the provided {@code id} cannot be parsed by {@link Long#parseLong(String)}
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(String id)
-    {
-        return getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * Gets a {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} from this guild that has the same id as the
-     * one provided. This method is similar to {@link net.dv8tion.jda.core.JDA#getVoiceChannelById(long)}, but it only
-     * checks this specific Guild for a VoiceChannel.
-     * <br>If there is no {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id
-     *         The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(long id)
-    {
-        return getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * Gets all {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} in this {@link net.dv8tion.jda.core.entities.Guild Guild}.
-     * <br>The channels returned will be sorted according to their position.
-     *
-     * @return An immutable List of {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     */
-    default List<VoiceChannel> getVoiceChannels()
-    {
-        return getVoiceChannelCache().asList();
-    }
-
-    /**
-     * Gets a list of all {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} in this Guild that have the same
-     * name as the one provided.
-     * <br>If there are no {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} with the provided name, then this returns an empty list.
-     *
-     * @param  name
-     *         The name used to filter the returned {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     * @param  ignoreCase
-     *         Determines if the comparison ignores case when comparing. True - case insensitive.
-     *
-     * @return Possibly-empty immutable list of all VoiceChannel names that match the provided name.
-     */
-    default List<VoiceChannel> getVoiceChannelsByName(String name, boolean ignoreCase)
-    {
-        return getVoiceChannelCache().getElementsByName(name, ignoreCase);
-    }
-
-    /**
-     * Sorted {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView} of
-     * all cached {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} of this Guild.
-     * <br>VoiceChannels are sorted according to their position.
-     *
-     * @return Sorted {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView}
-     */
-    SnowflakeCacheView<VoiceChannel> getVoiceChannelCache();
-
-    /**
      * Gets a {@link net.dv8tion.jda.core.entities.Role Role} from this guild that has the same id as the
      * one provided.
      * <br>If there is no {@link net.dv8tion.jda.core.entities.Role Role} with an id that matches the provided
@@ -987,19 +899,6 @@ public interface Guild extends ISnowflake
     RestAction<Void> delete(String mfaCode);
 
     /**
-     * The {@link net.dv8tion.jda.core.managers.AudioManager AudioManager} that represents the
-     * audio connection for this Guild.
-     * <br>If no AudioManager exists for this Guild, this will create a new one.
-     * <br>This operation is synchronized on all audio managers for this JDA instance,
-     * this means that calling getAudioManager() on any other guild while a thread is accessing this method may be locked.
-     *
-     * @return The AudioManager for this Guild.
-     *
-     * @see    net.dv8tion.jda.core.JDA#getAudioManagerCache() JDA.getAudioManagerCache()
-     */
-    AudioManager getAudioManager();
-
-    /**
      * Returns the {@link net.dv8tion.jda.core.JDA JDA} instance of this Guild
      *
      * @return the corresponding JDA instance
@@ -1042,17 +941,6 @@ public interface Guild extends ISnowflake
      */
     @CheckReturnValue
     RestAction<List<Webhook>> getWebhooks();
-
-    /**
-     * A list containing the {@link net.dv8tion.jda.core.entities.GuildVoiceState GuildVoiceState} of every {@link net.dv8tion.jda.core.entities.Member Member}
-     * in this {@link net.dv8tion.jda.core.entities.Guild Guild}.
-     * <br>This will never return an empty list because if it were empty, that would imply that there are no
-     * {@link net.dv8tion.jda.core.entities.Member Members} in this {@link net.dv8tion.jda.core.entities.Guild Guild}, which is
-     * impossible.
-     *
-     * @return Never-empty list containing all the {@link GuildVoiceState GuildVoiceStates} on this {@link net.dv8tion.jda.core.entities.Guild Guild}.
-     */
-    List<GuildVoiceState> getVoiceStates();
 
     /**
      * Returns the verification-Level of this Guild. Verification level is one of the factors that determines if a Member

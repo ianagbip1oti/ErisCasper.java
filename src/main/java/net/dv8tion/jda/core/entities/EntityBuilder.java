@@ -246,9 +246,6 @@ public class EntityBuilder
                     case TEXT:
                         createTextChannel(channel, guildObj.getIdLong(), false);
                         break;
-                    case VOICE:
-                        createVoiceChannel(channel, guildObj.getIdLong(), false);
-                        break;
                     case CATEGORY:
                         createCategory(channel, guildObj.getIdLong(), false);
                         break;
@@ -260,9 +257,6 @@ public class EntityBuilder
 
         if (!guild.isNull("system_channel_id"))
             guildObj.setSystemChannel(guildObj.getTextChannelsMap().get(guild.getLong("system_channel_id")));
-
-        if (!guild.isNull("afk_channel_id"))
-            guildObj.setAfkChannel(guildObj.getVoiceChannelsMap().get(guild.getLong("afk_channel_id")));
 
         //If the members that we were provided with (and loaded above) were not all of the
         //  the members in this guild, then we need to request more users from Discord using
@@ -328,9 +322,6 @@ public class EntityBuilder
         JSONArray channels = guild.getJSONArray("channels");
         createGuildChannelPass(guildObj, channels); //Actually creates PermissionOverrides
 
-        JSONArray voiceStates = guild.getJSONArray("voice_states");
-        createGuildVoiceStatePass(guildObj, voiceStates);
-
         api.getGuildLock().unlock(guildObj.getIdLong());
         if (secondPassCallback != null)
             secondPassCallback.accept(guildObj);
@@ -363,9 +354,6 @@ public class EntityBuilder
 
         JSONArray channels = guildJson.getJSONArray("channels");
         createGuildChannelPass(guildObj, channels);
-
-        JSONArray voiceStates = guildJson.getJSONArray("voice_states");
-        createGuildVoiceStatePass(guildObj, voiceStates);
 
         secondPassCallback.accept(guildObj);
         api.getGuildLock().unlock(guildId);
@@ -413,9 +401,6 @@ public class EntityBuilder
                 case TEXT:
                     channelObj = api.getTextChannelById(channel.getLong("id"));
                     break;
-                case VOICE:
-                    channelObj = api.getVoiceChannelById(channel.getLong("id"));
-                    break;
                 case CATEGORY:
                     channelObj = api.getCategoryMap().get(channel.getLong("id"));
                     break;
@@ -435,41 +420,7 @@ public class EntityBuilder
         }
     }
 
-    public void createGuildVoiceStatePass(GuildImpl guildObj, JSONArray voiceStates)
-    {
-        for (int i = 0; i < voiceStates.length(); i++)
-        {
-            JSONObject voiceStateJson = voiceStates.getJSONObject(i);
-            final long userId = voiceStateJson.getLong("user_id");
-            Member member = guildObj.getMembersMap().get(userId);
-            if (member == null)
-            {
-                LOG.error("Received a VoiceState for a unknown Member! GuildId: "
-                        + guildObj.getId() + " MemberId: " + voiceStateJson.getString("user_id"));
-                continue;
-            }
-
-            final long channelId = voiceStateJson.getLong("channel_id");
-            VoiceChannelImpl voiceChannel =
-                    (VoiceChannelImpl) guildObj.getVoiceChannelsMap().get(channelId);
-            if (voiceChannel != null)
-                voiceChannel.getConnectedMembersMap().put(member.getUser().getIdLong(), member);
-            else
-                LOG.error("Received a GuildVoiceState with a channel ID for a non-existent channel! ChannelId: {} GuildId: {} UserId: {}",
-                    channelId, guildObj.getId(), userId);
-
-            // VoiceState is considered volatile so we don't expect anything to actually exist
-            GuildVoiceStateImpl voiceState = (GuildVoiceStateImpl) member.getVoiceState();
-            voiceState.setSelfMuted(Helpers.optBoolean(voiceStateJson, "self_mute"))
-                      .setSelfDeafened(Helpers.optBoolean(voiceStateJson, "self_deaf"))
-                      .setGuildMuted(Helpers.optBoolean(voiceStateJson, "mute"))
-                      .setGuildDeafened(Helpers.optBoolean(voiceStateJson, "deaf"))
-                      .setSuppressed(Helpers.optBoolean(voiceStateJson, "suppress"))
-                      .setSessionId(voiceStateJson.optString("session_id"))
-                      .setConnectedChannel(voiceChannel);
-        }
-    }
-
+    
     public User createFakeUser(JSONObject user, boolean modifyCache) { return createUser(user, true, modifyCache); }
     public User createUser(JSONObject user)     { return createUser(user, false, true); }
     private User createUser(JSONObject user, boolean fake, boolean modifyCache)
@@ -526,10 +477,6 @@ public class EntityBuilder
             member = new MemberImpl(guild, user);
             guild.getMembersMap().put(user.getIdLong(), member);
         }
-
-        ((GuildVoiceStateImpl) member.getVoiceState())
-            .setGuildMuted(memberJson.getBoolean("mute"))
-            .setGuildDeafened(memberJson.getBoolean("deaf"));
 
         member.setJoinDate(OffsetDateTime.parse(memberJson.getString("joined_at")))
               .setNickname(memberJson.optString("nick", null));
@@ -740,37 +687,6 @@ public class EntityBuilder
                 .setTopic(json.optString("topic"))
                 .setRawPosition(json.getInt("position"))
                 .setNSFW(Helpers.optBoolean(json, "nsfw"));
-    }
-
-    public VoiceChannel createVoiceChannel(JSONObject json, long guildId)
-    {
-        return createVoiceChannel(json, guildId, true);
-    }
-
-    public VoiceChannel createVoiceChannel(JSONObject json, long guildId, boolean guildIsLoaded)
-    {
-        final long id = json.getLong("id");
-        VoiceChannelImpl channel = ((VoiceChannelImpl) api.getVoiceChannelMap().get(id));
-        if (channel == null)
-        {
-            GuildImpl guild = (GuildImpl) api.getGuildMap().get(guildId);
-            channel = new VoiceChannelImpl(id, guild);
-            guild.getVoiceChannelsMap().put(id, channel);
-            api.getVoiceChannelMap().put(id, channel);
-        }
-
-        if (!json.isNull("permission_overwrites") && guildIsLoaded)
-        {
-            JSONArray overrides = json.getJSONArray("permission_overwrites");
-            createOverridesPass(channel, overrides);
-        }
-
-        return channel
-                .setParent(Helpers.optLong(json, "parent_id", 0))
-                .setName(json.getString("name"))
-                .setRawPosition(json.getInt("position"))
-                .setUserLimit(json.getInt("user_limit"))
-                .setBitrate(json.getInt("bitrate"));
     }
 
     public PrivateChannel createPrivateChannel(JSONObject privatechat)

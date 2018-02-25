@@ -25,11 +25,9 @@ import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.exceptions.GuildUnavailableException;
 import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.exceptions.PermissionException;
-import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.dv8tion.jda.core.managers.GuildManager;
 import net.dv8tion.jda.core.managers.GuildManagerUpdatable;
-import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
 import net.dv8tion.jda.core.requests.Request;
 import net.dv8tion.jda.core.requests.Response;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -59,7 +57,6 @@ public class GuildImpl implements Guild
     private final JDAImpl api;
 
     private final SortedSnowflakeCacheView<Category> categoryCache = new SortedSnowflakeCacheView<Category>(Channel::getName, Comparator.naturalOrder());
-    private final SortedSnowflakeCacheView<VoiceChannel> voiceChannelCache = new SortedSnowflakeCacheView<VoiceChannel>(Channel::getName, Comparator.naturalOrder());
     private final SortedSnowflakeCacheView<TextChannel> textChannelCache = new SortedSnowflakeCacheView<TextChannel>(Channel::getName, Comparator.naturalOrder());
     private final SortedSnowflakeCacheView<Role> roleCache = new SortedSnowflakeCacheView<Role>(Role::getName, Comparator.reverseOrder());
     private final SnowflakeCacheViewImpl<Emote> emoteCache = new SnowflakeCacheViewImpl<>(Emote::getName);
@@ -78,7 +75,6 @@ public class GuildImpl implements Guild
     private String splashId;
     private String region;
     private Set<String> features;
-    private VoiceChannel afkChannel;
     private TextChannel systemChannel;
     private Role publicRole;
     private VerificationLevel verificationLevel;
@@ -157,12 +153,6 @@ public class GuildImpl implements Guild
                 request.onSuccess(response.getObject().getString("code"));
             }
         };
-    }
-
-    @Override
-    public VoiceChannel getAfkChannel()
-    {
-        return afkChannel;
     }
 
     @Override
@@ -263,12 +253,6 @@ public class GuildImpl implements Guild
     public SnowflakeCacheView<TextChannel> getTextChannelCache()
     {
         return textChannelCache;
-    }
-
-    @Override
-    public SnowflakeCacheView<VoiceChannel> getVoiceChannelCache()
-    {
-        return voiceChannelCache;
     }
 
     @Override
@@ -477,42 +461,11 @@ public class GuildImpl implements Guild
             }
         };
     }
-
-    @Override
-    public AudioManager getAudioManager()
-    {
-        if (!api.isAudioEnabled())
-            throw new IllegalStateException("Audio is disabled. Cannot retrieve an AudioManager while audio is disabled.");
-
-        final TLongObjectMap<AudioManager> managerMap = api.getAudioManagerMap();
-        AudioManager mng = managerMap.get(id);
-        if (mng == null)
-        {
-            // No previous manager found -> create one
-            synchronized (managerMap)
-            {
-                mng = managerMap.get(id);
-                if (mng == null)
-                {
-                    mng = new AudioManagerImpl(this);
-                    managerMap.put(id, mng);
-                }
-            }
-        }
-        return mng;
-    }
-
+    
     @Override
     public JDAImpl getJDA()
     {
         return api;
-    }
-
-    @Override
-    public List<GuildVoiceState> getVoiceStates()
-    {
-        return Collections.unmodifiableList(
-                getMembersMap().valueCollection().stream().map(Member::getVoiceState).collect(Collectors.toList()));
     }
 
     @Override
@@ -628,12 +581,6 @@ public class GuildImpl implements Guild
         return this;
     }
 
-    public GuildImpl setAfkChannel(VoiceChannel afkChannel)
-    {
-        this.afkChannel = afkChannel;
-        return this;
-    }
-
     public GuildImpl setSystemChannel(TextChannel systemChannel)
     {
         this.systemChannel = systemChannel;
@@ -687,11 +634,6 @@ public class GuildImpl implements Guild
     public TLongObjectMap<TextChannel> getTextChannelsMap()
     {
         return textChannelCache.getMap();
-    }
-
-    public TLongObjectMap<VoiceChannel> getVoiceChannelsMap()
-    {
-        return voiceChannelCache.getMap();
     }
 
     public TLongObjectMap<Member> getMembersMap()

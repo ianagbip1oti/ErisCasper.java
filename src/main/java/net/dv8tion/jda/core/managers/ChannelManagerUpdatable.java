@@ -284,12 +284,6 @@ public class ChannelManagerUpdatable
             this.parent.reset();
             this.topic.reset();
         }
-        else if (channel instanceof VoiceChannel)
-        {
-            this.parent.reset();
-            this.bitrate.reset();
-            this.userLimit.reset();
-        }
     }
 
     /**
@@ -432,31 +426,6 @@ public class ChannelManagerUpdatable
                 {
                     if (value == null)
                         throw new IllegalArgumentException("NSFW flag must not be null");
-                }
-            };
-        }
-        else if (channel instanceof VoiceChannel)
-        {
-            VoiceChannel vc = (VoiceChannel) channel;
-            this.userLimit = new ChannelField<Integer>(this, vc::getUserLimit)
-            {
-                @Override
-                public void checkValue(Integer value)
-                {
-                    Checks.notNull(value, "user limit");
-                    if (value < 0 || value > 99)
-                        throw new IllegalArgumentException("Provided user limit must be 0 to 99.");
-                }
-            };
-
-            this.bitrate = new ChannelField<Integer>(this, vc::getBitrate)
-            {
-                @Override
-                public void checkValue(Integer value)
-                {
-                    Checks.notNull(value, "bitrate");
-                    if (value < 8000 || value > (getGuild().getFeatures().contains("VIP_REGIONS") ? 128000 : 96000))
-                        throw new IllegalArgumentException("Provided bitrate must be 8000 to 96000 (128000 for VIP Guilds)");
                 }
             };
         }

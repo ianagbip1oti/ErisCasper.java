@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.handle;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.entities.impl.GuildImpl;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.guild.update.*;
@@ -56,9 +55,7 @@ public class GuildUpdateHandler extends SocketHandler
         Guild.NotificationLevel notificationLevel = Guild.NotificationLevel.fromKey(content.getInt("default_message_notifications"));
         Guild.MFALevel mfaLevel = Guild.MFALevel.fromKey(content.getInt("mfa_level"));
         Guild.ExplicitContentLevel explicitContentLevel = Guild.ExplicitContentLevel.fromKey(content.getInt("explicit_content_filter"));
-        Guild.Timeout afkTimeout = Guild.Timeout.fromKey(content.getInt("afk_timeout"));
-        VoiceChannel afkChannel = content.isNull("afk_channel_id")
-                ? null : guild.getVoiceChannelsMap().get(content.getLong("afk_channel_id"));
+        Guild.Timeout afkTimeout = Guild.Timeout.fromKey(content.getInt("afk_timeout"));        
         TextChannel systemChannel = content.isNull("system_channel_id")
                 ? null : guild.getTextChannelsMap().get(content.getLong("system_channel_id"));
         Set<String> features;
@@ -161,24 +158,6 @@ public class GuildUpdateHandler extends SocketHandler
                     new GuildUpdateExplicitContentLevelEvent(
                             api, responseNumber,
                             guild, oldExplicitContentLevel));
-        }
-        if (!Objects.equals(afkTimeout, guild.getAfkTimeout()))
-        {
-            Guild.Timeout oldAfkTimeout = guild.getAfkTimeout();
-            guild.setAfkTimeout(afkTimeout);
-            api.getEventManager().handle(
-                    new GuildUpdateAfkTimeoutEvent(
-                            api, responseNumber,
-                            guild, oldAfkTimeout));
-        }
-        if (!Objects.equals(afkChannel, guild.getAfkChannel()))
-        {
-            VoiceChannel oldAfkChannel = guild.getAfkChannel();
-            guild.setAfkChannel(afkChannel);
-            api.getEventManager().handle(
-                    new GuildUpdateAfkChannelEvent(
-                            api, responseNumber,
-                            guild, oldAfkChannel));
         }
         if (!Objects.equals(systemChannel, guild.getSystemChannel()))
         {

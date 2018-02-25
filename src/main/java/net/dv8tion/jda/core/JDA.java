@@ -20,11 +20,9 @@ import net.dv8tion.jda.bot.JDABot;
 import net.dv8tion.jda.client.JDAClient;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
-import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.Presence;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.GuildAction;
-import net.dv8tion.jda.core.utils.cache.CacheView;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 
 import javax.annotation.CheckReturnValue;
@@ -274,29 +272,7 @@ public interface JDA
      */
     GuildAction createGuild(String name);
 
-    /**
-     * {@link net.dv8tion.jda.core.utils.cache.CacheView CacheView} of
-     * all cached {@link net.dv8tion.jda.core.managers.AudioManager AudioManagers} created for this JDA instance.
-     * <br>AudioManagers are created when first retrieved via {@link net.dv8tion.jda.core.entities.Guild#getAudioManager() Guild.getAudioManager()}.
-     * <u>Using this will perform better than calling {@code Guild.getAudioManager()} iteratively as that would cause many useless audio managers to be created!</u>
-     *
-     * <p>AudioManagers are cross-session persistent!
-     *
-     * @return {@link net.dv8tion.jda.core.utils.cache.CacheView CacheView}
-     */
-    CacheView<AudioManager> getAudioManagerCache();
-
-    /**
-     * Immutable list of all created {@link net.dv8tion.jda.core.managers.AudioManager AudioManagers} for this JDA instance!
-     *
-     * @return Immutable list of all created AudioManager instances
-     */
-    default List<AudioManager> getAudioManagers()
-    {
-        return getAudioManagerCache().asList();
-    }
-
-
+    
     /**
      * {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView} of
      * all cached {@link net.dv8tion.jda.core.entities.User Users} visible to this JDA session.
@@ -739,74 +715,6 @@ public interface JDA
     default List<TextChannel> getTextChannelsByName(String name, boolean ignoreCase)
     {
         return getTextChannelCache().getElementsByName(name, ignoreCase);
-    }
-
-    /**
-     * {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView} of
-     * all cached {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} visible to this JDA session.
-     *
-     * @return {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView}
-     */
-    SnowflakeCacheView<VoiceChannel> getVoiceChannelCache();
-
-    /**
-     * An unmodifiable list of all {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} of all connected
-     * {@link net.dv8tion.jda.core.entities.Guild Guilds}.
-     *
-     * @return Possible-empty list of all known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     */
-    default List<VoiceChannel> getVoiceChannels()
-    {
-        return getVoiceChannelCache().asList();
-    }
-
-    /**
-     * This returns the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} which has the same id as the one provided.
-     * <br>If there is no known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id
-     *         The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     * @throws java.lang.NumberFormatException
-     *         If the provided {@code id} cannot be parsed by {@link Long#parseLong(String)}
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(String id)
-    {
-        return getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * This returns the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} which has the same id as the one provided.
-     * <br>If there is no known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id
-     *         The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(long id)
-    {
-        return getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * An unmodifiable list of all {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} that have the same name as the one provided.
-     * <br>If there are no {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} with the provided name, then this returns an empty list.
-     *
-     * @param  name
-     *         The name of the requested {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     * @param  ignoreCase
-     *         Whether to ignore case or not when comparing the provided name to each {@link net.dv8tion.jda.core.entities.VoiceChannel#getName()}.
-     *
-     * @return Possibly-empty list of all the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} that all have the
-     *         same name as the provided name.
-     */
-    default List<VoiceChannel> getVoiceChannelByName(String name, boolean ignoreCase)
-    {
-        return getVoiceChannelCache().getElementsByName(name, ignoreCase);
     }
 
     /**

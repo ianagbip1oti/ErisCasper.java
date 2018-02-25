@@ -347,9 +347,6 @@ public class ChannelAction extends AuditableRestAction<Channel>
         Channel channel;
         switch (type)
         {
-            case VOICE:
-                channel = builder.createVoiceChannel(response.getObject(), guild.getIdLong());
-                break;
             case TEXT:
                 channel = builder.createTextChannel(response.getObject(), guild.getIdLong());
                 break;

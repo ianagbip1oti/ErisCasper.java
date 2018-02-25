@@ -22,7 +22,6 @@ import net.dv8tion.jda.core.Region;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Icon;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.exceptions.GuildUnavailableException;
 import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.managers.fields.GuildField;
@@ -59,7 +58,6 @@ public class GuildManagerUpdatable
     protected GuildField<Icon> icon;
     protected GuildField<Icon> splash;
     protected GuildField<Region> region;
-    protected GuildField<VoiceChannel> afkChannel;
     protected GuildField<TextChannel> systemChannel;
     protected GuildField<Guild.VerificationLevel> verificationLevel;
     protected GuildField<Guild.NotificationLevel> defaultNotificationLevel;
@@ -190,30 +188,6 @@ public class GuildManagerUpdatable
         checkAvailable();
 
         return splash;
-    }
-
-    /**
-     * An {@link net.dv8tion.jda.core.managers.fields.GuildField GuildField}
-     * for the <b><u>AFK {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}</u></b> of the selected {@link net.dv8tion.jda.core.entities.Guild Guild}.
-     * <br>To reset the channel of a Guild provide {@code null} to {@link net.dv8tion.jda.core.managers.fields.Field#setValue(Object) setValue(VoiceChannel)}.
-     *
-     * <p>To set the value use {@link net.dv8tion.jda.core.managers.fields.Field#setValue(Object) setValue(VoiceChannel)}
-     * on the returned {@link net.dv8tion.jda.core.managers.fields.GuildField GuildField} instance.
-     *
-     * <p>A guild afk channel <b>must</b> be from this Guild!
-     * <br>Otherwise {@link net.dv8tion.jda.core.managers.fields.Field#setValue(Object) Field.setValue(...)} will
-     * throw an {@link IllegalArgumentException IllegalArgumentException}.
-     *
-     * @throws net.dv8tion.jda.core.exceptions.GuildUnavailableException
-     *         If the Guild is temporarily not {@link net.dv8tion.jda.core.entities.Guild#isAvailable() available}
-     *
-     * @return {@link net.dv8tion.jda.core.managers.fields.GuildField GuildField} - Type: {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}
-     */
-    public GuildField<VoiceChannel> getAfkChannelField()
-    {
-        checkAvailable();
-
-        return afkChannel;
     }
 
     /**
@@ -369,7 +343,6 @@ public class GuildManagerUpdatable
         this.timeout.reset();
         this.icon.reset();
         this.splash.reset();
-        this.afkChannel.reset();
         this.systemChannel.reset();
         this.verificationLevel.reset();
         this.defaultNotificationLevel.reset();
@@ -424,8 +397,6 @@ public class GuildManagerUpdatable
             body.put("icon", icon.getValue() == null ? JSONObject.NULL : icon.getValue().getEncoding());
         if (splash.shouldUpdate())
             body.put("splash", splash.getValue() == null ? JSONObject.NULL : splash.getValue().getEncoding());
-        if (afkChannel.shouldUpdate())
-            body.put("afk_channel_id", afkChannel.getValue() == null ? JSONObject.NULL : afkChannel.getValue().getId());
         if (systemChannel.shouldUpdate())
             body.put("system_channel_id", systemChannel.getValue() == null ? JSONObject.NULL : systemChannel.getValue().getId());
         if (verificationLevel.shouldUpdate())
@@ -459,7 +430,6 @@ public class GuildManagerUpdatable
                 || timeout.shouldUpdate()
                 || icon.shouldUpdate()
                 || splash.shouldUpdate()
-                || afkChannel.shouldUpdate()
                 || systemChannel.shouldUpdate()
                 || verificationLevel.shouldUpdate()
                 || defaultNotificationLevel.shouldUpdate()
@@ -547,16 +517,6 @@ public class GuildManagerUpdatable
                     throw new IllegalArgumentException("Cannot set Guild Region to UNKNOWN!");
                 if (value.isVip() && !guild.getFeatures().contains("VIP_REGIONS"))
                     throw new IllegalArgumentException("VIP regions are not supported by this Guild");
-            }
-        };
-
-        this.afkChannel = new GuildField<VoiceChannel>(this, guild::getAfkChannel)
-        {
-            @Override
-            public void checkValue(VoiceChannel value)
-            {
-                if (value != null && !guild.equals(value.getGuild()))
-                    throw new IllegalArgumentException("Provided AFK Channel is not from this Guild!");
             }
         };
 
