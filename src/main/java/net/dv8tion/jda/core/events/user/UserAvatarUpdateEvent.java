@@ -24,23 +24,25 @@ import net.dv8tion.jda.core.entities.User;
  * <br>
  * Use: Retrieve the User who's Avatar changed and their previous Avatar ID/URL.
  */
-public class UserAvatarUpdateEvent extends GenericUserEvent
-{
-    private final String previousAvatarId;
+public class UserAvatarUpdateEvent extends GenericUserEvent {
+  private final String previousAvatarId;
 
-    public UserAvatarUpdateEvent(JDA api, long responseNumber, User user, String previousAvatarId)
-    {
-        super(api, responseNumber, user);
-        this.previousAvatarId = previousAvatarId;
-    }
+  public UserAvatarUpdateEvent(JDA api, long responseNumber, User user, String previousAvatarId) {
+    super(api, responseNumber, user);
+    this.previousAvatarId = previousAvatarId;
+  }
 
-    public String getPreviousAvatarId()
-    {
-        return previousAvatarId;
-    }
+  public String getPreviousAvatarId() {
+    return previousAvatarId;
+  }
 
-    public String getPreviousAvatarUrl()
-    {
-        return previousAvatarId == null ? null : "https://cdn.discordapp.com/avatars/" + getUser().getId() + "/" + previousAvatarId + ".jpg";
-    }
+  public String getPreviousAvatarUrl() {
+    return previousAvatarId == null
+        ? null
+        : "https://cdn.discordapp.com/avatars/"
+            + getUser().getId()
+            + "/"
+            + previousAvatarId
+            + ".jpg";
+  }
 }

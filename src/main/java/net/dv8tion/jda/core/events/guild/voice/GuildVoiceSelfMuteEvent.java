@@ -19,18 +19,15 @@ package net.dv8tion.jda.core.events.guild.voice;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 
-public class GuildVoiceSelfMuteEvent extends GenericGuildVoiceEvent
-{
-    protected final boolean selfMuted;
+public class GuildVoiceSelfMuteEvent extends GenericGuildVoiceEvent {
+  protected final boolean selfMuted;
 
-    public GuildVoiceSelfMuteEvent(JDA api, long responseNumber, Member member)
-    {
-        super(api, responseNumber, member);
-        this.selfMuted = member.getVoiceState().isSelfMuted();
-    }
+  public GuildVoiceSelfMuteEvent(JDA api, long responseNumber, Member member) {
+    super(api, responseNumber, member);
+    this.selfMuted = member.getVoiceState().isSelfMuted();
+  }
 
-    public boolean isSelfMuted()
-    {
-        return selfMuted;
-    }
+  public boolean isSelfMuted() {
+    return selfMuted;
+  }
 }

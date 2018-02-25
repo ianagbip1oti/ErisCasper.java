@@ -15,31 +15,32 @@
  */
 
 /**
- * The core JDA features that are both available for
- * BOT and CLIENT applications.
+ * The core JDA features that are both available for BOT and CLIENT applications.
  *
- * <p>This package contains information about the JDA version used by this library.
- * See {@link net.dv8tion.jda.core.JDAInfo JDAInfo}!
+ * <p>This package contains information about the JDA version used by this library. See {@link
+ * net.dv8tion.jda.core.JDAInfo JDAInfo}!
  *
- * <p>It includes enums that can be found at various locations throughout {@link net.dv8tion.jda} not only the core package!
+ * <p>It includes enums that can be found at various locations throughout {@link net.dv8tion.jda}
+ * not only the core package!
  *
- * <p>To build a JDA instance you
- * would use the {@link net.dv8tion.jda.core.JDABuilder JDABuilder} with a specified {@link net.dv8tion.jda.core.AccountType AccountType}
- * to differ between a bot and a client account. Client accounts are commonly referenced as User accounts due to them being used by
- * the official Discord Client.
- * <br>It is recommended to <b>not automate</b> accounts from AccountType {@link net.dv8tion.jda.core.AccountType#CLIENT CLIENT}!
+ * <p>To build a JDA instance you would use the {@link net.dv8tion.jda.core.JDABuilder JDABuilder}
+ * with a specified {@link net.dv8tion.jda.core.AccountType AccountType} to differ between a bot and
+ * a client account. Client accounts are commonly referenced as User accounts due to them being used
+ * by the official Discord Client. <br>
+ * It is recommended to <b>not automate</b> accounts from AccountType {@link
+ * net.dv8tion.jda.core.AccountType#CLIENT CLIENT}!
  *
- * <p>In addition this package included helpful builders for message sending
- * such as:
+ * <p>In addition this package included helpful builders for message sending such as:
+ *
  * <ul>
- *     <li>{@link net.dv8tion.jda.core.MessageBuilder MessageBuilder}
- *     <br>Used to build a {@link net.dv8tion.jda.core.entities.Message Message} which can be used to
- *         send a message to a {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel} together with
- *         an {@link net.dv8tion.jda.core.entities.MessageEmbed MessageEmbed} and Text-To-Speech!</li>
- *
- *     <li>{@link net.dv8tion.jda.core.EmbedBuilder EmbedBuilder}
- *     <br>Used to build a {@link net.dv8tion.jda.core.entities.MessageEmbed MessageEmbed}
- *         which can then be used in the message sending process (see above)</li>
+ *   <li>{@link net.dv8tion.jda.core.MessageBuilder MessageBuilder} <br>
+ *       Used to build a {@link net.dv8tion.jda.core.entities.Message Message} which can be used to
+ *       send a message to a {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel}
+ *       together with an {@link net.dv8tion.jda.core.entities.MessageEmbed MessageEmbed} and
+ *       Text-To-Speech!
+ *   <li>{@link net.dv8tion.jda.core.EmbedBuilder EmbedBuilder} <br>
+ *       Used to build a {@link net.dv8tion.jda.core.entities.MessageEmbed MessageEmbed} which can
+ *       then be used in the message sending process (see above)
  * </ul>
  */
 package net.dv8tion.jda.core;

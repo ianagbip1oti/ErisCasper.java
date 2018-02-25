@@ -15,9 +15,9 @@
  */
 
 /**
- * Events that are fired for {@link net.dv8tion.jda.core.entities.Message Messages} in
- * a {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel}.
- * Such as {@link net.dv8tion.jda.core.events.message.MessageReceivedEvent receiving}.
+ * Events that are fired for {@link net.dv8tion.jda.core.entities.Message Messages} in a {@link
+ * net.dv8tion.jda.core.entities.MessageChannel MessageChannel}. Such as {@link
+ * net.dv8tion.jda.core.events.message.MessageReceivedEvent receiving}.
  *
  * <p>These events combine all {@link net.dv8tion.jda.core.entities.MessageChannel MessageChannel}
  * messages but specifications can be found in subpackages.

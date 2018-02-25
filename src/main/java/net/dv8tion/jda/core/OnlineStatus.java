@@ -16,55 +16,50 @@
 package net.dv8tion.jda.core;
 
 /**
- * Represents the online presence of a {@link net.dv8tion.jda.core.entities.Member Member} or
- * {@link net.dv8tion.jda.client.entities.Friend Friend}.
+ * Represents the online presence of a {@link net.dv8tion.jda.core.entities.Member Member} or {@link
+ * net.dv8tion.jda.client.entities.Friend Friend}.
  */
-public enum OnlineStatus
-{
-    ONLINE("online"),
-    IDLE("idle"),
-    DO_NOT_DISTURB("dnd"),
-    INVISIBLE("invisible"),
-    OFFLINE("offline"),
-    UNKNOWN("");
+public enum OnlineStatus {
+  ONLINE("online"),
+  IDLE("idle"),
+  DO_NOT_DISTURB("dnd"),
+  INVISIBLE("invisible"),
+  OFFLINE("offline"),
+  UNKNOWN("");
 
-    private final String key;
+  private final String key;
 
-    OnlineStatus(String key)
-    {
-        this.key = key;
+  OnlineStatus(String key) {
+    this.key = key;
+  }
+
+  /**
+   * The valid API key for this OnlineStatus
+   *
+   * @return String representation of the valid API key for this OnlineStatus
+   * @see <a
+   *     href="https://discordapp.com/developers/docs/topics/gateway#presence-update">PRESENCE_UPDATE</a>
+   */
+  public String getKey() {
+    return key;
+  }
+
+  /**
+   * Will get the {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus} from the provided key. <br>
+   * If the provided key does not have a matching OnlineStatus, this will return {@link
+   * net.dv8tion.jda.core.OnlineStatus#UNKNOWN UNKONWN}
+   *
+   * @param key The key relating to the {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus} we
+   *     wish to retrieve.
+   * @return The matching {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus}. If there is no
+   *     match, returns {@link net.dv8tion.jda.core.OnlineStatus#UNKNOWN UNKNOWN}.
+   */
+  public static OnlineStatus fromKey(String key) {
+    for (OnlineStatus onlineStatus : values()) {
+      if (onlineStatus.key.equalsIgnoreCase(key)) {
+        return onlineStatus;
+      }
     }
-
-    /**
-     * The valid API key for this OnlineStatus
-     *
-     * @return String representation of the valid API key for this OnlineStatus
-     *
-     * @see    <a href="https://discordapp.com/developers/docs/topics/gateway#presence-update">PRESENCE_UPDATE</a>
-     */
-    public String getKey()
-    {
-        return key;
-    }
-
-    /**
-     * Will get the {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus} from the provided key.
-     * <br>If the provided key does not have a matching OnlineStatus, this will return {@link net.dv8tion.jda.core.OnlineStatus#UNKNOWN UNKONWN}
-     *
-     * @param  key
-     *         The key relating to the {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus} we wish to retrieve.
-     *
-     * @return The matching {@link net.dv8tion.jda.core.OnlineStatus OnlineStatus}. If there is no match, returns {@link net.dv8tion.jda.core.OnlineStatus#UNKNOWN UNKNOWN}.
-     */
-    public static OnlineStatus fromKey(String key)
-    {
-        for (OnlineStatus onlineStatus : values())
-        {
-            if (onlineStatus.key.equalsIgnoreCase(key))
-            {
-                return onlineStatus;
-            }
-        }
-        return UNKNOWN;
-    }
+    return UNKNOWN;
+  }
 }

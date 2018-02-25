@@ -19,18 +19,16 @@ package net.dv8tion.jda.core.events.role.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Role;
 
-public class RoleUpdateMentionableEvent extends GenericRoleUpdateEvent
-{
-    private final boolean wasMentionable;
+public class RoleUpdateMentionableEvent extends GenericRoleUpdateEvent {
+  private final boolean wasMentionable;
 
-    public RoleUpdateMentionableEvent(JDA api, long responseNumber, Role role, boolean wasMentionable)
-    {
-        super(api, responseNumber, role);
-        this.wasMentionable = wasMentionable;
-    }
+  public RoleUpdateMentionableEvent(
+      JDA api, long responseNumber, Role role, boolean wasMentionable) {
+    super(api, responseNumber, role);
+    this.wasMentionable = wasMentionable;
+  }
 
-    public boolean wasMentionable()
-    {
-        return wasMentionable;
-    }
+  public boolean wasMentionable() {
+    return wasMentionable;
+  }
 }

@@ -17,6 +17,7 @@
 package net.dv8tion.jda.core.handle;
 
 import gnu.trove.map.TLongObjectMap;
+import java.util.*;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.impl.EmoteImpl;
@@ -30,120 +31,91 @@ import org.apache.commons.collections4.CollectionUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
+public class GuildEmojisUpdateHandler extends SocketHandler {
+  public GuildEmojisUpdateHandler(JDAImpl api) {
+    super(api);
+  }
 
-public class GuildEmojisUpdateHandler extends SocketHandler
-{
-    public GuildEmojisUpdateHandler(JDAImpl api)
-    {
-        super(api);
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long guildId = content.getLong("guild_id");
+    if (api.getGuildLock().isLocked(guildId)) return guildId;
+
+    GuildImpl guild = (GuildImpl) api.getGuildMap().get(guildId);
+    if (guild == null) {
+      api.getEventCache()
+          .cache(EventCache.Type.GUILD, guildId, () -> handle(responseNumber, allContent));
+      return null;
     }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long guildId = content.getLong("guild_id");
-        if (api.getGuildLock().isLocked(guildId))
-            return guildId;
+    JSONArray array = content.getJSONArray("emojis");
+    TLongObjectMap<Emote> emoteMap = guild.getEmoteMap();
+    List<Emote> oldEmotes = new ArrayList<>(emoteMap.valueCollection()); // snapshot of emote cache
+    List<Emote> newEmotes = new ArrayList<>();
+    for (int i = 0; i < array.length(); i++) {
+      JSONObject current = array.getJSONObject(i);
+      final long emoteId = current.getLong("id");
+      EmoteImpl emote = (EmoteImpl) emoteMap.get(emoteId);
+      EmoteImpl oldEmote = null;
 
-        GuildImpl guild = (GuildImpl) api.getGuildMap().get(guildId);
-        if (guild == null)
-        {
-            api.getEventCache().cache(EventCache.Type.GUILD, guildId, () ->
-                    handle(responseNumber, allContent));
-            return null;
-        }
+      if (emote == null) {
+        emote = new EmoteImpl(emoteId, guild);
+        newEmotes.add(emote);
+      } else {
+        // emote is in our cache which is why we don't want to remove it in cleanup later
+        oldEmotes.remove(emote);
+        oldEmote = emote.clone();
+      }
 
-        JSONArray array = content.getJSONArray("emojis");
-        TLongObjectMap<Emote> emoteMap = guild.getEmoteMap();
-        List<Emote> oldEmotes = new ArrayList<>(emoteMap.valueCollection()); //snapshot of emote cache
-        List<Emote> newEmotes = new ArrayList<>();
-        for (int i = 0; i < array.length(); i++)
-        {
-            JSONObject current = array.getJSONObject(i);
-            final long emoteId = current.getLong("id");
-            EmoteImpl emote = (EmoteImpl) emoteMap.get(emoteId);
-            EmoteImpl oldEmote = null;
+      emote
+          .setName(current.getString("name"))
+          .setAnimated(current.optBoolean("animated"))
+          .setManaged(current.getBoolean("managed"));
+      // update roles
+      JSONArray roles = current.getJSONArray("roles");
+      Set<Role> newRoles = emote.getRoleSet();
+      Set<Role> oldRoles = new HashSet<>(newRoles); // snapshot of cached roles
+      for (int j = 0; j < roles.length(); j++) {
+        Role role = guild.getRoleById(roles.getString(j));
+        newRoles.add(role);
+        oldRoles.remove(role);
+      }
 
-            if (emote == null)
-            {
-                emote = new EmoteImpl(emoteId, guild);
-                newEmotes.add(emote);
-            }
-            else
-            {
-                // emote is in our cache which is why we don't want to remove it in cleanup later
-                oldEmotes.remove(emote);
-                oldEmote = emote.clone();
-            }
+      // cleanup old cached roles that were not found in the JSONArray
+      for (Role r : oldRoles) {
+        // newRoles directly writes to the set contained in the emote
+        newRoles.remove(r);
+      }
 
-            emote.setName(current.getString("name"))
-                 .setAnimated(current.optBoolean("animated"))
-                 .setManaged(current.getBoolean("managed"));
-            //update roles
-            JSONArray roles = current.getJSONArray("roles");
-            Set<Role> newRoles = emote.getRoleSet();
-            Set<Role> oldRoles = new HashSet<>(newRoles); //snapshot of cached roles
-            for (int j = 0; j < roles.length(); j++)
-            {
-                Role role = guild.getRoleById(roles.getString(j));
-                newRoles.add(role);
-                oldRoles.remove(role);
-            }
-
-            //cleanup old cached roles that were not found in the JSONArray
-            for (Role r : oldRoles)
-            {
-                // newRoles directly writes to the set contained in the emote
-                newRoles.remove(r);
-            }
-
-            // finally, update the emote
-            emoteMap.put(emote.getIdLong(), emote);
-            // check for updated fields and fire events
-            handleReplace(oldEmote, emote);
-        }
-        //cleanup old emotes that don't exist anymore
-        for (Emote e : oldEmotes)
-        {
-            emoteMap.remove(e.getIdLong());
-            api.getEventManager().handle(
-                new EmoteRemovedEvent(
-                    api, responseNumber,
-                    e));
-        }
-
-        for (Emote e : newEmotes)
-        {
-            api.getEventManager().handle(
-                new EmoteAddedEvent(
-                    api, responseNumber,
-                    e));
-        }
-
-        return null;
+      // finally, update the emote
+      emoteMap.put(emote.getIdLong(), emote);
+      // check for updated fields and fire events
+      handleReplace(oldEmote, emote);
+    }
+    // cleanup old emotes that don't exist anymore
+    for (Emote e : oldEmotes) {
+      emoteMap.remove(e.getIdLong());
+      api.getEventManager().handle(new EmoteRemovedEvent(api, responseNumber, e));
     }
 
-    private void handleReplace(Emote oldEmote, Emote newEmote)
-    {
-        if (oldEmote == null || newEmote == null) return;
-
-        if (!Objects.equals(oldEmote.getName(), newEmote.getName()))
-        {
-            api.getEventManager().handle(
-                new EmoteUpdateNameEvent(
-                    api, responseNumber,
-                    newEmote, oldEmote.getName()));
-        }
-
-        if (!CollectionUtils.isEqualCollection(oldEmote.getRoles(), newEmote.getRoles()))
-        {
-            api.getEventManager().handle(
-                new EmoteUpdateRolesEvent(
-                    api, responseNumber,
-                    newEmote, oldEmote.getRoles()));
-        }
-
+    for (Emote e : newEmotes) {
+      api.getEventManager().handle(new EmoteAddedEvent(api, responseNumber, e));
     }
 
+    return null;
+  }
+
+  private void handleReplace(Emote oldEmote, Emote newEmote) {
+    if (oldEmote == null || newEmote == null) return;
+
+    if (!Objects.equals(oldEmote.getName(), newEmote.getName())) {
+      api.getEventManager()
+          .handle(new EmoteUpdateNameEvent(api, responseNumber, newEmote, oldEmote.getName()));
+    }
+
+    if (!CollectionUtils.isEqualCollection(oldEmote.getRoles(), newEmote.getRoles())) {
+      api.getEventManager()
+          .handle(new EmoteUpdateRolesEvent(api, responseNumber, newEmote, oldEmote.getRoles()));
+    }
+  }
 }

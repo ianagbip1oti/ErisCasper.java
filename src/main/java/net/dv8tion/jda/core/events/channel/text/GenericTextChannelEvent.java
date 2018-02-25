@@ -22,28 +22,25 @@ import net.dv8tion.jda.core.events.Event;
 
 /**
  * <b><u>GenericTextChannelEvent</u></b><br>
- * Fired whenever a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel} event is fired.<br>
+ * Fired whenever a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel} event is fired.
+ * <br>
  * Every TextChannelEvent is an instance of this event and can be casted. (no exceptions)<br>
  * <br>
  * Use: Detect any TextChannelEvent. <i>(No real use for JDA user)</i>
  */
-public abstract class GenericTextChannelEvent extends Event
-{
-    private final TextChannel channel;
+public abstract class GenericTextChannelEvent extends Event {
+  private final TextChannel channel;
 
-    public GenericTextChannelEvent(JDA api, long responseNumber, TextChannel channel)
-    {
-        super(api, responseNumber);
-        this.channel = channel;
-    }
+  public GenericTextChannelEvent(JDA api, long responseNumber, TextChannel channel) {
+    super(api, responseNumber);
+    this.channel = channel;
+  }
 
-    public TextChannel getChannel()
-    {
-        return channel;
-    }
+  public TextChannel getChannel() {
+    return channel;
+  }
 
-    public Guild getGuild()
-    {
-        return channel.getGuild();
-    }
+  public Guild getGuild() {
+    return channel.getGuild();
+  }
 }

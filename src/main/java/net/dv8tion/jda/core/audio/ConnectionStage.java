@@ -16,7 +16,8 @@
 
 package net.dv8tion.jda.core.audio;
 
-public enum ConnectionStage
-{
-    CONNECT, RECONNECT, DISCONNECT
+public enum ConnectionStage {
+  CONNECT,
+  RECONNECT,
+  DISCONNECT
 }

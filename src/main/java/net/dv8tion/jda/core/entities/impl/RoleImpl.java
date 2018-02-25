@@ -16,6 +16,11 @@
 
 package net.dv8tion.jda.core.entities.impl;
 
+import java.awt.Color;
+import java.time.OffsetDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Channel;
@@ -30,333 +35,275 @@ import net.dv8tion.jda.core.requests.Response;
 import net.dv8tion.jda.core.requests.Route;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.core.requests.restaction.RoleAction;
-import net.dv8tion.jda.core.utils.PermissionUtil;
 import net.dv8tion.jda.core.utils.Checks;
+import net.dv8tion.jda.core.utils.PermissionUtil;
 
-import java.awt.Color;
-import java.time.OffsetDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+public class RoleImpl implements Role {
+  private final long id;
+  private final Guild guild;
 
-public class RoleImpl implements Role
-{
-    private final long id;
-    private final Guild guild;
+  private final Object mngLock = new Object();
+  private volatile RoleManager manager;
+  private volatile RoleManagerUpdatable managerUpdatable;
 
-    private final Object mngLock = new Object();
-    private volatile RoleManager manager;
-    private volatile RoleManagerUpdatable managerUpdatable;
+  private String name;
+  private Color color;
+  private boolean managed;
+  private boolean hoisted;
+  private boolean mentionable;
+  private long rawPermissions;
+  private int rawPosition;
 
-    private String name;
-    private Color color;
-    private boolean managed;
-    private boolean hoisted;
-    private boolean mentionable;
-    private long rawPermissions;
-    private int rawPosition;
+  public RoleImpl(long id, Guild guild) {
+    this.id = id;
+    this.guild = guild;
+  }
 
-    public RoleImpl(long id, Guild guild)
-    {
-        this.id = id;
-        this.guild = guild;
+  @Override
+  public int getPosition() {
+    if (this == guild.getPublicRole()) return -1;
+
+    // Subtract 1 to get into 0-index, and 1 to disregard the everyone role.
+    int i = guild.getRoles().size() - 2;
+    for (Role r : guild.getRoles()) {
+      if (r == this) return i;
+      i--;
     }
+    throw new AssertionError(
+        "Somehow when determining position we never found the role in the Guild's roles? wtf?");
+  }
 
-    @Override
-    public int getPosition()
-    {
-        if (this == guild.getPublicRole())
-            return -1;
+  @Override
+  public int getPositionRaw() {
+    return rawPosition;
+  }
 
-        //Subtract 1 to get into 0-index, and 1 to disregard the everyone role.
-        int i = guild.getRoles().size() - 2;
-        for (Role r : guild.getRoles())
-        {
-            if (r == this)
-                return i;
-            i--;
-        }
-        throw new AssertionError("Somehow when determining position we never found the role in the Guild's roles? wtf?");
+  @Override
+  public String getName() {
+    return name;
+  }
+
+  @Override
+  public boolean isManaged() {
+    return managed;
+  }
+
+  @Override
+  public boolean isHoisted() {
+    return hoisted;
+  }
+
+  @Override
+  public boolean isMentionable() {
+    return mentionable;
+  }
+
+  @Override
+  public long getPermissionsRaw() {
+    return rawPermissions;
+  }
+
+  @Override
+  public List<Permission> getPermissions() {
+    return Collections.unmodifiableList(Permission.getPermissions(rawPermissions));
+  }
+
+  @Override
+  public Color getColor() {
+    return color;
+  }
+
+  @Override
+  public boolean isPublicRole() {
+    return this.equals(this.getGuild().getPublicRole());
+  }
+
+  @Override
+  public boolean hasPermission(Permission... permissions) {
+    long effectivePerms = rawPermissions | guild.getPublicRole().getPermissionsRaw();
+    for (Permission perm : permissions) {
+      final long rawValue = perm.getRawValue();
+      if ((effectivePerms & rawValue) != rawValue) return false;
     }
+    return true;
+  }
 
-    @Override
-    public int getPositionRaw()
-    {
-        return rawPosition;
+  @Override
+  public boolean hasPermission(Collection<Permission> permissions) {
+    Checks.notNull(permissions, "Permission Collection");
+
+    return hasPermission(permissions.toArray(new Permission[permissions.size()]));
+  }
+
+  @Override
+  public boolean hasPermission(Channel channel, Permission... permissions) {
+    long effectivePerms = PermissionUtil.getEffectivePermission(channel, this);
+    for (Permission perm : permissions) {
+      final long rawValue = perm.getRawValue();
+      if ((effectivePerms & rawValue) != rawValue) return false;
     }
+    return true;
+  }
 
-    @Override
-    public String getName()
-    {
-        return name;
+  @Override
+  public boolean hasPermission(Channel channel, Collection<Permission> permissions) {
+    Checks.notNull(permissions, "Permission Collection");
+
+    return hasPermission(channel, permissions.toArray(new Permission[permissions.size()]));
+  }
+
+  @Override
+  public boolean canInteract(Role role) {
+    return PermissionUtil.canInteract(this, role);
+  }
+
+  @Override
+  public Guild getGuild() {
+    return guild;
+  }
+
+  @Override
+  public RoleAction createCopy(Guild guild) {
+    Checks.notNull(guild, "Guild");
+    return guild
+        .getController()
+        .createRole()
+        .setColor(color)
+        .setHoisted(hoisted)
+        .setMentionable(mentionable)
+        .setName(name)
+        .setPermissions(rawPermissions);
+  }
+
+  @Override
+  public RoleManager getManager() {
+    RoleManager mng = manager;
+    if (mng == null) {
+      synchronized (mngLock) {
+        mng = manager;
+        if (mng == null) mng = manager = new RoleManager(this);
+      }
     }
+    return mng;
+  }
 
-    @Override
-    public boolean isManaged()
-    {
-        return managed;
+  @Override
+  public RoleManagerUpdatable getManagerUpdatable() {
+    RoleManagerUpdatable mng = managerUpdatable;
+    if (mng == null) {
+      synchronized (mngLock) {
+        mng = managerUpdatable;
+        if (mng == null) mng = managerUpdatable = new RoleManagerUpdatable(this);
+      }
     }
+    return mng;
+  }
 
-    @Override
-    public boolean isHoisted()
-    {
-        return hoisted;
-    }
+  @Override
+  public AuditableRestAction<Void> delete() {
+    if (!getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES))
+      throw new InsufficientPermissionException(Permission.MANAGE_ROLES);
+    if (!PermissionUtil.canInteract(getGuild().getSelfMember(), this))
+      throw new HierarchyException("Can't delete role >= highest self-role");
+    if (managed) throw new UnsupportedOperationException("Cannot delete a Role that is managed. ");
 
-    @Override
-    public boolean isMentionable()
-    {
-        return mentionable;
-    }
+    Route.CompiledRoute route = Route.Roles.DELETE_ROLE.compile(guild.getId(), getId());
+    return new AuditableRestAction<Void>(getJDA(), route) {
+      @Override
+      protected void handleResponse(Response response, Request<Void> request) {
+        if (response.isOk()) request.onSuccess(null);
+        else request.onFailure(response);
+      }
+    };
+  }
 
-    @Override
-    public long getPermissionsRaw()
-    {
-        return rawPermissions;
-    }
+  @Override
+  public JDA getJDA() {
+    return guild.getJDA();
+  }
 
-    @Override
-    public List<Permission> getPermissions()
-    {
-        return Collections.unmodifiableList(
-                Permission.getPermissions(rawPermissions));
-    }
+  @Override
+  public String getAsMention() {
+    return "<@&" + getId() + '>';
+  }
 
-    @Override
-    public Color getColor()
-    {
-        return color;
-    }
+  @Override
+  public long getIdLong() {
+    return id;
+  }
 
-    @Override
-    public boolean isPublicRole()
-    {
-        return this.equals(this.getGuild().getPublicRole());
-    }
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof Role)) return false;
+    Role oRole = (Role) o;
+    return this == oRole || this.getIdLong() == oRole.getIdLong();
+  }
 
-    @Override
-    public boolean hasPermission(Permission... permissions)
-    {
-        long effectivePerms = rawPermissions | guild.getPublicRole().getPermissionsRaw();
-        for (Permission perm : permissions)
-        {
-            final long rawValue = perm.getRawValue();
-            if ((effectivePerms & rawValue) != rawValue)
-                return false;
-        }
-        return true;
-    }
+  @Override
+  public int hashCode() {
+    return Long.hashCode(id);
+  }
 
-    @Override
-    public boolean hasPermission(Collection<Permission> permissions)
-    {
-        Checks.notNull(permissions, "Permission Collection");
+  @Override
+  public String toString() {
+    return "R:" + getName() + '(' + id + ')';
+  }
 
-        return hasPermission(permissions.toArray(new Permission[permissions.size()]));
-    }
+  @Override
+  public int compareTo(Role r) {
+    if (this == r) return 0;
 
-    @Override
-    public boolean hasPermission(Channel channel, Permission... permissions)
-    {
-        long effectivePerms = PermissionUtil.getEffectivePermission(channel, this);
-        for (Permission perm : permissions)
-        {
-            final long rawValue = perm.getRawValue();
-            if ((effectivePerms & rawValue) != rawValue)
-                return false;
-        }
-        return true;
-    }
+    if (!this.getGuild().equals(r.getGuild()))
+      throw new IllegalArgumentException("Cannot compare roles that aren't from the same guild!");
 
-    @Override
-    public boolean hasPermission(Channel channel, Collection<Permission> permissions)
-    {
-        Checks.notNull(permissions, "Permission Collection");
+    if (this.getPositionRaw() != r.getPositionRaw())
+      return this.getPositionRaw() - r.getPositionRaw();
 
-        return hasPermission(channel, permissions.toArray(new Permission[permissions.size()]));
-    }
+    OffsetDateTime thisTime = this.getCreationTime();
+    OffsetDateTime rTime = r.getCreationTime();
 
-    @Override
-    public boolean canInteract(Role role)
-    {
-        return PermissionUtil.canInteract(this, role);
-    }
+    // We compare the provided role's time to this's time instead of the reverse as one would expect
+    // due to how
+    // discord deals with hierarchy. The more recent a role was created, the lower its hierarchy
+    // ranking when
+    // it shares the same position as another role.
+    return rTime.compareTo(thisTime);
+  }
 
-    @Override
-    public Guild getGuild()
-    {
-        return guild;
-    }
+  // -- Setters --
 
-    @Override
-    public RoleAction createCopy(Guild guild)
-    {
-        Checks.notNull(guild, "Guild");
-        return guild.getController().createRole()
-                    .setColor(color)
-                    .setHoisted(hoisted)
-                    .setMentionable(mentionable)
-                    .setName(name)
-                    .setPermissions(rawPermissions);
-    }
+  public RoleImpl setName(String name) {
+    this.name = name;
+    return this;
+  }
 
-    @Override
-    public RoleManager getManager()
-    {
-        RoleManager mng = manager;
-        if (mng == null)
-        {
-            synchronized (mngLock)
-            {
-                mng = manager;
-                if (mng == null)
-                    mng = manager = new RoleManager(this);
-            }
-        }
-        return mng;
-    }
+  public RoleImpl setColor(Color color) {
+    this.color = color;
+    return this;
+  }
 
-    @Override
-    public RoleManagerUpdatable getManagerUpdatable()
-    {
-        RoleManagerUpdatable mng = managerUpdatable;
-        if (mng == null)
-        {
-            synchronized (mngLock)
-            {
-                mng = managerUpdatable;
-                if (mng == null)
-                    mng = managerUpdatable = new RoleManagerUpdatable(this);
-            }
-        }
-        return mng;
-    }
+  public RoleImpl setManaged(boolean managed) {
+    this.managed = managed;
+    return this;
+  }
 
-    @Override
-    public AuditableRestAction<Void> delete()
-    {
-        if (!getGuild().getSelfMember().hasPermission(Permission.MANAGE_ROLES))
-            throw new InsufficientPermissionException(Permission.MANAGE_ROLES);
-        if(!PermissionUtil.canInteract(getGuild().getSelfMember(), this))
-            throw new HierarchyException("Can't delete role >= highest self-role");
-        if (managed)
-            throw new UnsupportedOperationException("Cannot delete a Role that is managed. ");
+  public RoleImpl setHoisted(boolean hoisted) {
+    this.hoisted = hoisted;
+    return this;
+  }
 
-        Route.CompiledRoute route = Route.Roles.DELETE_ROLE.compile(guild.getId(), getId());
-        return new AuditableRestAction<Void>(getJDA(), route)
-        {
-            @Override
-            protected void handleResponse(Response response, Request<Void> request)
-            {
-                if (response.isOk())
-                    request.onSuccess(null);
-                else
-                    request.onFailure(response);
-            }
-        };
-    }
+  public RoleImpl setMentionable(boolean mentionable) {
+    this.mentionable = mentionable;
+    return this;
+  }
 
-    @Override
-    public JDA getJDA()
-    {
-        return guild.getJDA();
-    }
+  public RoleImpl setRawPermissions(long rawPermissions) {
+    this.rawPermissions = rawPermissions;
+    return this;
+  }
 
-    @Override
-    public String getAsMention()
-    {
-        return "<@&" + getId() + '>';
-    }
-
-    @Override
-    public long getIdLong()
-    {
-        return id;
-    }
-
-    @Override
-    public boolean equals(Object o)
-    {
-        if (!(o instanceof Role))
-            return false;
-        Role oRole = (Role) o;
-        return this == oRole || this.getIdLong() == oRole.getIdLong();
-    }
-
-    @Override
-    public int hashCode()
-    {
-        return Long.hashCode(id);
-    }
-
-    @Override
-    public String toString()
-    {
-        return "R:" + getName() + '(' + id + ')';
-    }
-
-    @Override
-    public int compareTo(Role r)
-    {
-        if (this == r)
-            return 0;
-
-        if (!this.getGuild().equals(r.getGuild()))
-            throw new IllegalArgumentException("Cannot compare roles that aren't from the same guild!");
-
-        if (this.getPositionRaw() != r.getPositionRaw())
-            return this.getPositionRaw() - r.getPositionRaw();
-
-        OffsetDateTime thisTime = this.getCreationTime();
-        OffsetDateTime rTime = r.getCreationTime();
-
-        //We compare the provided role's time to this's time instead of the reverse as one would expect due to how
-        // discord deals with hierarchy. The more recent a role was created, the lower its hierarchy ranking when
-        // it shares the same position as another role.
-        return rTime.compareTo(thisTime);
-    }
-
-    // -- Setters --
-
-    public RoleImpl setName(String name)
-    {
-        this.name = name;
-        return this;
-    }
-
-    public RoleImpl setColor(Color color)
-    {
-        this.color = color;
-        return this;
-    }
-
-    public RoleImpl setManaged(boolean managed)
-    {
-        this.managed = managed;
-        return this;
-    }
-
-    public RoleImpl setHoisted(boolean hoisted)
-    {
-        this.hoisted = hoisted;
-        return this;
-    }
-
-    public RoleImpl setMentionable(boolean mentionable)
-    {
-        this.mentionable = mentionable;
-        return this;
-    }
-
-    public RoleImpl setRawPermissions(long rawPermissions)
-    {
-        this.rawPermissions = rawPermissions;
-        return this;
-    }
-
-    public RoleImpl setRawPosition(int rawPosition)
-    {
-        this.rawPosition = rawPosition;
-        return this;
-    }
+  public RoleImpl setRawPosition(int rawPosition) {
+    this.rawPosition = rawPosition;
+    return this;
+  }
 }

@@ -21,15 +21,14 @@ import net.dv8tion.jda.core.entities.Member;
 
 /**
  * <b><u>GuildMemberLeaveEvent</u></b><br>
- * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} leaves a {@link net.dv8tion.jda.core.entities.Guild Guild}.<br>
+ * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} leaves a {@link
+ * net.dv8tion.jda.core.entities.Guild Guild}.<br>
  * <br>
  * Use: Retrieve member who left (if available) and triggering guild.
  */
-public class GuildMemberLeaveEvent extends GenericGuildMemberEvent
-{
+public class GuildMemberLeaveEvent extends GenericGuildMemberEvent {
 
-    public GuildMemberLeaveEvent(JDA api, long responseNumber, Guild guild, Member member)
-    {
-        super(api, responseNumber, guild, member);
-    }
+  public GuildMemberLeaveEvent(JDA api, long responseNumber, Guild guild, Member member) {
+    super(api, responseNumber, guild, member);
+  }
 }

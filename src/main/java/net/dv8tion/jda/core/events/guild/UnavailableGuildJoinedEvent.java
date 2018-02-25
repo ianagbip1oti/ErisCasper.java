@@ -21,27 +21,24 @@ import net.dv8tion.jda.core.events.Event;
 
 /**
  * <b><u>UnavailableGuildJoinedEvent</u></b><br>
- * Fired if you joined a {@link net.dv8tion.jda.core.entities.Guild Guild} that is not yet available.<br>
+ * Fired if you joined a {@link net.dv8tion.jda.core.entities.Guild Guild} that is not yet
+ * available.<br>
  * <br>
  * Use: Retrieve id of unavailable Guild.
  */
-public class UnavailableGuildJoinedEvent extends Event
-{
-    private final long guildId;
+public class UnavailableGuildJoinedEvent extends Event {
+  private final long guildId;
 
-    public UnavailableGuildJoinedEvent(JDA api, long responseNumber, long guildId)
-    {
-        super(api, responseNumber);
-        this.guildId = guildId;
-    }
+  public UnavailableGuildJoinedEvent(JDA api, long responseNumber, long guildId) {
+    super(api, responseNumber);
+    this.guildId = guildId;
+  }
 
-    public String getGuildId()
-    {
-        return Long.toUnsignedString(guildId);
-    }
+  public String getGuildId() {
+    return Long.toUnsignedString(guildId);
+  }
 
-    public long getGuildIdLong()
-    {
-        return guildId;
-    }
+  public long getGuildIdLong() {
+    return guildId;
+  }
 }

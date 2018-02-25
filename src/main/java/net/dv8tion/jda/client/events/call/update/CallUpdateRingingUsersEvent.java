@@ -16,32 +16,32 @@
 
 package net.dv8tion.jda.client.events.call.update;
 
+import java.util.Collections;
+import java.util.List;
 import net.dv8tion.jda.client.entities.Call;
 import net.dv8tion.jda.client.entities.CallUser;
 import net.dv8tion.jda.core.JDA;
 
-import java.util.Collections;
-import java.util.List;
+public class CallUpdateRingingUsersEvent extends GenericCallUpdateEvent {
+  protected final List<CallUser> usersStoppedRinging;
+  protected final List<CallUser> usersStartedRinging;
 
-public class CallUpdateRingingUsersEvent extends GenericCallUpdateEvent
-{
-    protected final List<CallUser> usersStoppedRinging;
-    protected final List<CallUser> usersStartedRinging;
+  public CallUpdateRingingUsersEvent(
+      JDA api,
+      long responseNumber,
+      Call call,
+      List<CallUser> usersStoppedRinging,
+      List<CallUser> usersStartedRinging) {
+    super(api, responseNumber, call);
+    this.usersStoppedRinging = Collections.unmodifiableList(usersStoppedRinging);
+    this.usersStartedRinging = Collections.unmodifiableList(usersStartedRinging);
+  }
 
-    public CallUpdateRingingUsersEvent(JDA api, long responseNumber, Call call, List<CallUser> usersStoppedRinging, List<CallUser> usersStartedRinging)
-    {
-        super(api, responseNumber, call);
-        this.usersStoppedRinging = Collections.unmodifiableList(usersStoppedRinging);
-        this.usersStartedRinging = Collections.unmodifiableList(usersStartedRinging);
-    }
+  public List<CallUser> getUsersStoppedRinging() {
+    return usersStoppedRinging;
+  }
 
-    public List<CallUser> getUsersStoppedRinging()
-    {
-        return usersStoppedRinging;
-    }
-
-    public List<CallUser> getUsersStartedRinging()
-    {
-        return usersStartedRinging;
-    }
+  public List<CallUser> getUsersStartedRinging() {
+    return usersStartedRinging;
+  }
 }

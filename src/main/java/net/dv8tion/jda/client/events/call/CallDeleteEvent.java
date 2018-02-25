@@ -19,10 +19,8 @@ package net.dv8tion.jda.client.events.call;
 import net.dv8tion.jda.client.entities.Call;
 import net.dv8tion.jda.core.JDA;
 
-public class CallDeleteEvent extends GenericCallEvent
-{
-    public CallDeleteEvent(JDA api, long responseNumber, Call call)
-    {
-        super(api, responseNumber, call);
-    }
+public class CallDeleteEvent extends GenericCallEvent {
+  public CallDeleteEvent(JDA api, long responseNumber, Call call) {
+    super(api, responseNumber, call);
+  }
 }

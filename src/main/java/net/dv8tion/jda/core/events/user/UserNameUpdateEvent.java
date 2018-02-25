@@ -20,29 +20,27 @@ import net.dv8tion.jda.core.entities.User;
 
 /**
  * <b><u>UserNameUpdateEvent</u></b><br>
- * Fired if the username of a {@link net.dv8tion.jda.core.entities.User User} changes. (Not Nickname)<br>
+ * Fired if the username of a {@link net.dv8tion.jda.core.entities.User User} changes. (Not
+ * Nickname)<br>
  * <br>
  * Use: Retrieve the User who's username changed and their previous username.
  */
-public class UserNameUpdateEvent extends GenericUserEvent
-{
-    private final String oldName;
-    private final String oldDiscriminator;
+public class UserNameUpdateEvent extends GenericUserEvent {
+  private final String oldName;
+  private final String oldDiscriminator;
 
-    public UserNameUpdateEvent(JDA api, long responseNumber, User user, String oldName, String oldDiscriminator)
-    {
-        super(api, responseNumber, user);
-        this.oldName = oldName;
-        this.oldDiscriminator = oldDiscriminator;
-    }
+  public UserNameUpdateEvent(
+      JDA api, long responseNumber, User user, String oldName, String oldDiscriminator) {
+    super(api, responseNumber, user);
+    this.oldName = oldName;
+    this.oldDiscriminator = oldDiscriminator;
+  }
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public String getOldName() {
+    return oldName;
+  }
 
-    public String getOldDiscriminator()
-    {
-        return oldDiscriminator;
-    }
+  public String getOldDiscriminator() {
+    return oldDiscriminator;
+  }
 }

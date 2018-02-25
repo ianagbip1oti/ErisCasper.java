@@ -20,18 +20,16 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Category;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-public class TextChannelUpdateParentEvent extends GenericTextChannelUpdateEvent
-{
-    protected final Category oldParent;
+public class TextChannelUpdateParentEvent extends GenericTextChannelUpdateEvent {
+  protected final Category oldParent;
 
-    public TextChannelUpdateParentEvent(JDA api, long responseNumber, TextChannel channel, Category oldParent)
-    {
-        super(api, responseNumber, channel);
-        this.oldParent = oldParent;
-    }
+  public TextChannelUpdateParentEvent(
+      JDA api, long responseNumber, TextChannel channel, Category oldParent) {
+    super(api, responseNumber, channel);
+    this.oldParent = oldParent;
+  }
 
-    public Category getOldParent()
-    {
-        return oldParent;
-    }
+  public Category getOldParent() {
+    return oldParent;
+  }
 }

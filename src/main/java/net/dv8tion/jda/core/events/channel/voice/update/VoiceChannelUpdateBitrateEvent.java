@@ -24,18 +24,16 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel, affected Guild and previous bitrate.
  */
-public class VoiceChannelUpdateBitrateEvent extends GenericVoiceChannelUpdateEvent
-{
-    protected final int oldBitrate;
+public class VoiceChannelUpdateBitrateEvent extends GenericVoiceChannelUpdateEvent {
+  protected final int oldBitrate;
 
-    public VoiceChannelUpdateBitrateEvent(JDA api, long responseNumber, VoiceChannel channel, int oldBitrate)
-    {
-        super(api, responseNumber, channel);
-        this.oldBitrate = oldBitrate;
-    }
+  public VoiceChannelUpdateBitrateEvent(
+      JDA api, long responseNumber, VoiceChannel channel, int oldBitrate) {
+    super(api, responseNumber, channel);
+    this.oldBitrate = oldBitrate;
+  }
 
-    public int getOldBitrate()
-    {
-        return oldBitrate;
-    }
+  public int getOldBitrate() {
+    return oldBitrate;
+  }
 }

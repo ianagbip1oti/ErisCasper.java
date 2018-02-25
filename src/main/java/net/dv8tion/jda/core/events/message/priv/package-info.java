@@ -15,7 +15,7 @@
  */
 
 /**
- * Events for {@link net.dv8tion.jda.core.entities.Message Messages}
- * in {@link net.dv8tion.jda.core.entities.PrivateChannel PrivateChannels}
+ * Events for {@link net.dv8tion.jda.core.entities.Message Messages} in {@link
+ * net.dv8tion.jda.core.entities.PrivateChannel PrivateChannels}
  */
 package net.dv8tion.jda.core.events.message.priv;

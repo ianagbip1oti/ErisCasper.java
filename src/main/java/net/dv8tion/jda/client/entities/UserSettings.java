@@ -16,33 +16,42 @@
 
 package net.dv8tion.jda.client.entities;
 
+import java.util.List;
+import java.util.Locale;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Guild;
 
-import java.util.List;
-import java.util.Locale;
+public interface UserSettings {
 
-public interface UserSettings
-{
+  JDA getJDA();
 
-    JDA getJDA();
+  OnlineStatus getStatus();
 
-    OnlineStatus getStatus();
-    Locale getLocale();
-    //getTheme() : ?
+  Locale getLocale();
+  // getTheme() : ?
 
-    List<Guild> getGuildPositions();
-    List<Guild> getRestrictedGuilds();
+  List<Guild> getGuildPositions();
 
-    boolean isAllowEmailFriendRequest();
-    boolean isConvertEmoticons();
-    boolean isDetectPlatformAccounts();
-    boolean isDeveloperMode();
-    boolean isEnableTTS();
-    boolean isShowCurrentGame();
-    boolean isRenderEmbeds();
-    boolean isMessageDisplayCompact();
-    boolean isInlineEmbedMedia();
-    boolean isInlineAttachmentMedia();
+  List<Guild> getRestrictedGuilds();
+
+  boolean isAllowEmailFriendRequest();
+
+  boolean isConvertEmoticons();
+
+  boolean isDetectPlatformAccounts();
+
+  boolean isDeveloperMode();
+
+  boolean isEnableTTS();
+
+  boolean isShowCurrentGame();
+
+  boolean isRenderEmbeds();
+
+  boolean isMessageDisplayCompact();
+
+  boolean isInlineEmbedMedia();
+
+  boolean isInlineAttachmentMedia();
 }

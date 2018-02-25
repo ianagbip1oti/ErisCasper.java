@@ -17,26 +17,27 @@
 package net.dv8tion.jda.core.audit;
 
 /**
- * TargetType for an {@link net.dv8tion.jda.core.audit.ActionType ActionType}
- * <br>This describes what kind of Discord entity is being targeted by an auditable action!
+ * TargetType for an {@link net.dv8tion.jda.core.audit.ActionType ActionType} <br>
+ * This describes what kind of Discord entity is being targeted by an auditable action!
  *
- * <p>This can be found via {@link net.dv8tion.jda.core.audit.ActionType#getTargetType() ActionType.getTargetType()}
- * or {@link net.dv8tion.jda.core.audit.AuditLogEntry#getTargetType() AuditLogEntry.getTargetType()}.
- * <br>This helps to decide what entity type the target id of an AuditLogEntry refers to.
+ * <p>This can be found via {@link net.dv8tion.jda.core.audit.ActionType#getTargetType()
+ * ActionType.getTargetType()} or {@link net.dv8tion.jda.core.audit.AuditLogEntry#getTargetType()
+ * AuditLogEntry.getTargetType()}. <br>
+ * This helps to decide what entity type the target id of an AuditLogEntry refers to.
  *
  * <h2>Example</h2>
- * If {@code entry.getTargetType()} is type {@link #GUILD}
- * <br>Then the target id returned by {@code entry.getTargetId()} and {@code entry.getTargetIdLong()}
+ *
+ * If {@code entry.getTargetType()} is type {@link #GUILD} <br>
+ * Then the target id returned by {@code entry.getTargetId()} and {@code entry.getTargetIdLong()}
  * can be used with {@link net.dv8tion.jda.core.JDA#getGuildById(long) JDA.getGuildById(id)}
  */
-public enum TargetType
-{
-    GUILD,
-    CHANNEL,
-    ROLE,
-    MEMBER,
-    INVITE,
-    WEBHOOK,
-    EMOTE,
-    UNKNOWN
+public enum TargetType {
+  GUILD,
+  CHANNEL,
+  ROLE,
+  MEMBER,
+  INVITE,
+  WEBHOOK,
+  EMOTE,
+  UNKNOWN
 }

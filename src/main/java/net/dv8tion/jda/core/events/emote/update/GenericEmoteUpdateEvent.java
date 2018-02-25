@@ -20,10 +20,8 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.events.emote.GenericEmoteEvent;
 
-public class GenericEmoteUpdateEvent extends GenericEmoteEvent
-{
-    public GenericEmoteUpdateEvent(JDA api, long responseNumber, Emote emote)
-    {
-        super(api, responseNumber, emote);
-    }
+public class GenericEmoteUpdateEvent extends GenericEmoteEvent {
+  public GenericEmoteUpdateEvent(JDA api, long responseNumber, Emote emote) {
+    super(api, responseNumber, emote);
+  }
 }

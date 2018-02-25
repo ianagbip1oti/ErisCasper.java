@@ -21,14 +21,13 @@ import net.dv8tion.jda.core.entities.Category;
 
 /**
  * <b><u>CategoryCreateEvent</u></b>
+ *
  * <p>Fired when a {@link net.dv8tion.jda.core.entities.Category Category} is created.
  *
  * <p>Use: Retrieve the newly created Category
  */
-public class CategoryCreateEvent extends GenericCategoryEvent
-{
-    public CategoryCreateEvent(JDA api, long responseNumber, Category category)
-    {
-        super(api, responseNumber, category);
-    }
+public class CategoryCreateEvent extends GenericCategoryEvent {
+  public CategoryCreateEvent(JDA api, long responseNumber, Category category) {
+    super(api, responseNumber, category);
+  }
 }

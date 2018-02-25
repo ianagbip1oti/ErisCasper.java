@@ -22,28 +22,26 @@ import net.dv8tion.jda.core.entities.Member;
 
 /**
  * <b><u>GuildMemberNickChangeEvent</u></b><br>
- * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} updates their {@link net.dv8tion.jda.core.entities.Guild Guild} nickname.<br>
+ * Fired if a {@link net.dv8tion.jda.core.entities.Member Member} updates their {@link
+ * net.dv8tion.jda.core.entities.Guild Guild} nickname.<br>
  * <br>
  * Use: Retrieve member who changed their nickname, triggering guild, the old nick and the new nick.
  */
-public class GuildMemberNickChangeEvent extends GenericGuildMemberEvent
-{
-    private final String prevNick, newNick;
+public class GuildMemberNickChangeEvent extends GenericGuildMemberEvent {
+  private final String prevNick, newNick;
 
-    public GuildMemberNickChangeEvent(JDA api, long responseNumber, Guild guild, Member member, String prevNick, String newNick)
-    {
-        super(api, responseNumber, guild, member);
-        this.prevNick = prevNick;
-        this.newNick = newNick;
-    }
+  public GuildMemberNickChangeEvent(
+      JDA api, long responseNumber, Guild guild, Member member, String prevNick, String newNick) {
+    super(api, responseNumber, guild, member);
+    this.prevNick = prevNick;
+    this.newNick = newNick;
+  }
 
-    public String getPrevNick()
-    {
-        return prevNick;
-    }
+  public String getPrevNick() {
+    return prevNick;
+  }
 
-    public String getNewNick()
-    {
-        return newNick;
-    }
+  public String getNewNick() {
+    return newNick;
+  }
 }

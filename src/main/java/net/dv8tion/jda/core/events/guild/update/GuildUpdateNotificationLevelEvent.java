@@ -19,18 +19,16 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateNotificationLevelEvent extends GenericGuildUpdateEvent
-{
-    private final Guild.NotificationLevel oldNotificationLevel;
+public class GuildUpdateNotificationLevelEvent extends GenericGuildUpdateEvent {
+  private final Guild.NotificationLevel oldNotificationLevel;
 
-    public GuildUpdateNotificationLevelEvent(JDA api, long responseNumber, Guild guild, Guild.NotificationLevel oldNotificationLevel)
-    {
-        super(api, responseNumber, guild);
-        this.oldNotificationLevel = oldNotificationLevel;
-    }
+  public GuildUpdateNotificationLevelEvent(
+      JDA api, long responseNumber, Guild guild, Guild.NotificationLevel oldNotificationLevel) {
+    super(api, responseNumber, guild);
+    this.oldNotificationLevel = oldNotificationLevel;
+  }
 
-    public Guild.NotificationLevel getOldNotificationLevel()
-    {
-        return oldNotificationLevel;
-    }
+  public Guild.NotificationLevel getOldNotificationLevel() {
+    return oldNotificationLevel;
+  }
 }

@@ -22,13 +22,12 @@ import net.dv8tion.jda.core.events.channel.category.GenericCategoryEvent;
 
 /**
  * <b><u>GenericCategoryUpdateEvent</u></b>
- * <p>Fired for all {@link net.dv8tion.jda.core.entities.Category Category} update events.
- * <br>Every category update event is a subclass of this event and can be casted (no exceptions)
+ *
+ * <p>Fired for all {@link net.dv8tion.jda.core.entities.Category Category} update events. <br>
+ * Every category update event is a subclass of this event and can be casted (no exceptions)
  */
-public abstract class GenericCategoryUpdateEvent extends GenericCategoryEvent
-{
-    public GenericCategoryUpdateEvent(JDA api, long responseNumber, Category category)
-    {
-        super(api, responseNumber, category);
-    }
+public abstract class GenericCategoryUpdateEvent extends GenericCategoryEvent {
+  public GenericCategoryUpdateEvent(JDA api, long responseNumber, Category category) {
+    super(api, responseNumber, category);
+  }
 }

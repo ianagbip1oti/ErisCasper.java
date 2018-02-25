@@ -18,18 +18,15 @@ package net.dv8tion.jda.core.events.self;
 
 import net.dv8tion.jda.core.JDA;
 
-public class SelfUpdateMFAEvent extends GenericSelfUpdateEvent
-{
-    private final boolean wasMfaEnabled;
+public class SelfUpdateMFAEvent extends GenericSelfUpdateEvent {
+  private final boolean wasMfaEnabled;
 
-    public SelfUpdateMFAEvent(JDA api, long responseNumber, boolean wasMfaEnabled)
-    {
-        super(api, responseNumber);
-        this.wasMfaEnabled = wasMfaEnabled;
-    }
+  public SelfUpdateMFAEvent(JDA api, long responseNumber, boolean wasMfaEnabled) {
+    super(api, responseNumber);
+    this.wasMfaEnabled = wasMfaEnabled;
+  }
 
-    public boolean wasMfaEnabled()
-    {
-        return wasMfaEnabled;
-    }
+  public boolean wasMfaEnabled() {
+    return wasMfaEnabled;
+  }
 }

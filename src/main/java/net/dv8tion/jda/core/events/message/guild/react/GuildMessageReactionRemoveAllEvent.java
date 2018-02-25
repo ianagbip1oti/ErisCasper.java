@@ -20,10 +20,9 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.message.guild.GenericGuildMessageEvent;
 
-public class GuildMessageReactionRemoveAllEvent extends GenericGuildMessageEvent
-{
-    public GuildMessageReactionRemoveAllEvent(JDA api, long responseNumber, long messageId, TextChannel channel)
-    {
-        super(api, responseNumber, messageId, channel);
-    }
+public class GuildMessageReactionRemoveAllEvent extends GenericGuildMessageEvent {
+  public GuildMessageReactionRemoveAllEvent(
+      JDA api, long responseNumber, long messageId, TextChannel channel) {
+    super(api, responseNumber, messageId, channel);
+  }
 }

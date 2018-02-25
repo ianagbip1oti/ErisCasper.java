@@ -15,8 +15,9 @@
  */
 
 /**
- * Specific events indicating that a {@link net.dv8tion.jda.core.entities.PrivateChannel PrivateChannel}
- * was either {@link net.dv8tion.jda.core.events.channel.priv.PrivateChannelCreateEvent created}
- * or {@link net.dv8tion.jda.core.events.channel.priv.PrivateChannelDeleteEvent closed}
+ * Specific events indicating that a {@link net.dv8tion.jda.core.entities.PrivateChannel
+ * PrivateChannel} was either {@link
+ * net.dv8tion.jda.core.events.channel.priv.PrivateChannelCreateEvent created} or {@link
+ * net.dv8tion.jda.core.events.channel.priv.PrivateChannelDeleteEvent closed}
  */
 package net.dv8tion.jda.core.events.channel.priv;

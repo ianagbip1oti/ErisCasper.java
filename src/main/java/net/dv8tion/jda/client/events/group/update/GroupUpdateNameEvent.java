@@ -19,18 +19,15 @@ package net.dv8tion.jda.client.events.group.update;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 
-public class GroupUpdateNameEvent extends GenericGroupUpdateEvent
-{
-    protected final String oldName;
+public class GroupUpdateNameEvent extends GenericGroupUpdateEvent {
+  protected final String oldName;
 
-    public GroupUpdateNameEvent(JDA api, long responseNumber, Group group, String oldName)
-    {
-        super(api, responseNumber, group);
-        this.oldName = oldName;
-    }
+  public GroupUpdateNameEvent(JDA api, long responseNumber, Group group, String oldName) {
+    super(api, responseNumber, group);
+    this.oldName = oldName;
+  }
 
-    public String getOldName()
-    {
-        return oldName;
-    }
+  public String getOldName() {
+    return oldName;
+  }
 }

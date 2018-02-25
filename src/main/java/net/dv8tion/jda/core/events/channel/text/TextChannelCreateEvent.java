@@ -24,10 +24,8 @@ import net.dv8tion.jda.core.entities.TextChannel;
  * <br>
  * Use: Detect new TextChannel creation.
  */
-public class TextChannelCreateEvent extends GenericTextChannelEvent
-{
-    public TextChannelCreateEvent(JDA api, long responseNumber, TextChannel channel)
-    {
-        super(api, responseNumber, channel);
-    }
+public class TextChannelCreateEvent extends GenericTextChannelEvent {
+  public TextChannelCreateEvent(JDA api, long responseNumber, TextChannel channel) {
+    super(api, responseNumber, channel);
+  }
 }

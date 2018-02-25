@@ -24,12 +24,10 @@ import net.dv8tion.jda.core.entities.TextChannel;
  * <br>
  * Use: Retrieve affected TextChannel and the id of the deleted Message.
  */
-public class GuildMessageDeleteEvent extends GenericGuildMessageEvent
-{
+public class GuildMessageDeleteEvent extends GenericGuildMessageEvent {
 
-    public GuildMessageDeleteEvent(JDA api, long responseNumber, long messageId, TextChannel channel)
-    {
-        super(api, responseNumber, messageId, channel);
-    }
-
+  public GuildMessageDeleteEvent(
+      JDA api, long responseNumber, long messageId, TextChannel channel) {
+    super(api, responseNumber, messageId, channel);
+  }
 }

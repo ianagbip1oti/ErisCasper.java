@@ -15,6 +15,7 @@
  */
 package net.dv8tion.jda.core.handle;
 
+import java.util.*;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.impl.GuildImpl;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
@@ -25,126 +26,113 @@ import net.dv8tion.jda.core.events.guild.member.GuildMemberRoleRemoveEvent;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.*;
+public class GuildMemberUpdateHandler extends SocketHandler {
 
-public class GuildMemberUpdateHandler extends SocketHandler
-{
+  public GuildMemberUpdateHandler(JDAImpl api) {
+    super(api);
+  }
 
-    public GuildMemberUpdateHandler(JDAImpl api)
-    {
-        super(api);
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long id = content.getLong("guild_id");
+    if (api.getGuildLock().isLocked(id)) return id;
+
+    JSONObject userJson = content.getJSONObject("user");
+    final long userId = userJson.getLong("id");
+    GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
+    if (guild == null) {
+      api.getEventCache()
+          .cache(
+              EventCache.Type.GUILD,
+              userId,
+              () -> {
+                handle(responseNumber, allContent);
+              });
+      EventCache.LOG.debug(
+          "Got GuildMember update but JDA currently does not have the Guild cached. {}", content);
+      return null;
     }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long id = content.getLong("guild_id");
-        if (api.getGuildLock().isLocked(id))
-            return id;
-
-        JSONObject userJson = content.getJSONObject("user");
-        final long userId = userJson.getLong("id");
-        GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
-        if (guild == null)
-        {
-            api.getEventCache().cache(EventCache.Type.GUILD, userId, () ->
-            {
+    MemberImpl member = (MemberImpl) guild.getMembersMap().get(userId);
+    if (member == null) {
+      api.getEventCache()
+          .cache(
+              EventCache.Type.USER,
+              userId,
+              () -> {
                 handle(responseNumber, allContent);
-            });
-            EventCache.LOG.debug("Got GuildMember update but JDA currently does not have the Guild cached. {}", content);
-            return null;
-        }
-
-        MemberImpl member = (MemberImpl) guild.getMembersMap().get(userId);
-        if (member == null)
-        {
-            api.getEventCache().cache(EventCache.Type.USER, userId, () ->
-            {
-                handle(responseNumber, allContent);
-            });
-            EventCache.LOG.debug("Got GuildMember update but Member is not currently present in Guild. {}", content);
-            return null;
-        }
-
-        Set<Role> currentRoles = member.getRoleSet();
-        List<Role> newRoles = toRolesList(guild, content.getJSONArray("roles"));
-
-        //If newRoles is null that means that we didn't find a role that was in the array and was cached this event
-        if (newRoles == null)
-            return null;
-
-        //Find the roles removed.
-        List<Role> removedRoles = new LinkedList<>();
-        each: for (Role role : currentRoles)
-        {
-            for (Iterator<Role> it = newRoles.iterator(); it.hasNext();)
-            {
-                Role r = it.next();
-                if (role.equals(r))
-                {
-                    it.remove();
-                    continue each;
-                }
-            }
-            removedRoles.add(role);
-        }
-
-        if (removedRoles.size() > 0)
-            currentRoles.removeAll(removedRoles);
-        if (newRoles.size() > 0)
-            currentRoles.addAll(newRoles);
-
-        if (removedRoles.size() > 0)
-        {
-            api.getEventManager().handle(
-                    new GuildMemberRoleRemoveEvent(
-                            api, responseNumber,
-                            guild, member, removedRoles));
-        }
-        if (newRoles.size() > 0)
-        {
-            api.getEventManager().handle(
-                    new GuildMemberRoleAddEvent(
-                            api, responseNumber,
-                            guild, member, newRoles));
-        }
-        if (content.has("nick"))
-        {
-            String prevNick = member.getNickname();
-            String newNick = content.optString("nick", null);
-            if (!Objects.equals(prevNick, newNick))
-            {
-                member.setNickname(newNick);
-                api.getEventManager().handle(
-                        new GuildMemberNickChangeEvent(
-                                api, responseNumber,
-                                guild, member, prevNick, newNick));
-            }
-        }
-        return null;
+              });
+      EventCache.LOG.debug(
+          "Got GuildMember update but Member is not currently present in Guild. {}", content);
+      return null;
     }
 
-    private List<Role> toRolesList(GuildImpl guild, JSONArray array)
-    {
-        LinkedList<Role> roles = new LinkedList<>();
-        for(int i = 0; i < array.length(); i++)
-        {
-            final long id = array.getLong(i);
-            Role r = guild.getRolesMap().get(id);
-            if (r != null)
-            {
-                roles.add(r);
-            }
-            else
-            {
-                api.getEventCache().cache(EventCache.Type.ROLE, id, () ->
-                {
-                    handle(responseNumber, allContent);
+    Set<Role> currentRoles = member.getRoleSet();
+    List<Role> newRoles = toRolesList(guild, content.getJSONArray("roles"));
+
+    // If newRoles is null that means that we didn't find a role that was in the array and was
+    // cached this event
+    if (newRoles == null) return null;
+
+    // Find the roles removed.
+    List<Role> removedRoles = new LinkedList<>();
+    each:
+    for (Role role : currentRoles) {
+      for (Iterator<Role> it = newRoles.iterator(); it.hasNext(); ) {
+        Role r = it.next();
+        if (role.equals(r)) {
+          it.remove();
+          continue each;
+        }
+      }
+      removedRoles.add(role);
+    }
+
+    if (removedRoles.size() > 0) currentRoles.removeAll(removedRoles);
+    if (newRoles.size() > 0) currentRoles.addAll(newRoles);
+
+    if (removedRoles.size() > 0) {
+      api.getEventManager()
+          .handle(new GuildMemberRoleRemoveEvent(api, responseNumber, guild, member, removedRoles));
+    }
+    if (newRoles.size() > 0) {
+      api.getEventManager()
+          .handle(new GuildMemberRoleAddEvent(api, responseNumber, guild, member, newRoles));
+    }
+    if (content.has("nick")) {
+      String prevNick = member.getNickname();
+      String newNick = content.optString("nick", null);
+      if (!Objects.equals(prevNick, newNick)) {
+        member.setNickname(newNick);
+        api.getEventManager()
+            .handle(
+                new GuildMemberNickChangeEvent(
+                    api, responseNumber, guild, member, prevNick, newNick));
+      }
+    }
+    return null;
+  }
+
+  private List<Role> toRolesList(GuildImpl guild, JSONArray array) {
+    LinkedList<Role> roles = new LinkedList<>();
+    for (int i = 0; i < array.length(); i++) {
+      final long id = array.getLong(i);
+      Role r = guild.getRolesMap().get(id);
+      if (r != null) {
+        roles.add(r);
+      } else {
+        api.getEventCache()
+            .cache(
+                EventCache.Type.ROLE,
+                id,
+                () -> {
+                  handle(responseNumber, allContent);
                 });
-                EventCache.LOG.debug("Got GuildMember update but one of the Roles for the Member is not yet cached.");
-                return null;
-            }
-        }
-        return roles;
+        EventCache.LOG.debug(
+            "Got GuildMember update but one of the Roles for the Member is not yet cached.");
+        return null;
+      }
     }
+    return roles;
+  }
 }

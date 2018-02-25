@@ -26,46 +26,43 @@ import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveAllEvent;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import org.json.JSONObject;
 
-public class MessageReactionBulkRemoveHandler extends SocketHandler
-{
-    public MessageReactionBulkRemoveHandler(JDAImpl api)
-    {
-        super(api);
+public class MessageReactionBulkRemoveHandler extends SocketHandler {
+  public MessageReactionBulkRemoveHandler(JDAImpl api) {
+    super(api);
+  }
+
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long messageId = content.getLong("message_id");
+    final long channelId = content.getLong("channel_id");
+    MessageChannel channel = api.getTextChannelById(channelId);
+    if (channel == null) {
+      api.getEventCache()
+          .cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
+      EventCache.LOG.debug(
+          "Received a reaction for a channel that JDA does not currently have cached channel_id: {} message_id: {}",
+          channelId,
+          messageId);
+      return null;
     }
+    IEventManager manager = api.getEventManager();
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long messageId = content.getLong("message_id");
-        final long channelId = content.getLong("channel_id");
-        MessageChannel channel = api.getTextChannelById(channelId);
-        if (channel == null)
-        {
-            api.getEventCache().cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
-            EventCache.LOG.debug("Received a reaction for a channel that JDA does not currently have cached channel_id: {} message_id: {}", channelId, messageId);
-            return null;
-        }
-        IEventManager manager = api.getEventManager();
-
-        switch (channel.getType())
-        {
-            case TEXT:
-               manager.handle(
-                   new GuildMessageReactionRemoveAllEvent(
-                           api, responseNumber,
-                           messageId, (TextChannel) channel));
-               break;
-            case GROUP:
-                manager.handle(
-                    new GroupMessageReactionRemoveAllEvent(
-                            api, responseNumber,
-                            messageId, (Group) channel));
-        }
-
+    switch (channel.getType()) {
+      case TEXT:
         manager.handle(
-            new MessageReactionRemoveAllEvent(
-                    api, responseNumber,
-                    messageId, channel));
-        return null;
+            new GuildMessageReactionRemoveAllEvent(
+                api, responseNumber, messageId, (TextChannel) channel));
+        break;
+      case GROUP:
+        manager.handle(
+            new GroupMessageReactionRemoveAllEvent(
+                api, responseNumber, messageId, (Group) channel));
     }
+
+    manager.handle(
+        new MessageReactionRemoveAllEvent(
+            api, responseNumber,
+            messageId, channel));
+    return null;
+  }
 }

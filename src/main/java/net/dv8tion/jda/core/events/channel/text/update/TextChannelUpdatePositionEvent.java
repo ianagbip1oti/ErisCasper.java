@@ -24,18 +24,16 @@ import net.dv8tion.jda.core.entities.TextChannel;
  * <br>
  * Use: Detect when a TextChannel position changes and get it's previous position.
  */
-public class TextChannelUpdatePositionEvent extends GenericTextChannelUpdateEvent
-{
-    private final int oldPosition;
+public class TextChannelUpdatePositionEvent extends GenericTextChannelUpdateEvent {
+  private final int oldPosition;
 
-    public TextChannelUpdatePositionEvent(JDA api, long responseNumber, TextChannel channel, int oldPosition)
-    {
-        super(api, responseNumber, channel);
-        this.oldPosition = oldPosition;
-    }
+  public TextChannelUpdatePositionEvent(
+      JDA api, long responseNumber, TextChannel channel, int oldPosition) {
+    super(api, responseNumber, channel);
+    this.oldPosition = oldPosition;
+  }
 
-    public int getOldPosition()
-    {
-        return oldPosition;
-    }
+  public int getOldPosition() {
+    return oldPosition;
+  }
 }

@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.utils;
 
 import java.io.IOException;
 
-public interface IOConsumer<T>
-{
-    void accept(T t) throws IOException;
+public interface IOConsumer<T> {
+  void accept(T t) throws IOException;
 }

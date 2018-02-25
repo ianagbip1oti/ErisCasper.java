@@ -16,69 +16,61 @@
 
 package net.dv8tion.jda.core.utils.cache.impl;
 
-import net.dv8tion.jda.core.entities.ISnowflake;
-
-import javax.annotation.Nonnull;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import javax.annotation.Nonnull;
+import net.dv8tion.jda.core.entities.ISnowflake;
 
-public class SortedSnowflakeCacheView<T extends ISnowflake & Comparable<T>> extends SnowflakeCacheViewImpl<T>
-{
-    protected static final int SPLIT_CHARACTERISTICS = Spliterator.IMMUTABLE | Spliterator.ORDERED | Spliterator.NONNULL;
+public class SortedSnowflakeCacheView<T extends ISnowflake & Comparable<T>>
+    extends SnowflakeCacheViewImpl<T> {
+  protected static final int SPLIT_CHARACTERISTICS =
+      Spliterator.IMMUTABLE | Spliterator.ORDERED | Spliterator.NONNULL;
 
-    protected final Comparator<T> comparator;
+  protected final Comparator<T> comparator;
 
-    public SortedSnowflakeCacheView(Comparator<T> comparator)
-    {
-        this(null, comparator);
-    }
+  public SortedSnowflakeCacheView(Comparator<T> comparator) {
+    this(null, comparator);
+  }
 
-    public SortedSnowflakeCacheView(Function<T, String> nameMapper, Comparator<T> comparator)
-    {
-        super(nameMapper);
-        this.comparator = comparator;
-    }
+  public SortedSnowflakeCacheView(Function<T, String> nameMapper, Comparator<T> comparator) {
+    super(nameMapper);
+    this.comparator = comparator;
+  }
 
-    @Override
-    public List<T> asList()
-    {
-        List<T> list = new ArrayList<>(elements.size());
-        elements.forEachValue(list::add);
-        list.sort(comparator);
-        return Collections.unmodifiableList(list);
-    }
+  @Override
+  public List<T> asList() {
+    List<T> list = new ArrayList<>(elements.size());
+    elements.forEachValue(list::add);
+    list.sort(comparator);
+    return Collections.unmodifiableList(list);
+  }
 
-    @Override
-    public SortedSet<T> asSet()
-    {
-        SortedSet<T> set = new TreeSet<>(comparator);
-        elements.forEachValue(set::add);
-        return Collections.unmodifiableSortedSet(set);
-    }
+  @Override
+  public SortedSet<T> asSet() {
+    SortedSet<T> set = new TreeSet<>(comparator);
+    elements.forEachValue(set::add);
+    return Collections.unmodifiableSortedSet(set);
+  }
 
-    @Override
-    public Spliterator<T> spliterator()
-    {
-        return Spliterators.spliterator(asList(), SPLIT_CHARACTERISTICS);
-    }
+  @Override
+  public Spliterator<T> spliterator() {
+    return Spliterators.spliterator(asList(), SPLIT_CHARACTERISTICS);
+  }
 
-    @Override
-    public Stream<T> stream()
-    {
-        return super.stream().sorted(comparator);
-    }
+  @Override
+  public Stream<T> stream() {
+    return super.stream().sorted(comparator);
+  }
 
-    @Override
-    public Stream<T> parallelStream()
-    {
-        return super.parallelStream().sorted(comparator);
-    }
+  @Override
+  public Stream<T> parallelStream() {
+    return super.parallelStream().sorted(comparator);
+  }
 
-    @Nonnull
-    @Override
-    public Iterator<T> iterator()
-    {
-        return asList().iterator();
-    }
+  @Nonnull
+  @Override
+  public Iterator<T> iterator() {
+    return asList().iterator();
+  }
 }

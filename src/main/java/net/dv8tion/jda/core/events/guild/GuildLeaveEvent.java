@@ -24,10 +24,8 @@ import net.dv8tion.jda.core.entities.Guild;
  * <br>
  * Use: Detect when you leave a Guild.
  */
-public class GuildLeaveEvent extends GenericGuildEvent
-{
-    public GuildLeaveEvent(JDA api, long responseNumber, Guild guild)
-    {
-        super(api, responseNumber, guild);
-    }
+public class GuildLeaveEvent extends GenericGuildEvent {
+  public GuildLeaveEvent(JDA api, long responseNumber, Guild guild) {
+    super(api, responseNumber, guild);
+  }
 }

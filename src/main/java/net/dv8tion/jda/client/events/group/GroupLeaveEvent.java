@@ -19,10 +19,8 @@ package net.dv8tion.jda.client.events.group;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 
-public class GroupLeaveEvent extends GenericGroupEvent
-{
-    public GroupLeaveEvent(JDA api, long responseNumber, Group group)
-    {
-        super(api, responseNumber, group);
-    }
+public class GroupLeaveEvent extends GenericGroupEvent {
+  public GroupLeaveEvent(JDA api, long responseNumber, Group group) {
+    super(api, responseNumber, group);
+  }
 }

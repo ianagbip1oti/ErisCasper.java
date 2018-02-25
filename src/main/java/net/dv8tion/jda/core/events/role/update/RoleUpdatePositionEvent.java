@@ -19,25 +19,22 @@ package net.dv8tion.jda.core.events.role.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Role;
 
-public class RoleUpdatePositionEvent extends GenericRoleUpdateEvent
-{
-    private final int oldPosition;
-    private final int oldPositionRaw;
+public class RoleUpdatePositionEvent extends GenericRoleUpdateEvent {
+  private final int oldPosition;
+  private final int oldPositionRaw;
 
-    public RoleUpdatePositionEvent(JDA api, long responseNumber, Role role, int oldPosition, int oldPositionRaw)
-    {
-        super(api, responseNumber, role);
-        this.oldPosition = oldPosition;
-        this.oldPositionRaw = oldPositionRaw;
-    }
+  public RoleUpdatePositionEvent(
+      JDA api, long responseNumber, Role role, int oldPosition, int oldPositionRaw) {
+    super(api, responseNumber, role);
+    this.oldPosition = oldPosition;
+    this.oldPositionRaw = oldPositionRaw;
+  }
 
-    public int getOldPosition()
-    {
-        return oldPosition;
-    }
+  public int getOldPosition() {
+    return oldPosition;
+  }
 
-    public int getOldPositionRaw()
-    {
-        return oldPositionRaw;
-    }
+  public int getOldPositionRaw() {
+    return oldPositionRaw;
+  }
 }

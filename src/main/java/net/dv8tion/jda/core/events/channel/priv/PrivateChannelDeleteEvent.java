@@ -26,23 +26,19 @@ import net.dv8tion.jda.core.events.Event;
  * <br>
  * Use: Retrieve the issuing {@link net.dv8tion.jda.core.entities.User User}.
  */
-public class PrivateChannelDeleteEvent extends Event
-{
-    protected final PrivateChannel channel;
+public class PrivateChannelDeleteEvent extends Event {
+  protected final PrivateChannel channel;
 
-    public PrivateChannelDeleteEvent(JDA api, long responseNumber, PrivateChannel channel)
-    {
-        super(api, responseNumber);
-        this.channel = channel;
-    }
+  public PrivateChannelDeleteEvent(JDA api, long responseNumber, PrivateChannel channel) {
+    super(api, responseNumber);
+    this.channel = channel;
+  }
 
-    public User getUser()
-    {
-        return channel.getUser();
-    }
+  public User getUser() {
+    return channel.getUser();
+  }
 
-    public PrivateChannel getPrivateChannel()
-    {
-        return channel;
-    }
+  public PrivateChannel getPrivateChannel() {
+    return channel;
+  }
 }

@@ -24,49 +24,43 @@ import net.dv8tion.jda.core.events.role.RoleDeleteEvent;
 import net.dv8tion.jda.core.requests.WebSocketClient;
 import org.json.JSONObject;
 
-public class GuildRoleDeleteHandler extends SocketHandler
-{
+public class GuildRoleDeleteHandler extends SocketHandler {
 
-    public GuildRoleDeleteHandler(JDAImpl api)
-    {
-        super(api);
+  public GuildRoleDeleteHandler(JDAImpl api) {
+    super(api);
+  }
+
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long guildId = content.getLong("guild_id");
+    if (api.getGuildLock().isLocked(guildId)) return guildId;
+
+    GuildImpl guild = (GuildImpl) api.getGuildMap().get(guildId);
+    if (guild == null) {
+      api.getEventCache()
+          .cache(EventCache.Type.GUILD, guildId, () -> handle(responseNumber, allContent));
+      EventCache.LOG.debug(
+          "GUILD_ROLE_DELETE was received for a Guild that is not yet cached: {}", content);
+      return null;
     }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long guildId = content.getLong("guild_id");
-        if (api.getGuildLock().isLocked(guildId))
-            return guildId;
-
-        GuildImpl guild = (GuildImpl) api.getGuildMap().get(guildId);
-        if (guild == null)
-        {
-            api.getEventCache().cache(EventCache.Type.GUILD, guildId, () -> handle(responseNumber, allContent));
-            EventCache.LOG.debug("GUILD_ROLE_DELETE was received for a Guild that is not yet cached: {}", content);
-            return null;
-        }
-
-        final long roleId = content.getLong("role_id");
-        Role removedRole = guild.getRolesMap().remove(roleId);
-        if (removedRole == null)
-        {
-//            api.getEventCache().cache(EventCache.Type.ROLE, roleId, () -> handle(responseNumber, allContent));
-            WebSocketClient.LOG.debug("GUILD_ROLE_DELETE was received for a Role that is not yet cached: {}", content);
-            return null;
-        }
-
-        //Now that the role is removed from the Guild, remove it from all users.
-        for (Member m : guild.getMembersMap().valueCollection())
-        {
-            MemberImpl member = (MemberImpl) m;
-            member.getRoleSet().remove(removedRole);
-        }
-        api.getEventManager().handle(
-            new RoleDeleteEvent(
-                api, responseNumber,
-                removedRole));
-        api.getEventCache().clear(EventCache.Type.ROLE, roleId);
-        return null;
+    final long roleId = content.getLong("role_id");
+    Role removedRole = guild.getRolesMap().remove(roleId);
+    if (removedRole == null) {
+      //            api.getEventCache().cache(EventCache.Type.ROLE, roleId, () ->
+      // handle(responseNumber, allContent));
+      WebSocketClient.LOG.debug(
+          "GUILD_ROLE_DELETE was received for a Role that is not yet cached: {}", content);
+      return null;
     }
+
+    // Now that the role is removed from the Guild, remove it from all users.
+    for (Member m : guild.getMembersMap().valueCollection()) {
+      MemberImpl member = (MemberImpl) m;
+      member.getRoleSet().remove(removedRole);
+    }
+    api.getEventManager().handle(new RoleDeleteEvent(api, responseNumber, removedRole));
+    api.getEventCache().clear(EventCache.Type.ROLE, roleId);
+    return null;
+  }
 }

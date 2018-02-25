@@ -22,23 +22,20 @@ import net.dv8tion.jda.core.JDA;
  * <b><u>SelfUpdateNitroEvent</u></b><br>
  * Fired if you subscribe to nitro or your active nitro subscription runs out.<br>
  */
-public class SelfUpdateNitroEvent extends GenericSelfUpdateEvent
-{
-    private final boolean wasNitro;
+public class SelfUpdateNitroEvent extends GenericSelfUpdateEvent {
+  private final boolean wasNitro;
 
-    public SelfUpdateNitroEvent(JDA api, long responseNumber, boolean wasNitro)
-    {
-        super(api, responseNumber);
-        this.wasNitro = wasNitro;
-    }
+  public SelfUpdateNitroEvent(JDA api, long responseNumber, boolean wasNitro) {
+    super(api, responseNumber);
+    this.wasNitro = wasNitro;
+  }
 
-    /**
-     * Returns whether or not a nitro subscription used to be active before.
-     *
-     * @return The the old nitro subscription status.
-     */
-    public boolean wasNitro()
-    {
-        return wasNitro;
-    }
+  /**
+   * Returns whether or not a nitro subscription used to be active before.
+   *
+   * @return The the old nitro subscription status.
+   */
+  public boolean wasNitro() {
+    return wasNitro;
+  }
 }

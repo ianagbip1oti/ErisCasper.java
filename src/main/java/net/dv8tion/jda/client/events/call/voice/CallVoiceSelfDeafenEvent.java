@@ -19,18 +19,15 @@ package net.dv8tion.jda.client.events.call.voice;
 import net.dv8tion.jda.client.entities.CallUser;
 import net.dv8tion.jda.core.JDA;
 
-public class CallVoiceSelfDeafenEvent extends GenericCallVoiceEvent
-{
-    protected final boolean selfDeafened;
+public class CallVoiceSelfDeafenEvent extends GenericCallVoiceEvent {
+  protected final boolean selfDeafened;
 
-    public CallVoiceSelfDeafenEvent(JDA api, long responseNumber, CallUser cUser)
-    {
-        super(api, responseNumber, cUser);
-        this.selfDeafened = cUser.getVoiceState().isSelfDeafened();
-    }
+  public CallVoiceSelfDeafenEvent(JDA api, long responseNumber, CallUser cUser) {
+    super(api, responseNumber, cUser);
+    this.selfDeafened = cUser.getVoiceState().isSelfDeafened();
+  }
 
-    public boolean isSelfDeafened()
-    {
-        return selfDeafened;
-    }
+  public boolean isSelfDeafened() {
+    return selfDeafened;
+  }
 }

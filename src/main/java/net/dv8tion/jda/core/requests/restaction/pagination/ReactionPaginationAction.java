@@ -16,6 +16,8 @@
 
 package net.dv8tion.jda.core.requests.restaction.pagination;
 
+import java.util.LinkedList;
+import java.util.List;
 import net.dv8tion.jda.core.entities.EntityBuilder;
 import net.dv8tion.jda.core.entities.MessageReaction;
 import net.dv8tion.jda.core.entities.User;
@@ -26,21 +28,22 @@ import net.dv8tion.jda.core.utils.MiscUtil;
 import org.json.JSONArray;
 import org.json.JSONException;
 
-import java.util.LinkedList;
-import java.util.List;
-
 /**
  * {@link net.dv8tion.jda.core.requests.restaction.pagination.PaginationAction PaginationAction}
- * that paginates the endpoint {@link net.dv8tion.jda.core.requests.Route.Messages#GET_REACTION_USERS Route.Messages.GET_REACTION_USERS}.
+ * that paginates the endpoint {@link
+ * net.dv8tion.jda.core.requests.Route.Messages#GET_REACTION_USERS
+ * Route.Messages.GET_REACTION_USERS}.
  *
- * <p><b>Must provide not-null {@link net.dv8tion.jda.core.entities.MessageReaction MessageReaction} to compile a valid
- * pagination route.</b>
+ * <p><b>Must provide not-null {@link net.dv8tion.jda.core.entities.MessageReaction MessageReaction}
+ * to compile a valid pagination route.</b>
  *
  * <h2>Limits:</h2>
- * Minimum - 1
- * <br>Maximum - 100
+ *
+ * Minimum - 1 <br>
+ * Maximum - 100
  *
  * <h1>Example</h1>
+ *
  * <pre><code>
  * ReactionPaginationAction users = reaction.getUsers();
  *
@@ -50,93 +53,85 @@ import java.util.List;
  * ));
  * </code></pre>
  *
- * @since  3.1
+ * @since 3.1
  * @author Florian Spieß
  */
-public class ReactionPaginationAction extends PaginationAction<User, ReactionPaginationAction>
-{
+public class ReactionPaginationAction extends PaginationAction<User, ReactionPaginationAction> {
 
-    protected final MessageReaction reaction;
+  protected final MessageReaction reaction;
 
-    /**
-     * Creates a new PaginationAction instance
-     *
-     * @param reaction
-     *        The target {@link net.dv8tion.jda.core.entities.MessageReaction MessageReaction}
-     */
-    public ReactionPaginationAction(MessageReaction reaction)
-    {
-        super(reaction.getJDA(), Route.Messages.GET_REACTION_USERS.compile(reaction.getChannel().getId(), reaction.getMessageId(), getCode(reaction)), 1, 100, 100);
-        this.reaction = reaction;
+  /**
+   * Creates a new PaginationAction instance
+   *
+   * @param reaction The target {@link net.dv8tion.jda.core.entities.MessageReaction
+   *     MessageReaction}
+   */
+  public ReactionPaginationAction(MessageReaction reaction) {
+    super(
+        reaction.getJDA(),
+        Route.Messages.GET_REACTION_USERS.compile(
+            reaction.getChannel().getId(), reaction.getMessageId(), getCode(reaction)),
+        1,
+        100,
+        100);
+    this.reaction = reaction;
+  }
+
+  protected static String getCode(MessageReaction reaction) {
+    MessageReaction.ReactionEmote emote = reaction.getReactionEmote();
+
+    return emote.isEmote()
+        ? emote.getName() + ":" + emote.getId()
+        : MiscUtil.encodeUTF8(emote.getName());
+  }
+
+  /**
+   * The current target {@link net.dv8tion.jda.core.entities.MessageReaction MessageReaction}
+   *
+   * @return The current MessageReaction
+   */
+  public MessageReaction getReaction() {
+    return reaction;
+  }
+
+  @Override
+  protected Route.CompiledRoute finalizeRoute() {
+    Route.CompiledRoute route = super.finalizeRoute();
+
+    String after = null;
+    String limit = String.valueOf(getLimit());
+    User last = this.last;
+    if (last != null) after = last.getId();
+
+    route = route.withQueryParams("limit", limit);
+
+    if (after != null) route = route.withQueryParams("after", after);
+
+    return route;
+  }
+
+  @Override
+  protected void handleResponse(Response response, Request<List<User>> request) {
+    if (!response.isOk()) {
+      request.onFailure(response);
+      return;
     }
 
-    protected static String getCode(MessageReaction reaction)
-    {
-        MessageReaction.ReactionEmote emote = reaction.getReactionEmote();
-
-        return emote.isEmote()
-            ? emote.getName() + ":" + emote.getId()
-            : MiscUtil.encodeUTF8(emote.getName());
+    final EntityBuilder builder = api.getEntityBuilder();
+    ;
+    final JSONArray array = response.getArray();
+    final List<User> users = new LinkedList<>();
+    for (int i = 0; i < array.length(); i++) {
+      try {
+        final User user = builder.createFakeUser(array.getJSONObject(i), false);
+        users.add(user);
+        if (useCache) cached.add(user);
+        last = user;
+      } catch (JSONException | NullPointerException e) {
+        LOG.warn("Encountered exception in ReactionPagination", e);
+      }
     }
 
-    /**
-     * The current target {@link net.dv8tion.jda.core.entities.MessageReaction MessageReaction}
-     *
-     * @return The current MessageReaction
-     */
-    public MessageReaction getReaction()
-    {
-        return reaction;
-    }
-
-    @Override
-    protected Route.CompiledRoute finalizeRoute()
-    {
-        Route.CompiledRoute route = super.finalizeRoute();
-
-        String after = null;
-        String limit = String.valueOf(getLimit());
-        User last = this.last;
-        if (last != null)
-            after = last.getId();
-
-        route = route.withQueryParams("limit", limit);
-
-        if (after != null)
-            route = route.withQueryParams("after", after);
-
-        return route;
-    }
-
-    @Override
-    protected void handleResponse(Response response, Request<List<User>> request)
-    {
-        if (!response.isOk())
-        {
-            request.onFailure(response);
-            return;
-        }
-
-        final EntityBuilder builder = api.getEntityBuilder();;
-        final JSONArray array = response.getArray();
-        final List<User> users = new LinkedList<>();
-        for (int i = 0; i < array.length(); i++)
-        {
-            try
-            {
-                final User user = builder.createFakeUser(array.getJSONObject(i), false);
-                users.add(user);
-                if (useCache)
-                    cached.add(user);
-                last = user;
-            }
-            catch (JSONException | NullPointerException e)
-            {
-                LOG.warn("Encountered exception in ReactionPagination", e);
-            }
-        }
-
-        request.onSuccess(users);
-    }
-
+    request.onSuccess(users);
+  }
 }

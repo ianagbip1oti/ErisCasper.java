@@ -23,48 +23,45 @@ import net.dv8tion.jda.core.events.guild.GuildUnbanEvent;
 import net.dv8tion.jda.core.utils.JDALogger;
 import org.json.JSONObject;
 
-public class GuildBanHandler extends SocketHandler
-{
-    private final boolean banned;
+public class GuildBanHandler extends SocketHandler {
+  private final boolean banned;
 
-    public GuildBanHandler(JDAImpl api, boolean banned)
-    {
-        super(api);
-        this.banned = banned;
+  public GuildBanHandler(JDAImpl api, boolean banned) {
+    super(api);
+    this.banned = banned;
+  }
+
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long id = content.getLong("guild_id");
+    if (api.getGuildLock().isLocked(id)) return id;
+
+    JSONObject userJson = content.getJSONObject("user");
+    GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
+    if (guild == null) {
+      api.getEventCache()
+          .cache(EventCache.Type.GUILD, id, () -> handle(responseNumber, allContent));
+      EventCache.LOG.debug(
+          "Received Guild Member {} event for a Guild not yet cached.",
+          JDALogger.getLazyString(() -> banned ? "Ban" : "Unban"));
+      return null;
     }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long id = content.getLong("guild_id");
-        if (api.getGuildLock().isLocked(id))
-            return id;
+    User user = api.getEntityBuilder().createFakeUser(userJson, false);
 
-        JSONObject userJson = content.getJSONObject("user");
-        GuildImpl guild = (GuildImpl) api.getGuildMap().get(id);
-        if (guild == null)
-        {
-            api.getEventCache().cache(EventCache.Type.GUILD, id, () -> handle(responseNumber, allContent));
-            EventCache.LOG.debug("Received Guild Member {} event for a Guild not yet cached.", JDALogger.getLazyString(() -> banned ? "Ban" : "Unban"));
-            return null;
-        }
-
-        User user = api.getEntityBuilder().createFakeUser(userJson, false);
-
-        if (banned)
-        {
-            api.getEventManager().handle(
-                    new GuildBanEvent(
-                            api, responseNumber,
-                            guild, user));
-        }
-        else
-        {
-            api.getEventManager().handle(
-                    new GuildUnbanEvent(
-                            api, responseNumber,
-                            guild, user));
-        }
-        return null;
+    if (banned) {
+      api.getEventManager()
+          .handle(
+              new GuildBanEvent(
+                  api, responseNumber,
+                  guild, user));
+    } else {
+      api.getEventManager()
+          .handle(
+              new GuildUnbanEvent(
+                  api, responseNumber,
+                  guild, user));
     }
+    return null;
+  }
 }

@@ -19,10 +19,8 @@ package net.dv8tion.jda.client.events.call;
 import net.dv8tion.jda.client.entities.Call;
 import net.dv8tion.jda.core.JDA;
 
-public class CallCreateEvent extends GenericCallEvent
-{
-    public CallCreateEvent(JDA api, long responseNumber, Call call)
-    {
-        super(api, responseNumber, call);
-    }
+public class CallCreateEvent extends GenericCallEvent {
+  public CallCreateEvent(JDA api, long responseNumber, Call call) {
+    super(api, responseNumber, call);
+  }
 }

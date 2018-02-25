@@ -25,10 +25,8 @@ import net.dv8tion.jda.core.events.guild.GenericGuildEvent;
  * <br>
  * Use: Detect what Guild updated.
  */
-public abstract class GenericGuildUpdateEvent extends GenericGuildEvent
-{
-    public GenericGuildUpdateEvent(JDA api, long responseNumber, Guild guild)
-    {
-        super(api, responseNumber, guild);
-    }
+public abstract class GenericGuildUpdateEvent extends GenericGuildEvent {
+  public GenericGuildUpdateEvent(JDA api, long responseNumber, Guild guild) {
+    super(api, responseNumber, guild);
+  }
 }

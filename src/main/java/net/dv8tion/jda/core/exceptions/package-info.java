@@ -14,7 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * All custom exceptions of the JDA library
- */
+/** All custom exceptions of the JDA library */
 package net.dv8tion.jda.core.exceptions;

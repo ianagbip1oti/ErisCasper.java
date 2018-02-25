@@ -20,15 +20,12 @@ import net.dv8tion.jda.client.entities.BlockedUser;
 import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.core.JDA;
 
-public class UserUnblockedEvent extends GenericRelationshipRemoveEvent
-{
-    public UserUnblockedEvent(JDA api, long responseNumber, Relationship relationship)
-    {
-        super(api, responseNumber, relationship);
-    }
+public class UserUnblockedEvent extends GenericRelationshipRemoveEvent {
+  public UserUnblockedEvent(JDA api, long responseNumber, Relationship relationship) {
+    super(api, responseNumber, relationship);
+  }
 
-    public BlockedUser getPreviouslyBlockedUser()
-    {
-        return (BlockedUser) relationship;
-    }
+  public BlockedUser getPreviouslyBlockedUser() {
+    return (BlockedUser) relationship;
+  }
 }

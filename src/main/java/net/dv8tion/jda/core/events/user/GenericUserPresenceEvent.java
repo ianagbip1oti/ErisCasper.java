@@ -22,33 +22,27 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 
-public abstract class GenericUserPresenceEvent extends GenericUserEvent
-{
-    protected final Guild guild;
+public abstract class GenericUserPresenceEvent extends GenericUserEvent {
+  protected final Guild guild;
 
-    public GenericUserPresenceEvent(JDA api, long responseNumber, User user, Guild guild)
-    {
-        super(api, responseNumber, user);
-        this.guild = guild;
-    }
+  public GenericUserPresenceEvent(JDA api, long responseNumber, User user, Guild guild) {
+    super(api, responseNumber, user);
+    this.guild = guild;
+  }
 
-    public Guild getGuild()
-    {
-        return guild;
-    }
+  public Guild getGuild() {
+    return guild;
+  }
 
-    public Member getMember()
-    {
-        return isRelationshipUpdate() ? null : getGuild().getMember(getUser());
-    }
+  public Member getMember() {
+    return isRelationshipUpdate() ? null : getGuild().getMember(getUser());
+  }
 
-    public Friend getFriend()
-    {
-        return isRelationshipUpdate() ? getJDA().asClient().getFriend(getUser()) : null;
-    }
+  public Friend getFriend() {
+    return isRelationshipUpdate() ? getJDA().asClient().getFriend(getUser()) : null;
+  }
 
-    public boolean isRelationshipUpdate()
-    {
-        return getGuild() == null;
-    }
+  public boolean isRelationshipUpdate() {
+    return getGuild() == null;
+  }
 }

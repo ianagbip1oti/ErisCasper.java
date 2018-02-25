@@ -20,15 +20,12 @@ import net.dv8tion.jda.client.entities.OutgoingFriendRequest;
 import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.core.JDA;
 
-public class FriendRequestCanceledEvent extends GenericRelationshipRemoveEvent
-{
-    public FriendRequestCanceledEvent(JDA api, long responseNumber, Relationship relationship)
-    {
-        super(api, responseNumber, relationship);
-    }
+public class FriendRequestCanceledEvent extends GenericRelationshipRemoveEvent {
+  public FriendRequestCanceledEvent(JDA api, long responseNumber, Relationship relationship) {
+    super(api, responseNumber, relationship);
+  }
 
-    public OutgoingFriendRequest getFriendRequest()
-    {
-        return (OutgoingFriendRequest) relationship;
-    }
+  public OutgoingFriendRequest getFriendRequest() {
+    return (OutgoingFriendRequest) relationship;
+  }
 }

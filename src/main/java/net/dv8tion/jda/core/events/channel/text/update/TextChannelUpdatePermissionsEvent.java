@@ -15,49 +15,48 @@
  */
 package net.dv8tion.jda.core.events.channel.text.update;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.IPermissionHolder;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.entities.TextChannel;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * <b><u>TextChannelUpdatePermissionsEvent</u></b><br>
- * Fired if a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}'s permission overrides change.<br>
+ * Fired if a {@link net.dv8tion.jda.core.entities.TextChannel TextChannel}'s permission overrides
+ * change.<br>
  * <br>
- * Use: Detect when a TextChannel's permission overrides change and get affected {@link net.dv8tion.jda.core.entities.Role Roles}/{@link net.dv8tion.jda.core.entities.User Users}.
+ * Use: Detect when a TextChannel's permission overrides change and get affected {@link
+ * net.dv8tion.jda.core.entities.Role Roles}/{@link net.dv8tion.jda.core.entities.User Users}.
  */
-public class TextChannelUpdatePermissionsEvent extends GenericTextChannelUpdateEvent
-{
-    private final List<IPermissionHolder> changed;
+public class TextChannelUpdatePermissionsEvent extends GenericTextChannelUpdateEvent {
+  private final List<IPermissionHolder> changed;
 
-    public TextChannelUpdatePermissionsEvent(JDA api, long responseNumber, TextChannel channel, List<IPermissionHolder> permHolders)
-    {
-        super(api, responseNumber, channel);
-        this.changed = permHolders;
-    }
+  public TextChannelUpdatePermissionsEvent(
+      JDA api, long responseNumber, TextChannel channel, List<IPermissionHolder> permHolders) {
+    super(api, responseNumber, channel);
+    this.changed = permHolders;
+  }
 
-    public List<IPermissionHolder> getChangedPermissionHolders()
-    {
-        return changed;
-    }
+  public List<IPermissionHolder> getChangedPermissionHolders() {
+    return changed;
+  }
 
-    public List<Role> getChangedRoles()
-    {
-        return changed.stream()
-                      .filter(it -> it instanceof Role)
-                      .map(Role.class::cast)
-                      .collect(Collectors.toList());
-    }
+  public List<Role> getChangedRoles() {
+    return changed
+        .stream()
+        .filter(it -> it instanceof Role)
+        .map(Role.class::cast)
+        .collect(Collectors.toList());
+  }
 
-    public List<Member> getMembersWithPermissionChanges()
-    {
-        return changed.stream()
-                .filter(it -> it instanceof Member)
-                .map(Member.class::cast)
-                .collect(Collectors.toList());
-    }
+  public List<Member> getMembersWithPermissionChanges() {
+    return changed
+        .stream()
+        .filter(it -> it instanceof Member)
+        .map(Member.class::cast)
+        .collect(Collectors.toList());
+  }
 }

@@ -18,18 +18,15 @@ package net.dv8tion.jda.core.events.self;
 
 import net.dv8tion.jda.core.JDA;
 
-public class SelfUpdateVerifiedEvent extends GenericSelfUpdateEvent
-{
-    private final boolean wasVerified;
+public class SelfUpdateVerifiedEvent extends GenericSelfUpdateEvent {
+  private final boolean wasVerified;
 
-    public SelfUpdateVerifiedEvent(JDA api, long responseNumber, boolean wasVerified)
-    {
-        super(api, responseNumber);
-        this.wasVerified = wasVerified;
-    }
+  public SelfUpdateVerifiedEvent(JDA api, long responseNumber, boolean wasVerified) {
+    super(api, responseNumber);
+    this.wasVerified = wasVerified;
+  }
 
-    public boolean wasVerified()
-    {
-        return wasVerified;
-    }
+  public boolean wasVerified() {
+    return wasVerified;
+  }
 }

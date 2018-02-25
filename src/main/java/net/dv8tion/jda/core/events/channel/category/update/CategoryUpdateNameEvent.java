@@ -21,27 +21,25 @@ import net.dv8tion.jda.core.entities.Category;
 
 /**
  * <b><u>CategoryUpdateNameEvent</u></b>
+ *
  * <p>Fired when the name of a {@link net.dv8tion.jda.core.entities.Category Category} is updated.
  *
  * <p>Use: Retrieve the old name
  */
-public class CategoryUpdateNameEvent extends GenericCategoryUpdateEvent
-{
-    protected final String oldName;
+public class CategoryUpdateNameEvent extends GenericCategoryUpdateEvent {
+  protected final String oldName;
 
-    public CategoryUpdateNameEvent(JDA api, long responseNumber, Category category, String oldName)
-    {
-        super(api, responseNumber, category);
-        this.oldName = oldName;
-    }
+  public CategoryUpdateNameEvent(JDA api, long responseNumber, Category category, String oldName) {
+    super(api, responseNumber, category);
+    this.oldName = oldName;
+  }
 
-    /**
-     * The previous name for this {@link net.dv8tion.jda.core.entities.Category Category}
-     *
-     * @return The previous name
-     */
-    public String getOldName()
-    {
-        return oldName;
-    }
+  /**
+   * The previous name for this {@link net.dv8tion.jda.core.entities.Category Category}
+   *
+   * @return The previous name
+   */
+  public String getOldName() {
+    return oldName;
+  }
 }

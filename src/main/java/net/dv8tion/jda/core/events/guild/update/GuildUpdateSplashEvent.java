@@ -19,23 +19,21 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateSplashEvent extends GenericGuildUpdateEvent
-{
-    private final String oldSplashId;
+public class GuildUpdateSplashEvent extends GenericGuildUpdateEvent {
+  private final String oldSplashId;
 
-    public GuildUpdateSplashEvent(JDA api, long responseNumber, Guild guild, String oldSplashId)
-    {
-        super(api, responseNumber, guild);
-        this.oldSplashId = oldSplashId;
-    }
+  public GuildUpdateSplashEvent(JDA api, long responseNumber, Guild guild, String oldSplashId) {
+    super(api, responseNumber, guild);
+    this.oldSplashId = oldSplashId;
+  }
 
-    public String getOldSplashId()
-    {
-        return oldSplashId;
-    }
+  public String getOldSplashId() {
+    return oldSplashId;
+  }
 
-    public String getOldSplashUrl()
-    {
-        return oldSplashId == null ? null : "https://cdn.discordapp.com/splashes/" + guild.getId() + "/" + oldSplashId + ".jpg";
-    }
+  public String getOldSplashUrl() {
+    return oldSplashId == null
+        ? null
+        : "https://cdn.discordapp.com/splashes/" + guild.getId() + "/" + oldSplashId + ".jpg";
+  }
 }

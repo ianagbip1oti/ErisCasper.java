@@ -15,23 +15,24 @@
  */
 
 /**
- * Root package of the Java Discord API library containing basic information about JDA
- * and the builder system to connect to the Discord API
+ * Root package of the Java Discord API library containing basic information about JDA and the
+ * builder system to connect to the Discord API
  *
  * <p>From here you can navigate to the library features.
+ *
  * <ul>
- *     <li>{@link net.dv8tion.jda.core Core Features}
- *     <br>Package which includes the core functionalities of JDA, available throughout all feature pacakges</li>
- *
- *     <li>{@link net.dv8tion.jda.bot Bot Features}
- *     <br>Package which includes functionalities that are only available for accounts of {@link net.dv8tion.jda.core.AccountType#BOT AccountType BOT}</li>
- *
- *     <li>{@link net.dv8tion.jda.client Client Features}
- *     <br>Package which includes functionalities that are only available for accounts of {@link net.dv8tion.jda.core.AccountType#CLIENT AccountType CLIENT}
- *     <br>Such as {@link net.dv8tion.jda.client.entities.Relationship Relationships}</li>
- *
- *     <li>{@link net.dv8tion.jda.webhook Webhook Features}
- *     <br>Functionality to send/execute webhooks without a bound JDA instance</li>
+ *   <li>{@link net.dv8tion.jda.core Core Features} <br>
+ *       Package which includes the core functionalities of JDA, available throughout all feature
+ *       pacakges
+ *   <li>{@link net.dv8tion.jda.bot Bot Features} <br>
+ *       Package which includes functionalities that are only available for accounts of {@link
+ *       net.dv8tion.jda.core.AccountType#BOT AccountType BOT}
+ *   <li>{@link net.dv8tion.jda.client Client Features} <br>
+ *       Package which includes functionalities that are only available for accounts of {@link
+ *       net.dv8tion.jda.core.AccountType#CLIENT AccountType CLIENT} <br>
+ *       Such as {@link net.dv8tion.jda.client.entities.Relationship Relationships}
+ *   <li>{@link net.dv8tion.jda.webhook Webhook Features} <br>
+ *       Functionality to send/execute webhooks without a bound JDA instance
  * </ul>
  */
 package net.dv8tion.jda;

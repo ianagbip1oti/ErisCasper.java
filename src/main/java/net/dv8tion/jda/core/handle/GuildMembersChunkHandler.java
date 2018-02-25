@@ -20,76 +20,72 @@ import gnu.trove.map.TLongIntMap;
 import gnu.trove.map.TLongObjectMap;
 import gnu.trove.map.hash.TLongIntHashMap;
 import gnu.trove.map.hash.TLongObjectHashMap;
+import java.util.LinkedList;
+import java.util.List;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-import java.util.LinkedList;
-import java.util.List;
+public class GuildMembersChunkHandler extends SocketHandler {
+  private final TLongIntMap expectedGuildMembers = new TLongIntHashMap();
+  private final TLongObjectMap<List<JSONArray>> memberChunksCache = new TLongObjectHashMap<>();
 
-public class GuildMembersChunkHandler extends SocketHandler
-{
-    private final TLongIntMap expectedGuildMembers = new TLongIntHashMap();
-    private final TLongObjectMap<List<JSONArray>> memberChunksCache = new TLongObjectHashMap<>();
+  public GuildMembersChunkHandler(JDAImpl api) {
+    super(api);
+  }
 
-    public GuildMembersChunkHandler(JDAImpl api)
-    {
-        super(api);
+  @Override
+  protected Long handleInternally(JSONObject content) {
+    final long guildId = content.getLong("guild_id");
+    List<JSONArray> memberChunks = memberChunksCache.get(guildId);
+    int expectMemberCount = expectedGuildMembers.get(guildId);
+
+    JSONArray members = content.getJSONArray("members");
+    JDAImpl.LOG.debug("GUILD_MEMBER_CHUNK for: {}\tMembers: {}", guildId, members.length());
+    memberChunks.add(members);
+
+    int currentTotal = 0;
+    for (JSONArray arr : memberChunks) currentTotal += arr.length();
+
+    if (currentTotal >= expectMemberCount) {
+      JDAImpl.LOG.debug("Finished chunking for: {}", guildId);
+      api.getEntityBuilder().createGuildSecondPass(guildId, memberChunks);
+      memberChunksCache.remove(guildId);
+      expectedGuildMembers.remove(guildId);
     }
+    return null;
+  }
 
-    @Override
-    protected Long handleInternally(JSONObject content)
-    {
-        final long guildId = content.getLong("guild_id");
-        List<JSONArray> memberChunks = memberChunksCache.get(guildId);
-        int expectMemberCount = expectedGuildMembers.get(guildId);
+  public void setExpectedGuildMembers(long guildId, int count) {
+    if (expectedGuildMembers.containsKey(guildId))
+      JDAImpl.LOG.warn(
+          "Set the count of expected users from GuildMembersChunk even though a value already exists! GuildId: {}",
+          guildId);
 
-        JSONArray members = content.getJSONArray("members");
-        JDAImpl.LOG.debug("GUILD_MEMBER_CHUNK for: {}\tMembers: {}", guildId, members.length());
-        memberChunks.add(members);
+    expectedGuildMembers.put(guildId, count);
 
-        int currentTotal = 0;
-        for (JSONArray arr : memberChunks)
-            currentTotal += arr.length();
+    if (memberChunksCache.containsKey(guildId))
+      JDAImpl.LOG.warn(
+          "Set the memberChunks for MemberChunking for a guild that was already setup for chunking! GuildId: {}",
+          guildId);
 
-        if (currentTotal >= expectMemberCount)
-        {
-            JDAImpl.LOG.debug("Finished chunking for: {}", guildId);
-            api.getEntityBuilder().createGuildSecondPass(guildId, memberChunks);
-            memberChunksCache.remove(guildId);
-            expectedGuildMembers.remove(guildId);
-        }
-        return null;
+    memberChunksCache.put(guildId, new LinkedList<>());
+  }
+
+  public void modifyExpectedGuildMember(long guildId, int changeAmount) {
+    try {
+      Integer i = expectedGuildMembers.get(guildId);
+      i += changeAmount;
+      expectedGuildMembers.put(guildId, i);
     }
-
-    public void setExpectedGuildMembers(long guildId, int count)
-    {
-        if (expectedGuildMembers.containsKey(guildId))
-            JDAImpl.LOG.warn("Set the count of expected users from GuildMembersChunk even though a value already exists! GuildId: {}", guildId);
-
-        expectedGuildMembers.put(guildId, count);
-
-        if (memberChunksCache.containsKey(guildId))
-            JDAImpl.LOG.warn("Set the memberChunks for MemberChunking for a guild that was already setup for chunking! GuildId: {}", guildId);
-
-        memberChunksCache.put(guildId, new LinkedList<>());
+    // Ignore. If one of the above things doesn't exist, causing an NPE, then we don't need to
+    // worry.
+    catch (NullPointerException ignored) {
     }
+  }
 
-    public void modifyExpectedGuildMember(long guildId, int changeAmount)
-    {
-        try
-        {
-            Integer i = expectedGuildMembers.get(guildId);
-            i += changeAmount;
-            expectedGuildMembers.put(guildId, i);
-        }
-        //Ignore. If one of the above things doesn't exist, causing an NPE, then we don't need to worry.
-        catch (NullPointerException ignored) {}
-    }
-
-    public void clearCache()
-    {
-        expectedGuildMembers.clear();
-        memberChunksCache.clear();
-    }
+  public void clearCache() {
+    expectedGuildMembers.clear();
+    memberChunksCache.clear();
+  }
 }

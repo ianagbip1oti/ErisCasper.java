@@ -19,18 +19,16 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateMFALevelEvent extends GenericGuildUpdateEvent
-{
-    private final Guild.MFALevel oldMFALevel;
+public class GuildUpdateMFALevelEvent extends GenericGuildUpdateEvent {
+  private final Guild.MFALevel oldMFALevel;
 
-    public GuildUpdateMFALevelEvent(JDA api, long responseNumber, Guild guild, Guild.MFALevel oldMFALevel)
-    {
-        super(api, responseNumber, guild);
-        this.oldMFALevel = oldMFALevel;
-    }
+  public GuildUpdateMFALevelEvent(
+      JDA api, long responseNumber, Guild guild, Guild.MFALevel oldMFALevel) {
+    super(api, responseNumber, guild);
+    this.oldMFALevel = oldMFALevel;
+  }
 
-    public Guild.MFALevel getOldMFALevel()
-    {
-        return oldMFALevel;
-    }
+  public Guild.MFALevel getOldMFALevel() {
+    return oldMFALevel;
+  }
 }

@@ -19,18 +19,15 @@ package net.dv8tion.jda.core.events.guild.voice;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Member;
 
-public class GuildVoiceSuppressEvent extends GenericGuildVoiceEvent
-{
-    protected final boolean suppressed;
+public class GuildVoiceSuppressEvent extends GenericGuildVoiceEvent {
+  protected final boolean suppressed;
 
-    public GuildVoiceSuppressEvent(JDA api, long responseNumber, Member member)
-    {
-        super(api, responseNumber, member);
-        this.suppressed = member.getVoiceState().isSuppressed();
-    }
+  public GuildVoiceSuppressEvent(JDA api, long responseNumber, Member member) {
+    super(api, responseNumber, member);
+    this.suppressed = member.getVoiceState().isSuppressed();
+  }
 
-    public boolean isSuppressed()
-    {
-        return suppressed;
-    }
+  public boolean isSuppressed() {
+    return suppressed;
+  }
 }

@@ -19,18 +19,15 @@ package net.dv8tion.jda.core.events.role.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Role;
 
-public class RoleUpdateHoistedEvent extends GenericRoleUpdateEvent
-{
-    private final boolean wasHoisted;
+public class RoleUpdateHoistedEvent extends GenericRoleUpdateEvent {
+  private final boolean wasHoisted;
 
-    public RoleUpdateHoistedEvent(JDA api, long responseNumber, Role role, boolean wasHoisted)
-    {
-        super(api, responseNumber, role);
-        this.wasHoisted = wasHoisted;
-    }
+  public RoleUpdateHoistedEvent(JDA api, long responseNumber, Role role, boolean wasHoisted) {
+    super(api, responseNumber, role);
+    this.wasHoisted = wasHoisted;
+  }
 
-    public boolean wasHoisted()
-    {
-        return wasHoisted;
-    }
+  public boolean wasHoisted() {
+    return wasHoisted;
+  }
 }

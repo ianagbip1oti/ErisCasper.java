@@ -17,12 +17,11 @@
 /**
  * Entities representing Discord API objects like Users and Channels
  *
- * <p>This package contains all Discord Entities
- * as java classes. They contain information about the specific entity and
- * have operations to interact with them.
+ * <p>This package contains all Discord Entities as java classes. They contain information about the
+ * specific entity and have operations to interact with them.
  *
- * <p>The {@link net.dv8tion.jda.core.entities.EntityBuilder EntityBuilder} can be used
- * to create entities from this package by creating {@link net.dv8tion.jda.core.entities.impl entities.impl} instances
- * for the specific entity.
+ * <p>The {@link net.dv8tion.jda.core.entities.EntityBuilder EntityBuilder} can be used to create
+ * entities from this package by creating {@link net.dv8tion.jda.core.entities.impl entities.impl}
+ * instances for the specific entity.
  */
 package net.dv8tion.jda.core.entities;

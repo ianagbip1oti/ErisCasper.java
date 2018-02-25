@@ -27,41 +27,33 @@ import net.dv8tion.jda.core.events.Event;
  * <br>
  * Use: Detect any MessageEvent. <i>(No real use for the JDA user)</i>
  */
-public abstract class GenericMessageEvent extends Event
-{
-    protected final long messageId;
-    protected final MessageChannel channel;
+public abstract class GenericMessageEvent extends Event {
+  protected final long messageId;
+  protected final MessageChannel channel;
 
-    public GenericMessageEvent(JDA api, long responseNumber, long messageId, MessageChannel channel)
-    {
-        super(api, responseNumber);
-        this.messageId = messageId;
-        this.channel = channel;
-    }
+  public GenericMessageEvent(JDA api, long responseNumber, long messageId, MessageChannel channel) {
+    super(api, responseNumber);
+    this.messageId = messageId;
+    this.channel = channel;
+  }
 
-    public MessageChannel getChannel()
-    {
-        return channel;
-    }
+  public MessageChannel getChannel() {
+    return channel;
+  }
 
-    public String getMessageId()
-    {
-        return Long.toUnsignedString(messageId);
-    }
+  public String getMessageId() {
+    return Long.toUnsignedString(messageId);
+  }
 
-    public long getMessageIdLong()
-    {
-        return messageId;
-    }
+  public long getMessageIdLong() {
+    return messageId;
+  }
 
-    public boolean isFromType(ChannelType type)
-    {
-        return channel.getType() == type;
-    }
+  public boolean isFromType(ChannelType type) {
+    return channel.getType() == type;
+  }
 
-    public ChannelType getChannelType()
-    {
-        return channel.getType();
-    }
-
+  public ChannelType getChannelType() {
+    return channel.getType();
+  }
 }

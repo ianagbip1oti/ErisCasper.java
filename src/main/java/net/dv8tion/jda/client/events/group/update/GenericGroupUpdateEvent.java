@@ -20,10 +20,8 @@ import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.client.events.group.GenericGroupEvent;
 import net.dv8tion.jda.core.JDA;
 
-public abstract class GenericGroupUpdateEvent extends GenericGroupEvent
-{
-    public GenericGroupUpdateEvent(JDA api, long responseNumber, Group group)
-    {
-        super(api, responseNumber, group);
-    }
+public abstract class GenericGroupUpdateEvent extends GenericGroupEvent {
+  public GenericGroupUpdateEvent(JDA api, long responseNumber, Group group) {
+    super(api, responseNumber, group);
+  }
 }

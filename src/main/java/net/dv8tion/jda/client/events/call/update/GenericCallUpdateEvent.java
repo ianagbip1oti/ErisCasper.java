@@ -20,10 +20,8 @@ import net.dv8tion.jda.client.entities.Call;
 import net.dv8tion.jda.client.events.call.GenericCallEvent;
 import net.dv8tion.jda.core.JDA;
 
-public abstract class GenericCallUpdateEvent extends GenericCallEvent
-{
-    public GenericCallUpdateEvent(JDA api, long responseNumber, Call call)
-    {
-        super(api, responseNumber, call);
-    }
+public abstract class GenericCallUpdateEvent extends GenericCallEvent {
+  public GenericCallUpdateEvent(JDA api, long responseNumber, Call call) {
+    super(api, responseNumber, call);
+  }
 }

@@ -19,18 +19,16 @@ package net.dv8tion.jda.core.events.guild.update;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 
-public class GuildUpdateAfkTimeoutEvent extends GenericGuildUpdateEvent
-{
-    private final Guild.Timeout oldAfkTimeout;
+public class GuildUpdateAfkTimeoutEvent extends GenericGuildUpdateEvent {
+  private final Guild.Timeout oldAfkTimeout;
 
-    public GuildUpdateAfkTimeoutEvent(JDA api, long responseNumber, Guild guild, Guild.Timeout oldAfkTimeout)
-    {
-        super(api, responseNumber, guild);
-        this.oldAfkTimeout = oldAfkTimeout;
-    }
+  public GuildUpdateAfkTimeoutEvent(
+      JDA api, long responseNumber, Guild guild, Guild.Timeout oldAfkTimeout) {
+    super(api, responseNumber, guild);
+    this.oldAfkTimeout = oldAfkTimeout;
+  }
 
-    public Guild.Timeout getOldAfkTimeout()
-    {
-        return oldAfkTimeout;
-    }
+  public Guild.Timeout getOldAfkTimeout() {
+    return oldAfkTimeout;
+  }
 }

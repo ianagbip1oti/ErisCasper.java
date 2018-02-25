@@ -21,52 +21,43 @@ import net.dv8tion.jda.client.entities.RelationshipType;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.requests.RestAction;
 
-public class OutgoingFriendRequestImpl implements OutgoingFriendRequest
-{
-    private final User user;
+public class OutgoingFriendRequestImpl implements OutgoingFriendRequest {
+  private final User user;
 
-    public OutgoingFriendRequestImpl(User user)
-    {
-        this.user = user;
-    }
+  public OutgoingFriendRequestImpl(User user) {
+    this.user = user;
+  }
 
-    @Override
-    public RelationshipType getType()
-    {
-        return RelationshipType.OUTGOING_FRIEND_REQUEST;
-    }
+  @Override
+  public RelationshipType getType() {
+    return RelationshipType.OUTGOING_FRIEND_REQUEST;
+  }
 
-    @Override
-    public User getUser()
-    {
-        return user;
-    }
+  @Override
+  public User getUser() {
+    return user;
+  }
 
-    @Override
-    public RestAction cancel()
-    {
-        return null;
-    }
+  @Override
+  public RestAction cancel() {
+    return null;
+  }
 
-    @Override
-    public String toString()
-    {
-        return "OFR(" + user.toString() + ")";
-    }
+  @Override
+  public String toString() {
+    return "OFR(" + user.toString() + ")";
+  }
 
-    @Override
-    public boolean equals(Object o)
-    {
-        if (!(o instanceof OutgoingFriendRequest))
-            return false;
+  @Override
+  public boolean equals(Object o) {
+    if (!(o instanceof OutgoingFriendRequest)) return false;
 
-        OutgoingFriendRequest oOFR = (OutgoingFriendRequest) o;
-        return user.equals(oOFR.getUser());
-    }
+    OutgoingFriendRequest oOFR = (OutgoingFriendRequest) o;
+    return user.equals(oOFR.getUser());
+  }
 
-    @Override
-    public int hashCode()
-    {
-        return ("OFR " + user.getId()).hashCode();
-    }
+  @Override
+  public int hashCode() {
+    return ("OFR " + user.getId()).hashCode();
+  }
 }

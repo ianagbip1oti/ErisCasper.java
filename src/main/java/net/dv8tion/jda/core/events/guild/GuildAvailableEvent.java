@@ -25,10 +25,8 @@ import net.dv8tion.jda.core.entities.Guild;
  * <br>
  * Use: This indicates that a Guild will now start sending events and can be interacted with.
  */
-public class GuildAvailableEvent extends GenericGuildEvent
-{
-    public GuildAvailableEvent(JDA api, long responseNumber, Guild guild)
-    {
-        super(api, responseNumber, guild);
-    }
+public class GuildAvailableEvent extends GenericGuildEvent {
+  public GuildAvailableEvent(JDA api, long responseNumber, Guild guild) {
+    super(api, responseNumber, guild);
+  }
 }

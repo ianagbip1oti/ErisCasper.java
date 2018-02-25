@@ -15,36 +15,32 @@
  */
 package net.dv8tion.jda.core.events.user;
 
-import net.dv8tion.jda.client.entities.Friend;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
 
 /**
  * <b><u>UserGameUpdateEvent</u></b><br>
- * Fired if the {@link net.dv8tion.jda.core.entities.Game Game} of a {@link net.dv8tion.jda.core.entities.User User} changes.<br>
+ * Fired if the {@link net.dv8tion.jda.core.entities.Game Game} of a {@link
+ * net.dv8tion.jda.core.entities.User User} changes.<br>
  * <br>
  * Use: Retrieve the User who's Game changed and their previous Game.
  */
-public class UserGameUpdateEvent extends GenericUserPresenceEvent
-{
-    protected final Game previousGame;
+public class UserGameUpdateEvent extends GenericUserPresenceEvent {
+  protected final Game previousGame;
 
-    public UserGameUpdateEvent(JDA api, long responseNumber, User user, Guild guild, Game previousGame)
-    {
-        super(api, responseNumber, user, guild);
-        this.previousGame = previousGame;
-    }
+  public UserGameUpdateEvent(
+      JDA api, long responseNumber, User user, Guild guild, Game previousGame) {
+    super(api, responseNumber, user, guild);
+    this.previousGame = previousGame;
+  }
 
-    public Game getPreviousGame()
-    {
-        return previousGame;
-    }
+  public Game getPreviousGame() {
+    return previousGame;
+  }
 
-    public Game getCurrentGame()
-    {
-        return isRelationshipUpdate() ? getFriend().getGame() : getMember().getGame();
-    }
+  public Game getCurrentGame() {
+    return isRelationshipUpdate() ? getFriend().getGame() : getMember().getGame();
+  }
 }

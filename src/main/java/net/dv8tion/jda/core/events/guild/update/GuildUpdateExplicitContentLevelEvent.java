@@ -21,29 +21,27 @@ import net.dv8tion.jda.core.entities.Guild;
 
 /**
  * <b><u>GuildUpdateExplicitContentLevelEvent</u></b><br>
- * Fired whenever a {@link net.dv8tion.jda.core.entities.Guild Guild}
- * updates its {@link net.dv8tion.jda.core.entities.Guild.ExplicitContentLevel ExplicitContentLevel}.<br>
+ * Fired whenever a {@link net.dv8tion.jda.core.entities.Guild Guild} updates its {@link
+ * net.dv8tion.jda.core.entities.Guild.ExplicitContentLevel ExplicitContentLevel}.<br>
  * <br>
  * Use: Detect what Guild updated its level and what level was set prior to that update.
  */
-public class GuildUpdateExplicitContentLevelEvent extends GenericGuildUpdateEvent
-{
-    protected final Guild.ExplicitContentLevel oldLevel;
+public class GuildUpdateExplicitContentLevelEvent extends GenericGuildUpdateEvent {
+  protected final Guild.ExplicitContentLevel oldLevel;
 
-    public GuildUpdateExplicitContentLevelEvent(JDA api, long responseNumber, Guild guild, Guild.ExplicitContentLevel oldLevel)
-    {
-        super(api, responseNumber, guild);
-        this.oldLevel = oldLevel;
-    }
+  public GuildUpdateExplicitContentLevelEvent(
+      JDA api, long responseNumber, Guild guild, Guild.ExplicitContentLevel oldLevel) {
+    super(api, responseNumber, guild);
+    this.oldLevel = oldLevel;
+  }
 
-    /**
-     * The old {@link net.dv8tion.jda.core.entities.Guild.ExplicitContentLevel ExplicitContentLevel} for the
-     * {@link net.dv8tion.jda.core.entities.Guild Guild} prior to this event.
-     *
-     * @return The old explicit content level
-     */
-    public Guild.ExplicitContentLevel getOldLevel()
-    {
-        return oldLevel;
-    }
+  /**
+   * The old {@link net.dv8tion.jda.core.entities.Guild.ExplicitContentLevel ExplicitContentLevel}
+   * for the {@link net.dv8tion.jda.core.entities.Guild Guild} prior to this event.
+   *
+   * @return The old explicit content level
+   */
+  public Guild.ExplicitContentLevel getOldLevel() {
+    return oldLevel;
+  }
 }

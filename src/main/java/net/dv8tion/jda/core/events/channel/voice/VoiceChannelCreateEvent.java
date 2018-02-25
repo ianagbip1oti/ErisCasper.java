@@ -24,11 +24,9 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
  * <br>
  * Use: Get affected VoiceChannel.
  */
-public class VoiceChannelCreateEvent extends GenericVoiceChannelEvent
-{
+public class VoiceChannelCreateEvent extends GenericVoiceChannelEvent {
 
-    public VoiceChannelCreateEvent(JDA api, long responseNumber, VoiceChannel channel)
-    {
-        super(api, responseNumber, channel);
-    }
+  public VoiceChannelCreateEvent(JDA api, long responseNumber, VoiceChannel channel) {
+    super(api, responseNumber, channel);
+  }
 }

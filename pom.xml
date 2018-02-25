@@ -1,23 +1,17 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
- 
   <groupId>com.github.lana.eriscasper</groupId>
   <artifactId>ErisCasper.java</artifactId>
   <version>${revision}</version>
   <packaging>jar</packaging>
- 
-  <name>Maven Quick Start Archetype</name>
+  <name>ErisCasper.java</name>
   <url>http://maven.apache.org</url>
-  
   <properties>
     <revision>0-SNAPSHOT</revision>
-    
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-    
     <lib.commons-collections4.version>4.1</lib.commons-collections4.version>
     <lib.json.version>20160810</lib.json.version>
     <lib.jsr305.version>3.0.2</lib.jsr305.version>
@@ -25,49 +19,86 @@
     <lib.okhttp.version>3.8.1</lib.okhttp.version>
     <lib.slf4j-api.version>1.7.25</lib.slf4j-api.version>
     <lib.trove4j.version>3.0.3</lib.trove4j.version>
+    <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
+    <plugin.sortpom.version>2.8.0</plugin.sortpom.version>
   </properties>
-  
   <dependencies>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>
       <version>${lib.commons-collections4.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>${lib.json.version}</version>
     </dependency>
-  
     <dependency>
       <groupId>com.google.code.findbugs</groupId>
       <artifactId>jsr305</artifactId>
       <version>${lib.jsr305.version}</version>
     </dependency>
-     
     <dependency>
       <groupId>com.neovisionaries</groupId>
       <artifactId>nv-websocket-client</artifactId>
       <version>${lib.nv-websocket-client.version}</version>
     </dependency>
-
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
       <artifactId>okhttp</artifactId>
       <version>${lib.okhttp.version}</version>
     </dependency>
-
     <dependency>
       <groupId>org.slf4j</groupId>
       <artifactId>slf4j-api</artifactId>
       <version>${lib.slf4j-api.version}</version>
     </dependency>
-        
     <dependency>
       <groupId>net.sf.trove4j</groupId>
       <artifactId>trove4j</artifactId>
       <version>${lib.trove4j.version}</version>
     </dependency>
   </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>com.diffplug.spotless</groupId>
+        <artifactId>spotless-maven-plugin</artifactId>
+        <version>${plugin.spotless.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>check</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <java>
+            <googleJavaFormat>
+              <version>1.5</version>
+              <style>GOOGLE</style>
+            </googleJavaFormat>
+          </java>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>${plugin.sortpom.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <createBackupFile>false</createBackupFile>
+          <verifyFail>Stop</verifyFail>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>
