@@ -163,6 +163,9 @@
         </executions>
         <configuration>
           <java>
+          <licenseHeader>
+       <file>${basedir}/LICENSE_HEADER</file>
+     </licenseHeader>
             <googleJavaFormat>
               <version>1.5</version>
               <style>GOOGLE</style>
