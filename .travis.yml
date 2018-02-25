@@ -1,6 +1,10 @@
 language: java
 
-jdks:
+env:
+  global:
+  - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)-SNAPSHOT"
+
+jdk:
   - oraclejdk8
   - oraclejdk9
   - openjdk8 
