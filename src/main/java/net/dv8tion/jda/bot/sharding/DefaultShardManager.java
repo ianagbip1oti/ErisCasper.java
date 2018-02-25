@@ -553,9 +553,6 @@ public class DefaultShardManager implements ShardManager
         if (this.eventManager != null)
             jda.setEventManager(this.eventManager);
 
-        if (this.audioSendFactory != null)
-            jda.setAudioSendFactory(this.audioSendFactory);
-
         this.listeners.forEach(jda::addEventListener);
         jda.setStatus(JDA.Status.INITIALIZED); //This is already set by JDA internally, but this is to make sure the listeners catch it.
 

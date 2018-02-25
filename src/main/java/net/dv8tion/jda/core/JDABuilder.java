@@ -569,9 +569,6 @@ public class JDABuilder
         if (eventManager != null)
             jda.setEventManager(eventManager);
 
-        if (audioSendFactory != null)
-            jda.setAudioSendFactory(audioSendFactory);
-
         listeners.forEach(jda::addEventListener);
         jda.setStatus(JDA.Status.INITIALIZED);  //This is already set by JDA internally, but this is to make sure the listeners catch it.
 
