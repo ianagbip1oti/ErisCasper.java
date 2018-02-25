@@ -22,7 +22,6 @@ import net.dv8tion.jda.bot.utils.cache.impl.ShardCacheViewImpl;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.hooks.IEventManager;
@@ -61,12 +60,6 @@ public class DefaultShardManager implements ShardManager
      * The {@link net.dv8tion.jda.core.utils.SessionController SessionController} for this manager.
      */
     protected final SessionController controller;
-
-    /**
-     * The factory used to create {@link net.dv8tion.jda.core.audio.factory.IAudioSendSystem IAudioSendSystem}
-     * objects which handle the sending loop for audio packets.
-     */
-    protected final IAudioSendFactory audioSendFactory;
 
     /**
      * Whether or not JDA should try to reconnect if a connection-error is encountered.
@@ -254,7 +247,7 @@ public class DefaultShardManager implements ShardManager
      */
     protected DefaultShardManager(final int shardsTotal, final Collection<Integer> shardIds,
                                   final SessionController controller, final List<Object> listeners,
-                                  final String token, final IEventManager eventManager, final IAudioSendFactory audioSendFactory,
+                                  final String token, final IEventManager eventManager,
                                   final IntFunction<Game> gameProvider, final IntFunction<OnlineStatus> statusProvider,
                                   final OkHttpClient.Builder httpClientBuilder, final WebSocketFactory wsFactory,
                                   final ThreadFactory threadFactory,
@@ -268,7 +261,6 @@ public class DefaultShardManager implements ShardManager
         this.listeners = listeners;
         this.token = token;
         this.eventManager = eventManager;
-        this.audioSendFactory = audioSendFactory;
         this.gameProvider = gameProvider;
         this.statusProvider = statusProvider;
         this.httpClientBuilder = httpClientBuilder == null ? new OkHttpClient.Builder() : httpClientBuilder;
@@ -552,9 +544,6 @@ public class DefaultShardManager implements ShardManager
 
         if (this.eventManager != null)
             jda.setEventManager(this.eventManager);
-
-        if (this.audioSendFactory != null)
-            jda.setAudioSendFactory(this.audioSendFactory);
 
         this.listeners.forEach(jda::addEventListener);
         jda.setStatus(JDA.Status.INITIALIZED); //This is already set by JDA internally, but this is to make sure the listeners catch it.

@@ -21,7 +21,6 @@ import net.dv8tion.jda.core.Region;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Icon;
 import net.dv8tion.jda.core.entities.TextChannel;
-import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 
 import javax.annotation.CheckReturnValue;
@@ -154,28 +153,6 @@ public class GuildManager
     public AuditableRestAction<Void> setSplash(Icon splash)
     {
         return updatable.getSplashField().setValue(splash).update();
-    }
-
-    /**
-     * Sets the AFK {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} of this {@link net.dv8tion.jda.core.entities.Guild Guild}.
-     * More information can be found {@link GuildManagerUpdatable#getAfkChannelField() here}!
-     *
-     * <p>For information on possible {@link net.dv8tion.jda.core.requests.ErrorResponse ErrorResponses}
-     * by the returned {@link net.dv8tion.jda.core.requests.RestAction RestAction} see {@link GuildManagerUpdatable#update() #update()}
-     *
-     * @param  afkChannel
-     *         The new afk channel for this {@link net.dv8tion.jda.core.entities.Guild Guild}
-     *
-     * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction AuditableRestAction}
-     *         <br>Update RestAction from {@link GuildManagerUpdatable#update() #update()}
-     *
-     * @see    net.dv8tion.jda.core.managers.GuildManagerUpdatable#getAfkChannelField()
-     * @see    net.dv8tion.jda.core.managers.GuildManagerUpdatable#update()
-     */
-    @CheckReturnValue
-    public AuditableRestAction<Void> setAfkChannel(VoiceChannel afkChannel)
-    {
-        return updatable.getAfkChannelField().setValue(afkChannel).update();
     }
 
     /**

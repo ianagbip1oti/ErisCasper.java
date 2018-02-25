@@ -49,14 +49,6 @@ public interface Category extends Channel, Comparable<Category>
     List<TextChannel> getTextChannels();
 
     /**
-     * All {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}
-     * listed for this Category
-     *
-     * @return Immutable list of all child VoiceChannels
-     */
-    List<VoiceChannel> getVoiceChannels();
-
-    /**
      * Creates a new {@link net.dv8tion.jda.core.entities.TextChannel TextChannel} with this Category as parent.
      * For this to be successful, the logged in account has to have the
      * {@link net.dv8tion.jda.core.Permission#MANAGE_CHANNEL MANAGE_CHANNEL} Permission in the {@link net.dv8tion.jda.core.entities.Guild Guild}.
@@ -148,29 +140,4 @@ public interface Category extends Channel, Comparable<Category>
     @CheckReturnValue
     CategoryOrderAction<TextChannel> modifyTextChannelPositions();
 
-    /**
-     * Modifies the positional order of this Category's nested {@link #getVoiceChannels() VoiceChannels}.
-     * <br>This uses an extension of {@link net.dv8tion.jda.core.requests.restaction.order.ChannelOrderAction ChannelOrderAction}
-     * specialized for ordering the nested {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} of this
-     * {@link net.dv8tion.jda.core.entities.Category Category}.
-     * <br>Like {@code ChannelOrderAction}, the returned {@link net.dv8tion.jda.core.requests.restaction.order.CategoryOrderAction CategoryOrderAction}
-     * can be used to move VoiceChannels {@link net.dv8tion.jda.core.requests.restaction.order.OrderAction#moveUp(int) up},
-     * {@link net.dv8tion.jda.core.requests.restaction.order.OrderAction#moveDown(int) down}, or
-     * {@link net.dv8tion.jda.core.requests.restaction.order.OrderAction#moveTo(int) to} a specific position.
-     * <br>This uses <b>ascending</b> order with a 0 based index.
-     *
-     * <p>Possible {@link net.dv8tion.jda.core.requests.ErrorResponse ErrorResponses} include:
-     * <ul>
-     *     <li>{@link net.dv8tion.jda.core.requests.ErrorResponse#UNKNOWN_CHANNEL UNNKOWN_CHANNEL}
-     *     <br>One of the channels has been deleted before the completion of the task.</li>
-     *
-     *     <li>{@link net.dv8tion.jda.core.requests.ErrorResponse#MISSING_ACCESS MISSING_ACCESS}
-     *     <br>The currently logged in account was removed from the Guild.</li>
-     * </ul>
-     *
-     * @return A {@link net.dv8tion.jda.core.requests.restaction.order.CategoryOrderAction CategoryOrderAction} for
-     *         ordering the Category's {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     */
-    @CheckReturnValue
-    CategoryOrderAction<VoiceChannel> modifyVoiceChannelPositions();
 }

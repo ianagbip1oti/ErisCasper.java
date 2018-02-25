@@ -33,7 +33,6 @@ public class MemberImpl implements Member
     private final GuildImpl guild;
     private final User user;
     private final HashSet<Role> roles = new HashSet<>();
-    private final GuildVoiceState voiceState;
 
     private String nickname;
     private OffsetDateTime joinDate;
@@ -44,7 +43,6 @@ public class MemberImpl implements Member
     {
         this.guild = guild;
         this.user = user;
-        this.voiceState = new GuildVoiceStateImpl(guild, this);
     }
 
     @Override
@@ -69,12 +67,6 @@ public class MemberImpl implements Member
     public OffsetDateTime getJoinDate()
     {
         return joinDate;
-    }
-
-    @Override
-    public GuildVoiceState getVoiceState()
-    {
-        return voiceState;
     }
 
     @Override

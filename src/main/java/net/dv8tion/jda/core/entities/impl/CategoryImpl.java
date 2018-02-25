@@ -122,7 +122,6 @@ public class CategoryImpl extends AbstractChannelImpl<CategoryImpl> implements C
     {
         List<Channel> channels = new ArrayList<>();
         channels.addAll(getTextChannels());
-        channels.addAll(getVoiceChannels());
         return Collections.unmodifiableList(channels);
     }
 
@@ -130,15 +129,6 @@ public class CategoryImpl extends AbstractChannelImpl<CategoryImpl> implements C
     public List<TextChannel> getTextChannels()
     {
         return Collections.unmodifiableList(getGuild().getTextChannels().stream()
-                    .filter(channel -> channel.getParent() != null)
-                    .filter(channel -> channel.getParent().equals(this))
-                    .collect(Collectors.toList()));
-    }
-
-    @Override
-    public List<VoiceChannel> getVoiceChannels()
-    {
-        return Collections.unmodifiableList(getGuild().getVoiceChannels().stream()
                     .filter(channel -> channel.getParent() != null)
                     .filter(channel -> channel.getParent().equals(this))
                     .collect(Collectors.toList()));
@@ -164,12 +154,6 @@ public class CategoryImpl extends AbstractChannelImpl<CategoryImpl> implements C
     public CategoryOrderAction<TextChannel> modifyTextChannelPositions()
     {
         return getGuild().getController().modifyTextChannelPositions(this);
-    }
-
-    @Override
-    public CategoryOrderAction<VoiceChannel> modifyVoiceChannelPositions()
-    {
-        return getGuild().getController().modifyVoiceChannelPositions(this);
     }
 
     @Override

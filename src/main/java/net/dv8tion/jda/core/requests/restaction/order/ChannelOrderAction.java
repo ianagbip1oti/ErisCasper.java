@@ -160,8 +160,6 @@ public class ChannelOrderAction<T extends Channel> extends OrderAction<T, Channe
         {
             case TEXT:
                 return guild.getTextChannels();
-            case VOICE:
-                return guild.getVoiceChannels();
             case CATEGORY:
                 return guild.getCategories();
             default:

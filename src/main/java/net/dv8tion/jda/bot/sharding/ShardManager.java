@@ -690,56 +690,6 @@ public interface ShardManager
     }
 
     /**
-     * This returns the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} which has the same id as the one provided.
-     * <br>If there is no known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(final long id)
-    {
-        return this.getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * This returns the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} which has the same id as the one provided.
-     * <br>If there is no known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with an id that matches the provided
-     * one, then this returns {@code null}.
-     *
-     * @param  id The id of the {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel}.
-     *
-     * @return Possibly-null {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannel} with matching id.
-     */
-    default VoiceChannel getVoiceChannelById(final String id)
-    {
-        return this.getVoiceChannelCache().getElementById(id);
-    }
-
-    /**
-     * {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView} of
-     * all cached {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} visible to this ShardManager instance.
-     *
-     * @return {@link net.dv8tion.jda.core.utils.cache.SnowflakeCacheView SnowflakeCacheView}
-     */
-    default SnowflakeCacheView<VoiceChannel> getVoiceChannelCache()
-    {
-        return CacheView.allSnowflakes(() -> this.getShardCache().stream().map(JDA::getVoiceChannelCache));
-    }
-
-    /**
-     * An unmodifiable list of all {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels} of all connected
-     * {@link net.dv8tion.jda.core.entities.Guild Guilds}.
-     *
-     * @return Possible-empty list of all known {@link net.dv8tion.jda.core.entities.VoiceChannel VoiceChannels}.
-     */
-    default List<VoiceChannel> getVoiceChannels()
-    {
-        return this.getVoiceChannelCache().asList();
-    }
-
-    /**
      * Restarts all shards, shutting old ones down first.
      * 
      * As all shards need to connect to discord again this will take equally long as the startup of a new ShardManager

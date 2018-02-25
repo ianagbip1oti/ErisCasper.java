@@ -97,8 +97,6 @@ public class CategoryOrderAction<T extends Channel> extends ChannelOrderAction<T
         {
             case TEXT:
                 return category.getTextChannels();
-            case VOICE:
-                return category.getVoiceChannels();
             default:
                 throw new IllegalArgumentException("Cannot order category with specified channel type " + type);
         }

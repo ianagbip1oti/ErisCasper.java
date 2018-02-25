@@ -22,7 +22,6 @@ import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.channel.category.CategoryCreateEvent;
 import net.dv8tion.jda.core.events.channel.priv.PrivateChannelCreateEvent;
 import net.dv8tion.jda.core.events.channel.text.TextChannelCreateEvent;
-import net.dv8tion.jda.core.events.channel.voice.VoiceChannelCreateEvent;
 import org.json.JSONObject;
 
 public class ChannelCreateHandler extends SocketHandler
@@ -53,14 +52,6 @@ public class ChannelCreateHandler extends SocketHandler
                     new TextChannelCreateEvent(
                         api, responseNumber,
                         api.getEntityBuilder().createTextChannel(content, guildId)));
-                break;
-            }
-            case VOICE:
-            {
-                api.getEventManager().handle(
-                    new VoiceChannelCreateEvent(
-                        api, responseNumber,
-                        api.getEntityBuilder().createVoiceChannel(content, guildId)));
                 break;
             }
             case CATEGORY:

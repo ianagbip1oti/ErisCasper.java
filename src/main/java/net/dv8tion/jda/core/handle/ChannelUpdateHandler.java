@@ -30,7 +30,6 @@ import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdateNameEve
 import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdatePermissionsEvent;
 import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdatePositionEvent;
 import net.dv8tion.jda.core.events.channel.text.update.*;
-import net.dv8tion.jda.core.events.channel.voice.update.*;
 import net.dv8tion.jda.core.utils.Helpers;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -138,77 +137,6 @@ public class ChannelUpdateHandler extends SocketHandler
                                     textChannel, changed));
                 }
                 break;  //Finish the TextChannelUpdate case
-            }
-            case VOICE:
-            {
-                VoiceChannelImpl voiceChannel = (VoiceChannelImpl) api.getVoiceChannelMap().get(channelId);
-                int userLimit = content.getInt("user_limit");
-                int bitrate = content.getInt("bitrate");
-                if (voiceChannel == null)
-                {
-                    api.getEventCache().cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
-                    EventCache.LOG.debug("CHANNEL_UPDATE attempted to update a VoiceChannel that does not exist. JSON: {}", content);
-                    return null;
-                }
-                //If any properties changed, update the values and fire the proper events.
-                final Category parent = voiceChannel.getParent();
-                final Long oldParent = parent == null ? null : parent.getIdLong();
-                final String oldName = voiceChannel.getName();
-                final int oldPosition = voiceChannel.getPositionRaw();
-                final int oldLimit = voiceChannel.getUserLimit();
-                final int oldBitrate = voiceChannel.getBitrate();
-                if (!Objects.equals(oldName, name))
-                {
-                    voiceChannel.setName(name);
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdateNameEvent(
-                                    api, responseNumber,
-                                    voiceChannel, oldName));
-                }
-                if (!Objects.equals(oldParent, parentId))
-                {
-                    voiceChannel.setParent(parentId == null ? 0 : parentId);
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdateParentEvent(
-                                    api, responseNumber,
-                                    voiceChannel, parent));
-                }
-                if (oldPosition != position)
-                {
-                    voiceChannel.setRawPosition(position);
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdatePositionEvent(
-                                    api, responseNumber,
-                                    voiceChannel, oldPosition));
-                }
-                if (oldLimit != userLimit)
-                {
-                    voiceChannel.setUserLimit(userLimit);
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdateUserLimitEvent(
-                                    api, responseNumber,
-                                    voiceChannel, oldLimit));
-                }
-                if (oldBitrate != bitrate)
-                {
-                    voiceChannel.setBitrate(bitrate);
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdateBitrateEvent(
-                                    api, responseNumber,
-                                    voiceChannel, oldBitrate));
-                }
-
-                applyPermissions(voiceChannel, content, permOverwrites, contained, changed);
-
-                //If this update modified permissions in any way.
-                if (!changed.isEmpty())
-                {
-                    api.getEventManager().handle(
-                            new VoiceChannelUpdatePermissionsEvent(
-                                    api, responseNumber,
-                                    voiceChannel, changed));
-                }
-                break;  //Finish the VoiceChannelUpdate case
             }
             case CATEGORY:
             {

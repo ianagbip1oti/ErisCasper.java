@@ -122,7 +122,7 @@ public class InviteImpl implements Invite
 
         final net.dv8tion.jda.core.entities.Channel channel = this.channel.getType() == ChannelType.TEXT
                 ? guild.getTextChannelById(this.channel.getIdLong())
-                : guild.getVoiceChannelById(this.channel.getIdLong());
+                : null;
 
         if (member.hasPermission(channel, Permission.MANAGE_CHANNEL))
         {
