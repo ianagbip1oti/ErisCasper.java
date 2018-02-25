@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.managers;
 
 import java.util.Arrays;
 import java.util.Collection;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Channel;
@@ -116,7 +115,6 @@ public class PermOverrideManagerUpdatable {
    *     permissions are not accessible
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable grant(long permissions) {
     return grant(Permission.getPermissions(permissions));
   }
@@ -131,7 +129,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable grant(Permission... permissions) {
     return grant(Arrays.asList(permissions));
   }
@@ -146,7 +143,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable grant(Collection<Permission> permissions) {
     Checks.notNull(permissions, "Permission Collection");
     permissions.forEach(
@@ -172,7 +168,6 @@ public class PermOverrideManagerUpdatable {
    *     permissions are not accessible
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable deny(long permissions) {
     return deny(Permission.getPermissions(permissions));
   }
@@ -187,7 +182,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable deny(Permission... permissions) {
     return deny(Arrays.asList(permissions));
   }
@@ -202,7 +196,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable deny(Collection<Permission> permissions) {
     Checks.notNull(permissions, "Permission Collection");
     permissions.forEach(
@@ -229,7 +222,6 @@ public class PermOverrideManagerUpdatable {
    *     permissions are not accessible
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable clear(long permission) {
     return clear(Permission.getPermissions(permission));
   }
@@ -245,7 +237,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable clear(Permission... permissions) {
     return clear(Arrays.asList(permissions));
   }
@@ -261,7 +252,6 @@ public class PermOverrideManagerUpdatable {
    * @throws IllegalArgumentException If any of the provided permissions is {@code null}
    * @return The current Manager instance for chaining convenience
    */
-  @CheckReturnValue
   public PermOverrideManagerUpdatable clear(Collection<Permission> permissions) {
     Checks.notNull(permissions, "Permission Collection");
     permissions.forEach(
@@ -390,7 +380,6 @@ public class PermOverrideManagerUpdatable {
    *     AuditableRestAction} <br>
    *     Applies all changes that have been made in a single api-call.
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> update() {
     checkPermission(Permission.MANAGE_PERMISSIONS);
 

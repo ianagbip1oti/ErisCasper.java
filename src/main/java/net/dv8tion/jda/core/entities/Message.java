@@ -26,7 +26,6 @@ import java.util.Formattable;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.regex.Pattern;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
@@ -599,7 +598,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} with the updated content
    */
-  @CheckReturnValue
   MessageAction editMessage(CharSequence newContent);
 
   /**
@@ -637,7 +635,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} with the updated content
    */
-  @CheckReturnValue
   MessageAction editMessage(MessageEmbed newContent);
 
   /**
@@ -682,7 +679,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} with the updated content
    */
-  @CheckReturnValue
   MessageAction editMessageFormat(String format, Object... args);
 
   /**
@@ -725,7 +721,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} with the updated content
    */
-  @CheckReturnValue
   MessageAction editMessage(Message newContent);
 
   /**
@@ -769,7 +764,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**
@@ -830,7 +824,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> pin();
 
   /**
@@ -876,7 +869,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> unpin();
 
   /**
@@ -942,7 +934,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> addReaction(Emote emote);
 
   /**
@@ -997,7 +988,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> addReaction(String unicode);
 
   /**
@@ -1039,7 +1029,6 @@ public interface Message extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> clearReactions();
 
   /**

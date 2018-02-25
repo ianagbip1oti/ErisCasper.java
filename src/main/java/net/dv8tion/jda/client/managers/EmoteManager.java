@@ -17,7 +17,6 @@
 package net.dv8tion.jda.client.managers;
 
 import java.util.Set;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.Guild;
@@ -102,7 +101,6 @@ public class EmoteManager {
    * @see net.dv8tion.jda.client.managers.EmoteManagerUpdatable#getNameField()
    * @see net.dv8tion.jda.client.managers.EmoteManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setName(String name) {
     return updatable.getNameField().setValue(name).update();
   }
@@ -127,7 +125,6 @@ public class EmoteManager {
    * @see net.dv8tion.jda.client.managers.EmoteManagerUpdatable#getRolesField()
    * @see net.dv8tion.jda.client.managers.EmoteManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setRoles(Set<Role> roles) {
     return updatable.getRolesField().setValue(roles).update();
   }

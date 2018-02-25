@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.Objects;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -228,7 +227,6 @@ public class MessageReaction {
    *     ReactionPaginationAction} <br>
    *     Retrieves an immutable list of users that reacted with this Reaction.
    */
-  @CheckReturnValue
   public ReactionPaginationAction getUsers() {
     return getUsers(100);
   }
@@ -254,7 +252,6 @@ public class MessageReaction {
    *     ReactionPaginationAction} <br>
    *     Retrieves an immutable list of users that reacted with this Reaction.
    */
-  @CheckReturnValue
   public ReactionPaginationAction getUsers(int amount) {
     return new ReactionPaginationAction(this).limit(amount);
   }
@@ -277,7 +274,6 @@ public class MessageReaction {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void Nothing is
    *     returned on success
    */
-  @CheckReturnValue
   public RestAction<Void> removeReaction() {
     return removeReaction(getJDA().getSelfUser());
   }
@@ -308,7 +304,6 @@ public class MessageReaction {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void Nothing is
    *     returned on success
    */
-  @CheckReturnValue
   public RestAction<Void> removeReaction(User user) {
     if (user == null) throw new IllegalArgumentException("Provided User was null!");
     if (!user.equals(getJDA().getSelfUser())) {

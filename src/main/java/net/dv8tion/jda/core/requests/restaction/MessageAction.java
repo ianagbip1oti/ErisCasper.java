@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -136,7 +135,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *     MessageEmbed.isSendable(AccountType)}
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction apply(final Message message) {
     if (message == null || message.getType() != MessageType.DEFAULT) return this;
     final List<MessageEmbed> embeds = message.getEmbeds();
@@ -153,7 +151,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @param isTTS True, if this should cause a Text-To-Speech effect when sent to the channel
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction tts(final boolean isTTS) {
     this.tts = isTTS;
     return this;
@@ -168,7 +165,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction reset() {
     return content(null).nonce(null).embed(null).tts(false).override(false).clearFiles();
   }
@@ -187,7 +183,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @see <a href="https://en.wikipedia.org/wiki/Cryptographic_nonce" target="_blank">Cryptographic
    *     Nonce - Wikipedia</a>
    */
-  @CheckReturnValue
   public MessageAction nonce(final String nonce) {
     this.nonce = nonce;
     return this;
@@ -203,7 +198,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *     Message#MAX_CONTENT_LENGTH} character limit
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction content(final String content) {
     if (content == null || content.isEmpty()) this.content.setLength(0);
     else if (content.length() <= Message.MAX_CONTENT_LENGTH)
@@ -226,7 +220,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *     implementation this operation will fail as we are unable to deserialize it.
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction embed(final MessageEmbed embed) {
     if (embed != null) {
       final AccountType type = getJDA().getAccountType();
@@ -251,7 +244,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    */
   @Override
-  @CheckReturnValue
   public MessageAction append(final CharSequence csq) {
     return append(csq, 0, csq.length());
   }
@@ -265,7 +257,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    */
   @Override
-  @CheckReturnValue
   public MessageAction append(final CharSequence csq, final int start, final int end) {
     if (content.length() + end - start > Message.MAX_CONTENT_LENGTH)
       throw new IllegalArgumentException(
@@ -283,7 +274,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    */
   @Override
-  @CheckReturnValue
   public MessageAction append(final char c) {
     if (content.length() == Message.MAX_CONTENT_LENGTH)
       throw new IllegalArgumentException(
@@ -311,7 +301,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *     the formatter class specification.
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction appendFormat(final String format, final Object... args) {
     return append(String.format(format, args));
   }
@@ -336,7 +325,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *     net.dv8tion.jda.core.Permission#MESSAGE_ATTACH_FILES Permission.MESSAGE_ATTACH_FILES}
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction addFile(final InputStream data, final String name) {
     checkEdit();
     Checks.notNull(data, "Data");
@@ -369,7 +357,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    * @see net.dv8tion.jda.core.entities.SelfUser#getAllowedFileSize() SelfUser.getAllowedFileSize()
    */
-  @CheckReturnValue
   public MessageAction addFile(final byte[] data, final String name) {
     Checks.notNull(data, "Data");
     final long maxSize = getJDA().getSelfUser().getAllowedFileSize();
@@ -398,7 +385,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    * @see net.dv8tion.jda.core.entities.SelfUser#getAllowedFileSize() SelfUser.getAllowedFileSize()
    */
-  @CheckReturnValue
   public MessageAction addFile(final File file) {
     Checks.notNull(file, "File");
     return addFile(file, file.getName());
@@ -426,7 +412,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @return Updated MessageAction for chaining convenience
    * @see net.dv8tion.jda.core.entities.SelfUser#getAllowedFileSize() SelfUser.getAllowedFileSize()
    */
-  @CheckReturnValue
   public MessageAction addFile(final File file, final String name) {
     Checks.notNull(file, "File");
     Checks.check(
@@ -449,7 +434,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    *
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction clearFiles() {
     files.clear();
     return this;
@@ -461,7 +445,6 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    * @param bool True, to override all fields even if they are not set
    * @return Updated MessageAction for chaining convenience
    */
-  @CheckReturnValue
   public MessageAction override(final boolean bool) {
     this.override = isEdit() && bool;
     return this;

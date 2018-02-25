@@ -17,7 +17,6 @@ package net.dv8tion.jda.core.entities;
 
 import java.io.*;
 import java.util.*;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.exceptions.AccountTypeException;
@@ -180,7 +179,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     The newly created Message after it has been sent to Discord.
    * @see net.dv8tion.jda.core.MessageBuilder
    */
-  @CheckReturnValue
   default MessageAction sendMessage(CharSequence text) {
     Checks.notEmpty(text, "Provided text for message");
     Checks.check(
@@ -240,7 +238,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The newly created Message after it has been sent to Discord.
    */
-  @CheckReturnValue
   default MessageAction sendMessageFormat(String format, Object... args) {
     Checks.notEmpty(format, "Format");
     return sendMessage(String.format(format, args));
@@ -293,7 +290,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.MessageBuilder
    * @see net.dv8tion.jda.core.EmbedBuilder
    */
-  @CheckReturnValue
   default MessageAction sendMessage(MessageEmbed embed) {
     Checks.notNull(embed, "Provided embed");
 
@@ -364,7 +360,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     The newly created Message after it has been sent to Discord.
    * @see net.dv8tion.jda.core.MessageBuilder
    */
-  @CheckReturnValue
   default MessageAction sendMessage(Message msg) {
     Checks.notNull(msg, "Message");
 
@@ -418,7 +413,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(File file) {
     return sendFile(file, (Message) null);
   }
@@ -482,7 +476,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(File file, String fileName) {
     return sendFile(file, fileName, null);
   }
@@ -523,7 +516,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(InputStream data, String fileName) {
     return sendFile(data, fileName, null);
   }
@@ -572,7 +564,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(byte[] data, String fileName) {
     return sendFile(data, fileName, null);
   }
@@ -642,7 +633,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(File file, Message message) {
     Checks.notNull(file, "file");
 
@@ -749,7 +739,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(File file, String fileName, Message message) {
     Checks.notNull(file, "file");
     Checks.check(
@@ -822,7 +811,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(InputStream data, String fileName, Message message) {
     Checks.notNull(data, "data InputStream");
     Checks.notNull(fileName, "fileName");
@@ -894,7 +882,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The {@link net.dv8tion.jda.core.entities.Message Message} created from this upload.
    */
-  @CheckReturnValue
   default MessageAction sendFile(byte[] data, String fileName, Message message) {
     Checks.notNull(data, "data");
     Checks.notNull(fileName, "fileName");
@@ -948,7 +935,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Message <br>
    *     The Message defined by the provided id.
    */
-  @CheckReturnValue
   default RestAction<Message> getMessageById(String messageId) {
     AccountTypeException.check(getJDA().getAccountType(), AccountType.BOT);
     Checks.notEmpty(messageId, "Provided messageId");
@@ -1011,7 +997,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Message <br>
    *     The Message defined by the provided id.
    */
-  @CheckReturnValue
   default RestAction<Message> getMessageById(long messageId) {
     return getMessageById(Long.toUnsignedString(messageId));
   }
@@ -1054,7 +1039,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     have {@link net.dv8tion.jda.core.Permission#MESSAGE_READ Permission.MESSAGE_READ}.
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
    */
-  @CheckReturnValue
   default AuditableRestAction<Void> deleteMessageById(String messageId) {
     Checks.notEmpty(messageId, "messageId");
 
@@ -1106,7 +1090,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     have {@link net.dv8tion.jda.core.Permission#MESSAGE_READ Permission.MESSAGE_READ}.
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
    */
-  @CheckReturnValue
   default AuditableRestAction<Void> deleteMessageById(long messageId) {
     return deleteMessageById(Long.toUnsignedString(messageId));
   }
@@ -1167,7 +1150,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.pagination.MessagePaginationAction
    *     MessagePaginationAction}
    */
-  @CheckReturnValue
   default MessagePaginationAction getIterableHistory() {
     return new MessagePaginationAction(this);
   }
@@ -1236,7 +1218,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAround(MessageChannel, String)
    *     MessageHistory.getHistoryAround(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAround(String messageId, int limit) {
     return MessageHistory.getHistoryAround(this, messageId).limit(limit);
   }
@@ -1306,7 +1287,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAround(MessageChannel, String)
    *     MessageHistory.getHistoryAround(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAround(long messageId, int limit) {
     return getHistoryAround(Long.toUnsignedString(messageId), limit);
   }
@@ -1375,7 +1355,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAround(MessageChannel, String)
    *     MessageHistory.getHistoryAround(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAround(Message message, int limit) {
     Checks.notNull(message, "Provided target message");
     return getHistoryAround(message.getId(), limit);
@@ -1436,7 +1415,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAfter(MessageChannel, String)
    *     MessageHistory.getHistoryAfter(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAfter(String messageId, int limit) {
     return MessageHistory.getHistoryAfter(this, messageId).limit(limit);
   }
@@ -1492,7 +1470,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAfter(MessageChannel, String)
    *     MessageHistory.getHistoryAfter(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAfter(long messageId, int limit) {
     return getHistoryAfter(Long.toUnsignedString(messageId), limit);
   }
@@ -1552,7 +1529,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryAfter(MessageChannel, String)
    *     MessageHistory.getHistoryAfter(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryAfter(Message message, int limit) {
     Checks.notNull(message, "Message");
     return getHistoryAfter(message.getId(), limit);
@@ -1613,7 +1589,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryBefore(MessageChannel, String)
    *     MessageHistory.getHistoryBefore(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryBefore(String messageId, int limit) {
     return MessageHistory.getHistoryBefore(this, messageId).limit(limit);
   }
@@ -1673,7 +1648,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryBefore(MessageChannel, String)
    *     MessageHistory.getHistoryBefore(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryBefore(long messageId, int limit) {
     return getHistoryBefore(Long.toUnsignedString(messageId), limit);
   }
@@ -1733,7 +1707,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @see net.dv8tion.jda.core.entities.MessageHistory#getHistoryBefore(MessageChannel, String)
    *     MessageHistory.getHistoryBefore(MessageChannel, String)
    */
-  @CheckReturnValue
   default MessageHistory.MessageRetrieveAction getHistoryBefore(Message message, int limit) {
     Checks.notNull(message, "Message");
     return getHistoryBefore(message.getId(), limit);
@@ -1774,7 +1747,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
    */
-  @CheckReturnValue
   default RestAction<Void> sendTyping() {
     Route.CompiledRoute route = Route.Channels.SEND_TYPING.compile(getId());
     return new RestAction<Void>(getJDA(), route) {
@@ -1846,7 +1818,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> addReactionById(String messageId, String unicode) {
     Checks.notEmpty(messageId, "MessageId");
     Checks.notEmpty(unicode, "Provided Unicode");
@@ -1922,7 +1893,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> addReactionById(long messageId, String unicode) {
     return addReactionById(Long.toUnsignedString(messageId), unicode);
   }
@@ -1985,7 +1955,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> addReactionById(String messageId, Emote emote) {
     Checks.notEmpty(messageId, "MessageId");
     Checks.notNull(emote, "Emote");
@@ -2058,7 +2027,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> addReactionById(long messageId, Emote emote) {
     return addReactionById(Long.toUnsignedString(messageId), emote);
   }
@@ -2114,7 +2082,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(String messageId, String unicode) {
     Checks.noWhitespace(messageId, "Message ID");
     Checks.noWhitespace(unicode, "Emoji");
@@ -2182,7 +2149,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(long messageId, String unicode) {
     return removeReactionById(Long.toUnsignedString(messageId), unicode);
   }
@@ -2233,7 +2199,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(String messageId, Emote emote) {
     Checks.notNull(emote, "Emote");
     return removeReactionById(messageId, emote.getName() + ":" + emote.getId());
@@ -2285,7 +2250,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(long messageId, Emote emote) {
     Checks.notNull(emote, "Emote");
     return removeReactionById(messageId, emote.getName() + ":" + emote.getId());
@@ -2328,7 +2292,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> pinMessageById(String messageId) {
     Checks.notEmpty(messageId, "messageId");
 
@@ -2379,7 +2342,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> pinMessageById(long messageId) {
     return pinMessageById(Long.toUnsignedString(messageId));
   }
@@ -2421,7 +2383,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> unpinMessageById(String messageId) {
     Checks.notEmpty(messageId, "messageId");
 
@@ -2472,7 +2433,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> unpinMessageById(long messageId) {
     return unpinMessageById(Long.toUnsignedString(messageId));
   }
@@ -2503,7 +2463,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     <}{@link net.dv8tion.jda.core.entities.Message}{@literal >} <br>
    *     An immutable list of pinned messages
    */
-  @CheckReturnValue
   default RestAction<List<Message>> getPinnedMessages() {
     Route.CompiledRoute route = Route.Messages.GET_PINNED_MESSAGES.compile(getId());
     return new RestAction<List<Message>>(getJDA(), route) {
@@ -2568,7 +2527,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to Discord.
    */
-  @CheckReturnValue
   default MessageAction editMessageById(String messageId, CharSequence newContent) {
     Checks.noWhitespace(messageId, "MessageId");
     Checks.notEmpty(newContent, "Provided message content");
@@ -2622,7 +2580,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to Discord.
    */
-  @CheckReturnValue
   default MessageAction editMessageById(long messageId, CharSequence newContent) {
     return editMessageById(Long.toUnsignedString(messageId), newContent);
   }
@@ -2669,7 +2626,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageById(String messageId, Message newContent) {
     Checks.noWhitespace(messageId, "messageId");
     Checks.notNull(newContent, "message");
@@ -2720,7 +2676,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageById(long messageId, Message newContent) {
     return editMessageById(Long.toUnsignedString(messageId), newContent);
   }
@@ -2771,7 +2726,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageFormatById(String messageId, String format, Object... args) {
     Checks.notBlank(format, "Format String");
     return editMessageById(messageId, String.format(format, args));
@@ -2823,7 +2777,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageFormatById(long messageId, String format, Object... args) {
     Checks.notBlank(format, "Format String");
     return editMessageById(messageId, String.format(format, args));
@@ -2873,7 +2826,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageById(String messageId, MessageEmbed newEmbed) {
     Checks.noWhitespace(messageId, "Message ID");
     Checks.notNull(newEmbed, "MessageEmbed");
@@ -2926,7 +2878,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction} <br>
    *     The modified Message after it has been sent to discord
    */
-  @CheckReturnValue
   default MessageAction editMessageById(long messageId, MessageEmbed newEmbed) {
     return editMessageById(Long.toUnsignedString(messageId), newEmbed);
   }

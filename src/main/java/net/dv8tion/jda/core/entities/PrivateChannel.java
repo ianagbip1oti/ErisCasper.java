@@ -15,7 +15,6 @@
  */
 package net.dv8tion.jda.core.entities;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.CallableChannel;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -45,6 +44,5 @@ public interface PrivateChannel extends MessageChannel, CallableChannel, IFakeab
    *
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Void
    */
-  @CheckReturnValue
   RestAction<Void> close();
 }

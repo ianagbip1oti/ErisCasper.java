@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.managers;
 
 import java.util.regex.Pattern;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Icon;
@@ -225,7 +224,6 @@ public class AccountManagerUpdatable {
    *     net.dv8tion.jda.core.managers.fields.Field Fields} have been modified. ({@link
    *     net.dv8tion.jda.core.requests.RestAction.EmptyRestAction EmptyRestAction})
    */
-  @CheckReturnValue
   public RestAction<Void> update(String currentPassword) {
     if (isType(AccountType.CLIENT) && (currentPassword == null || currentPassword.isEmpty()))
       throw new IllegalArgumentException(
@@ -289,7 +287,6 @@ public class AccountManagerUpdatable {
    *     net.dv8tion.jda.core.managers.fields.Field Fields} have been modified. ({@link
    *     net.dv8tion.jda.core.requests.RestAction.EmptyRestAction EmptyRestAction})
    */
-  @CheckReturnValue
   public RestAction<Void> update() {
     if (getJDA().getAccountType() == AccountType.CLIENT)
       throw new AccountTypeException(AccountType.BOT);

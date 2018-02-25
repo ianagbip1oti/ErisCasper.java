@@ -19,7 +19,6 @@ package net.dv8tion.jda.core.managers;
 import java.awt.Color;
 import java.util.Arrays;
 import java.util.Collection;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Guild;
@@ -98,7 +97,6 @@ public class RoleManager {
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#getNameField()
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setName(String name) {
     return updatable.getNameField().setValue(name).update();
   }
@@ -130,7 +128,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(Permission...)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setPermissions(long perms) {
     return updatable.getPermissionField().setValue(perms).update();
   }
@@ -163,7 +160,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(long)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setPermissions(Permission... permissions) {
     return setPermissions(Arrays.asList(permissions));
   }
@@ -196,7 +192,6 @@ public class RoleManager {
    * @see #setPermissions(Permission...)
    * @see #setPermissions(long)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setPermissions(Collection<Permission> permissions) {
     return updatable.getPermissionField().setPermissions(permissions).update();
   }
@@ -219,7 +214,6 @@ public class RoleManager {
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#getColorField()
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setColor(Color color) {
     return updatable.getColorField().setValue(color).update();
   }
@@ -243,7 +237,6 @@ public class RoleManager {
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#getHoistedField()
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setHoisted(boolean hoisted) {
     return updatable.getHoistedField().setValue(hoisted).update();
   }
@@ -267,7 +260,6 @@ public class RoleManager {
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#getMentionableField()
    * @see net.dv8tion.jda.core.managers.RoleManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setMentionable(boolean mentionable) {
     return updatable.getMentionableField().setValue(mentionable).update();
   }
@@ -300,7 +292,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(Permission...)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> givePermissions(Permission... perms) {
     return givePermissions(Arrays.asList(perms));
   }
@@ -332,7 +323,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(Permission...)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> givePermissions(Collection<Permission> perms) {
     return updatable.getPermissionField().givePermissions(perms).update();
   }
@@ -365,7 +355,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(Permission...)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> revokePermissions(Permission... perms) {
     return revokePermissions(Arrays.asList(perms));
   }
@@ -397,7 +386,6 @@ public class RoleManager {
    * @see #setPermissions(Collection)
    * @see #setPermissions(Permission...)
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> revokePermissions(Collection<Permission> perms) {
     return updatable.getPermissionField().revokePermissions(perms).update();
   }

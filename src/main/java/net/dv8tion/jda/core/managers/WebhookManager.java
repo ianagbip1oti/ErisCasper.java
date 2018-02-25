@@ -16,7 +16,6 @@
 
 package net.dv8tion.jda.core.managers;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Icon;
@@ -104,7 +103,6 @@ public class WebhookManager {
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#getNameField()
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setName(String name) {
     return manager.getNameField().setValue(name).update();
   }
@@ -125,7 +123,6 @@ public class WebhookManager {
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#getAvatarField()
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setAvatar(Icon icon) {
     return manager.getAvatarField().setValue(icon).update();
   }
@@ -152,7 +149,6 @@ public class WebhookManager {
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#getChannelField()
    * @see net.dv8tion.jda.core.managers.WebhookManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> setChannel(TextChannel channel) {
     return manager.getChannelField().setValue(channel).update();
   }

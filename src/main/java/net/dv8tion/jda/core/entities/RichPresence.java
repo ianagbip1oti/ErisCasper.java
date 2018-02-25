@@ -19,8 +19,6 @@ package net.dv8tion.jda.core.entities;
 import java.time.Instant;
 import java.time.temporal.TemporalUnit;
 import java.util.Objects;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.utils.Checks;
 
 /**
@@ -87,7 +85,6 @@ public class RichPresence extends Game {
    *
    * @return The ID for the application
    */
-  @Nonnull
   public String getApplicationId() {
     return Long.toUnsignedString(applicationId);
   }
@@ -98,7 +95,6 @@ public class RichPresence extends Game {
    *
    * @return The user's current party status
    */
-  @Nullable
   public String getState() {
     return state;
   }
@@ -109,7 +105,6 @@ public class RichPresence extends Game {
    *
    * @return What the player is currently doing
    */
-  @Nullable
   public String getDetails() {
     return details;
   }
@@ -120,7 +115,6 @@ public class RichPresence extends Game {
    * @return {@link net.dv8tion.jda.core.entities.RichPresence.Party Party} wrapper or {@code null}
    *     if unset
    */
-  @Nullable
   public Party getParty() {
     return party;
   }
@@ -131,7 +125,6 @@ public class RichPresence extends Game {
    * @return {@link net.dv8tion.jda.core.entities.RichPresence.Timestamps Timestamps} wrapper of
    *     {@code null} if unset
    */
-  @Nullable
   public Timestamps getTimestamps() {
     return timestamps;
   }
@@ -142,7 +135,6 @@ public class RichPresence extends Game {
    * @return {@link net.dv8tion.jda.core.entities.RichPresence.Image Image} wrapper or {@code null}
    *     if unset
    */
-  @Nullable
   public Image getLargeImage() {
     return largeImage;
   }
@@ -153,7 +145,6 @@ public class RichPresence extends Game {
    * @return {@link net.dv8tion.jda.core.entities.RichPresence.Image Image} wrapper or {@code null}
    *     if unset
    */
-  @Nullable
   public Image getSmallImage() {
     return smallImage;
   }
@@ -200,7 +191,6 @@ public class RichPresence extends Game {
      *
      * @return The key for this image
      */
-    @Nonnull
     public String getKey() {
       return key;
     }
@@ -210,7 +200,6 @@ public class RichPresence extends Game {
      *
      * @return Hover text for this image, or {@code null}
      */
-    @Nullable
     public String getText() {
       return text;
     }
@@ -220,7 +209,6 @@ public class RichPresence extends Game {
      *
      * @return URL for this image
      */
-    @Nonnull
     public String getUrl() {
       return "https://cdn.discordapp.com/app-assets/" + applicationId + "/" + key + ".png";
     }
@@ -268,7 +256,6 @@ public class RichPresence extends Game {
      *
      * @return Instant of match start, or {@code null} if unset
      */
-    @Nullable
     public Instant getStartTime() {
       return start <= 0 ? null : Instant.ofEpochMilli(start);
     }
@@ -287,7 +274,6 @@ public class RichPresence extends Game {
      *
      * @return Instant of match start, or {@code null} if unset
      */
-    @Nullable
     public Instant getEndTime() {
       return end <= 0 ? null : Instant.ofEpochMilli(end);
     }
@@ -374,7 +360,6 @@ public class RichPresence extends Game {
      *
      * @return The ID for this party, or {@code null} if unset
      */
-    @Nullable
     public String getId() {
       return id;
     }

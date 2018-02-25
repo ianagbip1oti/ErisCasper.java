@@ -21,8 +21,6 @@ import java.time.OffsetDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.Permission;
@@ -254,7 +252,6 @@ public class GuildImpl implements Guild {
     return emoteCache;
   }
 
-  @Nonnull
   @Override
   public RestAction<List<Ban>> getBanList() {
     if (!isAvailable()) throw new GuildUnavailableException();
@@ -310,7 +307,6 @@ public class GuildImpl implements Guild {
     return publicRole;
   }
 
-  @Nullable
   @Override
   public TextChannel getDefaultChannel() {
     final Role role = getPublicRole();

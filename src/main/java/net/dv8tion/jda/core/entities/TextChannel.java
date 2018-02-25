@@ -19,7 +19,6 @@ import java.util.Collection;
 import java.util.FormattableFlags;
 import java.util.Formatter;
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.core.requests.restaction.WebhookAction;
@@ -70,7 +69,6 @@ public interface TextChannel
    *     net.dv8tion.jda.core.entities.Webhook Webhook}{@literal >} <br>
    *     An immutable list of Webhook attached to this channel
    */
-  @CheckReturnValue
   RestAction<List<Webhook>> getWebhooks();
 
   /**
@@ -96,7 +94,6 @@ public interface TextChannel
    *     <br>
    *     This action allows to set fields for the new webhook before creating it
    */
-  @CheckReturnValue
   WebhookAction createWebhook(String name);
 
   /**
@@ -138,7 +135,6 @@ public interface TextChannel
    *     AuditableRestAction}
    * @see #deleteMessagesByIds(Collection)
    */
-  @CheckReturnValue
   RestAction<Void> deleteMessages(Collection<Message> messages);
 
   /**
@@ -185,7 +181,6 @@ public interface TextChannel
    *     AuditableRestAction}
    * @see #deleteMessages(Collection)
    */
-  @CheckReturnValue
   RestAction<Void> deleteMessagesByIds(Collection<String> messageIds);
 
   /**
@@ -217,7 +212,6 @@ public interface TextChannel
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   AuditableRestAction<Void> deleteWebhookById(String id);
 
   /**
@@ -254,7 +248,6 @@ public interface TextChannel
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   RestAction<Void> clearReactionsById(String messageId);
 
   /**
@@ -290,7 +283,6 @@ public interface TextChannel
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> clearReactionsById(long messageId) {
     return clearReactionsById(Long.toUnsignedString(messageId));
   }
@@ -350,7 +342,6 @@ public interface TextChannel
    *     Permission.MESSAGE_MANAGE} in this channel.
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   RestAction<Void> removeReactionById(String messageId, String unicode, User user);
 
   /**
@@ -408,7 +399,6 @@ public interface TextChannel
    *     Permission.MESSAGE_MANAGE} in this channel.
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(long messageId, String unicode, User user) {
     return removeReactionById(Long.toUnsignedString(messageId), unicode, user);
   }
@@ -463,7 +453,6 @@ public interface TextChannel
    *     Permission.MESSAGE_MANAGE} in this channel.
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(String messageId, Emote emote, User user) {
     Checks.notNull(emote, "Emote");
     return removeReactionById(messageId, emote.getName() + ":" + emote.getId(), user);
@@ -519,7 +508,6 @@ public interface TextChannel
    *     Permission.MESSAGE_MANAGE} in this channel.
    * @return {@link net.dv8tion.jda.core.requests.RestAction}
    */
-  @CheckReturnValue
   default RestAction<Void> removeReactionById(long messageId, Emote emote, User user) {
     return removeReactionById(Long.toUnsignedString(messageId), emote, user);
   }

@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.managers.fields.EmoteField;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
@@ -196,7 +195,6 @@ public class EmoteManagerUpdatable {
    *     AuditableRestAction} <br>
    *     Applies all changes that have been made in a single api-call.
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> update() {
     checkPermission(Permission.MANAGE_EMOTES);
 

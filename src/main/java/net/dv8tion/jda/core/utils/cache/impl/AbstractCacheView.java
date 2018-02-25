@@ -21,7 +21,6 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.MiscUtil;
 import net.dv8tion.jda.core.utils.cache.CacheView;
@@ -104,7 +103,6 @@ public abstract class AbstractCacheView<T> implements CacheView<T> {
     return StreamSupport.stream(spliterator(), true);
   }
 
-  @Nonnull
   @Override
   public Iterator<T> iterator() {
     return new ArrayIterator<>(elements.values());

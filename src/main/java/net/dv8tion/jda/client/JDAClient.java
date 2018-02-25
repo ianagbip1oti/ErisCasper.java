@@ -17,7 +17,6 @@
 package net.dv8tion.jda.client;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.entities.*;
 import net.dv8tion.jda.client.requests.restaction.ApplicationAction;
 import net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction;
@@ -91,7 +90,6 @@ public interface JDAClient {
    * @return {@link net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction
    *     MentionPaginationAction}
    */
-  @CheckReturnValue
   MentionPaginationAction getRecentMentions();
 
   /**
@@ -111,7 +109,6 @@ public interface JDAClient {
    * @return {@link net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction
    *     MentionPaginationAction}
    */
-  @CheckReturnValue
   MentionPaginationAction getRecentMentions(Guild guild);
 
   UserSettings getSettings();
@@ -138,7 +135,6 @@ public interface JDAClient {
    *     ApplicationAction} <br>
    *     This action allows to set fields for the new application before creating it
    */
-  @CheckReturnValue
   ApplicationAction createApplication(String name);
 
   /**
@@ -150,7 +146,6 @@ public interface JDAClient {
    *     Application}{@literal >} <br>
    *     A list of all Applications owned by this user account.
    */
-  @CheckReturnValue
   RestAction<List<Application>> getApplications();
 
   /**
@@ -171,7 +166,6 @@ public interface JDAClient {
    *     net.dv8tion.jda.client.entities.Application Application} <br>
    *     The Application behind the provided id.
    */
-  @CheckReturnValue
   RestAction<Application> getApplicationById(String id);
 
   /**
@@ -183,7 +177,6 @@ public interface JDAClient {
    *     AuthorizedApplication}{@literal >} <br>
    *     A list of all AuthorizedApplications authorized by this user account.
    */
-  @CheckReturnValue
   RestAction<List<AuthorizedApplication>> getAuthorizedApplications();
 
   /**
@@ -204,6 +197,5 @@ public interface JDAClient {
    *     net.dv8tion.jda.client.entities.AuthorizedApplication AuthorizedApplication} <br>
    *     The Application behind the provided id.
    */
-  @CheckReturnValue
   RestAction<AuthorizedApplication> getAuthorizedApplicationById(String id);
 }

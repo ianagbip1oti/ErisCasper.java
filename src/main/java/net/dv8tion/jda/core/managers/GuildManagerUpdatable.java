@@ -16,7 +16,6 @@
 
 package net.dv8tion.jda.core.managers;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.Region;
@@ -427,7 +426,6 @@ public class GuildManagerUpdatable {
    *     AuditableRestAction} <br>
    *     Applies all changes that have been made in a single api-call.
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> update() {
     checkAvailable();
     checkPermission(Permission.MANAGE_SERVER);

@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.entities;
 
 import java.util.List;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.client.managers.EmoteManager;
 import net.dv8tion.jda.client.managers.EmoteManagerUpdatable;
 import net.dv8tion.jda.core.JDA;
@@ -100,7 +99,6 @@ public interface Emote extends ISnowflake, IMentionable, IFakeable {
    * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
    *     AuditableRestAction} The RestAction to delete this Emote.
    */
-  @CheckReturnValue
   AuditableRestAction<Void> delete();
 
   /**

@@ -20,7 +20,6 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.core.entities.ISnowflake;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
@@ -80,7 +79,6 @@ public class UnifiedCacheViewImpl<T, E extends CacheView<T>> implements CacheVie
     return generator.get().flatMap(CacheView::parallelStream).distinct();
   }
 
-  @Nonnull
   @Override
   public Iterator<T> iterator() {
     return asList().iterator();

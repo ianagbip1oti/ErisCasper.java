@@ -16,7 +16,6 @@
 
 package net.dv8tion.jda.core.managers;
 
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -208,7 +207,6 @@ public class WebhookManagerUpdatable {
    *     AuditableRestAction} <br>
    *     Applies all changes that have been made in a single api-call.
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> update() {
     Member self = getGuild().getSelfMember();
     if (!self.hasPermission(webhook.getChannel(), Permission.MANAGE_WEBHOOKS))

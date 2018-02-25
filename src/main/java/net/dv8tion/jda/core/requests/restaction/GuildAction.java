@@ -19,8 +19,6 @@ package net.dv8tion.jda.core.requests.restaction;
 import java.awt.Color;
 import java.util.*;
 import java.util.function.BooleanSupplier;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.Region;
@@ -79,7 +77,6 @@ public class GuildAction extends RestAction<Void> {
    *     net.dv8tion.jda.core.Region#isVip() Region.isVip()}
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setRegion(Region region) {
     Checks.check(
         region == null || !region.isVip(), "Cannot create a Guild with a VIP voice region!");
@@ -94,7 +91,6 @@ public class GuildAction extends RestAction<Void> {
    * @param icon The {@link net.dv8tion.jda.core.entities.Icon Icon} to use
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setIcon(Icon icon) {
     this.icon = icon;
     return this;
@@ -108,7 +104,6 @@ public class GuildAction extends RestAction<Void> {
    *     between 2-100 characters long
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setName(String name) {
     Checks.notBlank(name, "Name");
     name = name.trim();
@@ -126,7 +121,6 @@ public class GuildAction extends RestAction<Void> {
    *     VerificationLevel} to use
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setVerificationLevel(Guild.VerificationLevel level) {
     this.verificationLevel = level;
     return this;
@@ -140,7 +134,6 @@ public class GuildAction extends RestAction<Void> {
    *     NotificationLevel} to use
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setNotificationLevel(Guild.NotificationLevel level) {
     this.notificationLevel = level;
     return this;
@@ -154,7 +147,6 @@ public class GuildAction extends RestAction<Void> {
    *     ExplicitContentLevel} to use
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction setExplicitContentLevel(Guild.ExplicitContentLevel level) {
     this.explicitContentLevel = level;
     return this;
@@ -171,7 +163,6 @@ public class GuildAction extends RestAction<Void> {
    * @throws java.lang.IllegalArgumentException If the provided channel is {@code null}!
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction addChannel(ChannelData channel) {
     Checks.notNull(channel, "Channel");
     this.channels.add(channel);
@@ -187,7 +178,6 @@ public class GuildAction extends RestAction<Void> {
    * @throws java.lang.IndexOutOfBoundsException If the provided index is not in bounds
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public ChannelData getChannel(int index) {
     return this.channels.get(index);
   }
@@ -200,7 +190,6 @@ public class GuildAction extends RestAction<Void> {
    * @throws java.lang.IndexOutOfBoundsException If the index is out of bounds
    * @return The removed object
    */
-  @CheckReturnValue
   public ChannelData removeChannel(int index) {
     return this.channels.remove(index);
   }
@@ -212,7 +201,6 @@ public class GuildAction extends RestAction<Void> {
    * @param data The ChannelData to remove
    * @return The current GuildAction for chaining convenience
    */
-  @CheckReturnValue
   public GuildAction removeChannel(ChannelData data) {
     this.channels.remove(data);
     return this;
@@ -237,7 +225,6 @@ public class GuildAction extends RestAction<Void> {
    *
    * @return The new ChannelData instance
    */
-  @CheckReturnValue
   public ChannelData newChannel(ChannelType type, String name) {
     ChannelData data = new ChannelData(type, name);
     addChannel(data);
@@ -256,7 +243,6 @@ public class GuildAction extends RestAction<Void> {
    *
    * @return RoleData of the public role
    */
-  @CheckReturnValue
   public RoleData getPublicRole() {
     return this.roles.get(0);
   }
@@ -270,7 +256,6 @@ public class GuildAction extends RestAction<Void> {
    * @throws java.lang.IndexOutOfBoundsException If the provided index is out of bounds
    * @return RoleData of the provided index
    */
-  @CheckReturnValue
   public RoleData getRole(int index) {
     return this.roles.get(index);
   }
@@ -287,7 +272,6 @@ public class GuildAction extends RestAction<Void> {
    *
    * @return RoleData for the new Role
    */
-  @CheckReturnValue
   public RoleData newRole() {
     final RoleData role = new RoleData(roles.size());
     this.roles.add(role);
@@ -654,9 +638,7 @@ public class GuildAction extends RestAction<Void> {
      * @return This ChannelData instance for chaining convenience
      */
     public ChannelData addPermissionOverride(
-        RoleData role,
-        @Nullable Collection<Permission> allow,
-        @Nullable Collection<Permission> deny) {
+        RoleData role, Collection<Permission> allow, Collection<Permission> deny) {
       long allowRaw = 0;
       long denyRaw = 0;
       if (allow != null) {

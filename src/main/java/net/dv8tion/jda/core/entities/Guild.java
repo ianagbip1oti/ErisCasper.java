@@ -18,9 +18,6 @@ package net.dv8tion.jda.core.entities;
 import java.util.Collection;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.CheckReturnValue;
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Region;
@@ -149,7 +146,6 @@ public interface Guild extends ISnowflake {
    *     The vanity url of this server
    * @see #getFeatures()
    */
-  @CheckReturnValue
   RestAction<String> getVanityUrl();
 
   /**
@@ -777,8 +773,6 @@ public interface Guild extends ISnowflake {
    *     List<}{@link net.dv8tion.jda.core.entities.Guild.Ban Ban}{@literal >} <br>
    *     An unmodifiable list of all users currently banned from this Guild
    */
-  @Nonnull
-  @CheckReturnValue
   RestAction<List<Ban>> getBanList();
 
   /**
@@ -806,7 +800,6 @@ public interface Guild extends ISnowflake {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: Integer <br>
    *     The amount of Members that would be affected.
    */
-  @CheckReturnValue
   RestAction<Integer> getPrunableMemberCount(int days);
 
   /**
@@ -839,7 +832,6 @@ public interface Guild extends ISnowflake {
    * @return The {@link net.dv8tion.jda.core.entities.TextChannel TextChannel} representing the
    *     default channel for this guild
    */
-  @Nullable
   TextChannel getDefaultChannel();
 
   /**
@@ -895,7 +887,6 @@ public interface Guild extends ISnowflake {
    * @see net.dv8tion.jda.core.JDA#asClient()
    * @see net.dv8tion.jda.client.JDAClient#getRecentMentions(Guild)
    */
-  @CheckReturnValue
   MentionPaginationAction getRecentMentions();
 
   /**
@@ -932,7 +923,6 @@ public interface Guild extends ISnowflake {
    * @return {@link net.dv8tion.jda.core.requests.restaction.pagination.AuditLogPaginationAction
    *     AuditLogPaginationAction}
    */
-  @CheckReturnValue
   AuditLogPaginationAction getAuditLogs();
 
   /**
@@ -946,7 +936,6 @@ public interface Guild extends ISnowflake {
    * @return {@link net.dv8tion.jda.core.requests.RestAction RestAction} - Type: {@link
    *     java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> leave();
 
   /**
@@ -960,7 +949,6 @@ public interface Guild extends ISnowflake {
    *     ({@link net.dv8tion.jda.core.entities.SelfUser#isMfaEnabled()}).
    * @return {@link net.dv8tion.jda.core.requests.RestAction} - Type: {@link java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> delete();
 
   /**
@@ -980,7 +968,6 @@ public interface Guild extends ISnowflake {
    *     empty when {@link SelfUser#isMfaEnabled()} is true.
    * @return {@link net.dv8tion.jda.core.requests.RestAction} - Type: {@link java.lang.Void}
    */
-  @CheckReturnValue
   RestAction<Void> delete(String mfaCode);
 
   /**
@@ -1019,7 +1006,6 @@ public interface Guild extends ISnowflake {
    *     The list of expanded Invite objects
    * @see net.dv8tion.jda.core.entities.Channel#getInvites()
    */
-  @CheckReturnValue
   RestAction<List<Invite>> getInvites();
 
   /**
@@ -1036,7 +1022,6 @@ public interface Guild extends ISnowflake {
    *     A list of all Webhooks in this Guild.
    * @see TextChannel#getWebhooks()
    */
-  @CheckReturnValue
   RestAction<List<Webhook>> getWebhooks();
 
   /**
@@ -1379,7 +1364,6 @@ public interface Guild extends ISnowflake {
      *
      * @return The banned User
      */
-    @Nonnull
     public User getUser() {
       return user;
     }
@@ -1389,7 +1373,6 @@ public interface Guild extends ISnowflake {
      *
      * @return The reason for this ban, or {@code null}
      */
-    @Nullable
     public String getReason() {
       return reason;
     }

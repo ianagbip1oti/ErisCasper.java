@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.managers;
 
 import java.util.Collection;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.Channel;
@@ -103,7 +102,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#grant(long)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> grant(long permissions) {
     return updatable.grant(permissions).update();
   }
@@ -125,7 +123,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#grant(Permission...)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> grant(Permission... permissions) {
     return updatable.grant(permissions).update();
   }
@@ -147,7 +144,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#grant(Collection)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> grant(Collection<Permission> permissions) {
     return updatable.grant(permissions).update();
   }
@@ -168,7 +164,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#deny(long)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> deny(long permissions) {
     return updatable.deny(permissions).update();
   }
@@ -190,7 +185,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#deny(Permission...)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> deny(Permission... permissions) {
     return updatable.deny(permissions).update();
   }
@@ -212,7 +206,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#deny(Collection)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> deny(Collection<Permission> permissions) {
     return updatable.deny(permissions).update();
   }
@@ -234,7 +227,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#clear(long)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> clear(long permissions) {
     return updatable.clear(permissions).update();
   }
@@ -257,7 +249,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#clear(Permission...)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> clear(Permission... permissions) {
     return updatable.clear(permissions).update();
   }
@@ -280,7 +271,6 @@ public class PermOverrideManager {
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#clear(Collection)
    * @see net.dv8tion.jda.core.managers.PermOverrideManagerUpdatable#update()
    */
-  @CheckReturnValue
   public AuditableRestAction<Void> clear(Collection<Permission> permissions) {
     return updatable.clear(permissions).update();
   }

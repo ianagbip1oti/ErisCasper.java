@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.exceptions;
 
 import java.util.function.Consumer;
-import javax.annotation.Nonnull;
 
 /** Used to pass a context to async exception handling for debugging purposes. */
 public class ContextException extends Exception {
@@ -28,7 +27,6 @@ public class ContextException extends Exception {
    *
    * @return Wrapping failure consumer around {@code Throwable::printStackTrace}
    */
-  @Nonnull
   public static Consumer<Throwable> herePrintingTrace() {
     return here(Throwable::printStackTrace);
   }
@@ -40,8 +38,7 @@ public class ContextException extends Exception {
    * @return Wrapper of the provided consumer that will append a context with the current
    *     stack-trace
    */
-  @Nonnull
-  public static Consumer<Throwable> here(@Nonnull Consumer<Throwable> acceptor) {
+  public static Consumer<Throwable> here(Consumer<Throwable> acceptor) {
     ContextException context = new ContextException();
     return (ex) -> {
       Throwable cause = ex;

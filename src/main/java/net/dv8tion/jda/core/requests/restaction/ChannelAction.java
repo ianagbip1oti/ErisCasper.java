@@ -20,7 +20,6 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BooleanSupplier;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.requests.Request;
@@ -84,7 +83,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    *     chars long
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setName(String name) {
     Checks.notNull(name, "Channel name");
     if (name.length() < 2 || name.length() > 100)
@@ -104,7 +102,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    *     Guild
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setParent(Category category) {
     Checks.check(
         category == null || category.getGuild().equals(guild), "Category is not from same guild!");
@@ -120,7 +117,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    * @throws IllegalArgumentException If the provided topic is longer than 1024 chars
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setTopic(String topic) {
     if (type != ChannelType.TEXT)
       throw new UnsupportedOperationException("Can only set the topic for a TextChannel!");
@@ -137,7 +133,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    * @throws UnsupportedOperationException If this ChannelAction is not for a TextChannel
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setNSFW(boolean nsfw) {
     if (type != ChannelType.TEXT)
       throw new UnsupportedOperationException("Can only set nsfw for a TextChannel!");
@@ -159,7 +154,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    *     net.dv8tion.jda.core.entities.Role Role} is null or not within the same guild.
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction addPermissionOverride(
       IPermissionHolder target, Collection<Permission> allow, Collection<Permission> deny) {
     checkPermissions(allow);
@@ -191,7 +185,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    * @see net.dv8tion.jda.core.Permission#getRaw(java.util.Collection)
    * @see net.dv8tion.jda.core.Permission#getRaw(net.dv8tion.jda.core.Permission...)
    */
-  @CheckReturnValue
   public ChannelAction addPermissionOverride(IPermissionHolder target, long allow, long deny) {
     Checks.notNull(target, "Override Role");
     Checks.notNegative(allow, "Granted permissions value");
@@ -228,7 +221,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    *     128000
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setBitrate(Integer bitrate) {
     if (type != ChannelType.VOICE)
       throw new UnsupportedOperationException("Can only set the bitrate for a VoiceChannel!");
@@ -252,7 +244,6 @@ public class ChannelAction extends AuditableRestAction<Channel> {
    * @throws IllegalArgumentException If the provided userlimit is negative or above {@code 99}
    * @return The current ChannelAction, for chaining convenience
    */
-  @CheckReturnValue
   public ChannelAction setUserlimit(Integer userlimit) {
     if (type != ChannelType.VOICE)
       throw new UnsupportedOperationException("Can only set the userlimit for a VoiceChannel!");

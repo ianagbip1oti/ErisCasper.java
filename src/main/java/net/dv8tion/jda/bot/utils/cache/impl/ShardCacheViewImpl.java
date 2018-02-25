@@ -22,7 +22,6 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import javax.annotation.Nonnull;
 import net.dv8tion.jda.bot.utils.cache.ShardCacheView;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.utils.Checks;
@@ -98,7 +97,6 @@ public class ShardCacheViewImpl implements ShardCacheView {
     return elements.valueCollection().parallelStream();
   }
 
-  @Nonnull
   @Override
   public Iterator<JDA> iterator() {
     return asList().iterator();
@@ -170,7 +168,6 @@ public class ShardCacheViewImpl implements ShardCacheView {
       return generator.get().flatMap(CacheView::parallelStream).distinct();
     }
 
-    @Nonnull
     @Override
     public Iterator<JDA> iterator() {
       return asList().iterator();

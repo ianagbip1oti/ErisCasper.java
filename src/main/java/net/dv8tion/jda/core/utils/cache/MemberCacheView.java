@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.utils.cache;
 
 import java.util.Collection;
 import java.util.List;
-import javax.annotation.Nullable;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Role;
 import net.dv8tion.jda.core.utils.MiscUtil;
@@ -84,7 +83,7 @@ public interface MemberCacheView extends CacheView<Member> {
    * @param ignoreCase Whether to ignore case when comparing nicknames
    * @return Immutable list of members with the given nickname
    */
-  List<Member> getElementsByNickname(@Nullable String name, boolean ignoreCase);
+  List<Member> getElementsByNickname(String name, boolean ignoreCase);
 
   /**
    * Creates an immutable list of all members matching the given nickname. <br>
@@ -94,7 +93,7 @@ public interface MemberCacheView extends CacheView<Member> {
    * @param name The nullable nickname to check
    * @return Immutable list of members with the given nickname
    */
-  default List<Member> getElementsByNickname(@Nullable String name) {
+  default List<Member> getElementsByNickname(String name) {
     return getElementsByNickname(name, false);
   }
 

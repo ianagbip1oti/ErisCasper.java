@@ -19,7 +19,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 import java.util.regex.Matcher;
-import javax.annotation.CheckReturnValue;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.impl.DataMessage;
 import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
@@ -659,7 +658,6 @@ public class MessageBuilder implements Appendable {
    *     PrivateChannel and both users (sender and receiver) are bots.
    * @return {@link net.dv8tion.jda.core.requests.restaction.MessageAction MessageAction}
    */
-  @CheckReturnValue
   public MessageAction sendTo(MessageChannel channel) {
     Checks.notNull(channel, "Target Channel");
     switch (channel.getType()) {
