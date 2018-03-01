@@ -10,4 +10,13 @@
     </menu>
     <menu ref="reports"/>
   </body>
+  <custom>
+    <fluidoSkin>
+      <gitHub>
+        <projectId>ianagbip1oti/ErisCasper.java</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>black</ribbonColor>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
 </project>
