@@ -20,4 +20,4 @@ jobs:
       script: mvn -B verify
     - stage: publish
       jdk: openjdk8
-      script: "cp etc/settings.xml $HOME/.m2/settings.xml && travis_wait mvn -- -B site -P snapshot"
+      script: "cp etc/settings.xml $HOME/.m2/settings.xml && travis_wait mvn site -- -B -P snapshot"
