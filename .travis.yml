@@ -20,5 +20,10 @@ jobs:
       script: mvn -B verify
     - stage: publish
       jdk: openjdk8
-      # enable debug here to avoid travis timeouts
-      script: mvn site -B -X -P snapshot
+      script: mvn -B site
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: target/site
