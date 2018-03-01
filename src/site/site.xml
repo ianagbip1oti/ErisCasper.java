@@ -5,6 +5,9 @@
     <version>1.7</version>
   </skin>
   <body>
+    <menu>
+      <item name="Overview" href="index.html"/>
+    </menu>
     <menu ref="reports"/>
   </body>
 </project>
