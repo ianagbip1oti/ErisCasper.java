@@ -4,6 +4,10 @@ env:
   global:
   - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)-SNAPSHOT"
 
+addons:
+  sonarcloud:
+    organization: "ianagbip1oti-github"
+  
 stages:
 - build
 - name: publish
@@ -27,3 +31,5 @@ jobs:
         github-token: $GITHUB_TOKEN
         keep-history: true
         local-dir: target/site
+    - jdk: openjdk8
+      script: mvn sonar:sonar

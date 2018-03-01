@@ -515,7 +515,6 @@ public class AudioWebSocket extends WebSocketAdapter {
       // to connect to discord with.
       byte[] received = receivedPacket.getData();
 
-      // Example string:"   121.83.253.66                                                   ��"
       // You'll notice that there are 4 leading nulls and a large amount of nulls between the the ip
       // and
       // the last 2 bytes. Not sure why these exist.  The last 2 bytes are the port. More info
