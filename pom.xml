@@ -41,6 +41,7 @@
     <plugin.jar.version>3.0.2</plugin.jar.version>
     <plugin.javadoc.version>3.0.0</plugin.javadoc.version>
     <plugin.jxr.version>2.5</plugin.jxr.version>
+    <plugin.pmd.version>3.9.0</plugin.pmd.version>
     <plugin.project-info-reports.version>2.9</plugin.project-info-reports.version>
     <plugin.resources.version>3.0.2</plugin.resources.version>
     <plugin.site.version>3.7</plugin.site.version>
@@ -226,6 +227,11 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jxr-plugin</artifactId>
         <version>${plugin.jxr.version}</version>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-pmd-plugin</artifactId>
+        <version>${plugin.pmd.version}</version>
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
