@@ -9,4 +9,14 @@ jdk:
   - oraclejdk9
   - openjdk8 
   
-script: mvn -B verify
+stages:
+- build
+- name: publish
+# if: branch = master AND NOT type = pull_request
+  
+jobs:
+  include:
+    - stage: build
+      script: mvn -B verify
+    - stage: publish
+      script: mvn -B site -P snapshot
