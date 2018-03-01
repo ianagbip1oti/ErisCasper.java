@@ -10,7 +10,6 @@
       <item name="SonarCloud Report" href="https://sonarcloud.io/dashboard?id=com.github.lana%3AErisCasper.java"/>
     </menu>
     <menu ref="reports"/>
-
   </body>
   <custom>
     <fluidoSkin>
