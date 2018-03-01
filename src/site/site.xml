@@ -1,7 +1,22 @@
-<project name="ErisCasper.java">
+<project name="${project.name}">
   <skin>
     <groupId>org.apache.maven.skins</groupId>
     <artifactId>maven-fluido-skin</artifactId>
     <version>1.7</version>
   </skin>
+  <body>
+    <menu>
+      <item name="Overview" href="index.html"/>
+    </menu>
+    <menu ref="reports"/>
+  </body>
+  <custom>
+    <fluidoSkin>
+      <gitHub>
+        <projectId>ianagbip1oti/ErisCasper.java</projectId>
+        <ribbonOrientation>right</ribbonOrientation>
+        <ribbonColor>black</ribbonColor>
+      </gitHub>
+    </fluidoSkin>
+  </custom>
 </project>

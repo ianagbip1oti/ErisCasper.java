@@ -41,7 +41,7 @@
     <plugin.jar.version>3.0.2</plugin.jar.version>
     <plugin.javadoc.version>3.0.0</plugin.javadoc.version>
     <plugin.jxr.version>2.5</plugin.jxr.version>
-    <plugin.project-info-reports.version>2.6</plugin.project-info-reports.version>
+    <plugin.project-info-reports.version>2.9</plugin.project-info-reports.version>
     <plugin.resources.version>3.0.2</plugin.resources.version>
     <plugin.site.version>3.7</plugin.site.version>
     <plugin.sortpom.version>2.8.0</plugin.sortpom.version>
