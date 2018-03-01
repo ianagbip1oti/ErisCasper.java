@@ -7,7 +7,7 @@ env:
 stages:
 - build
 - name: publish
-# if: branch = master AND NOT type = pull_request
+  if: branch = master AND NOT type = pull_request
   
 jobs:
   include:
