@@ -4,11 +4,6 @@ env:
   global:
   - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)-SNAPSHOT"
 
-jdk:
-  - oraclejdk8
-  - oraclejdk9
-  - openjdk8 
-  
 stages:
 - build
 - name: publish
@@ -17,6 +12,11 @@ stages:
 jobs:
   include:
     - stage: build
+      jdk: oraclejdk8
+      script: mvn -B verify
+    - jdk: oraclejdk9
+      script: mvn -B verify
+    - jdk: openjdk8
       script: mvn -B verify
     - stage: publish
       script: mvn -B site -P snapshot
