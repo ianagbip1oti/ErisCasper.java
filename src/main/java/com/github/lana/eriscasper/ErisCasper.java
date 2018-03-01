@@ -32,7 +32,7 @@ public class ErisCasper {
   public static ErisCasper create(JDA jda) {
     Observable<Event> events =
         Observable.create(
-            (emitter) -> {
+            emitter -> {
               EventListener el = emitter::onNext;
               jda.addEventListener(el);
             });
