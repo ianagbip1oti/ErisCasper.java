@@ -4,9 +4,26 @@ env:
   global:
   - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)-SNAPSHOT"
 
-jdk:
-  - oraclejdk8
-  - oraclejdk9
-  - openjdk8 
+stages:
+- build
+- name: publish
+  if: branch = master AND NOT type = pull_request
   
-script: mvn -B verify
+jobs:
+  include:
+    - stage: build
+      jdk: oraclejdk8
+      script: mvn -B verify
+    - jdk: oraclejdk9
+      script: mvn -B verify
+    - jdk: openjdk8
+      script: mvn -B verify
+    - stage: publish
+      jdk: openjdk8
+      script: mvn -B site
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        keep-history: true
+        local-dir: target/site
