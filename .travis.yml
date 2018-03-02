@@ -32,4 +32,4 @@ jobs:
         keep-history: true
         local-dir: target/site
     - jdk: openjdk8
-      script: mvn sonar:sonar
+      script: mvn -B verify sonar:sonar
