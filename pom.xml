@@ -25,6 +25,8 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.commons-collections4.version>4.1</lib.commons-collections4.version>
     <lib.json.version>20160810</lib.json.version>
+    <lib.junit-jupiter.version>5.1.0</lib.junit-jupiter.version>
+    <lib.junit-platform-surefire-provider.version>1.1.0</lib.junit-platform-surefire-provider.version>
     <lib.nv-websocket-client.version>2.2</lib.nv-websocket-client.version>
     <lib.okhttp.version>3.8.1</lib.okhttp.version>
     <lib.okio.version>1.13.0</lib.okio.version>
@@ -47,7 +49,8 @@
     <plugin.site.version>3.7</plugin.site.version>
     <plugin.sortpom.version>2.8.0</plugin.sortpom.version>
     <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
-    <plugin.surefire.version>2.20.1</plugin.surefire.version>
+    <!-- 2.19.1 for use with JUnit5 -->
+    <plugin.surefire.version>2.19.1</plugin.surefire.version>
   </properties>
   <dependencies>
     <dependency>
@@ -59,6 +62,12 @@
       <groupId>org.json</groupId>
       <artifactId>json</artifactId>
       <version>${lib.json.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${lib.junit-jupiter.version}</version>
+      <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.neovisionaries</groupId>
@@ -171,6 +180,24 @@
         <artifactId>maven-site-plugin</artifactId>
         <version>${plugin.site.version}</version>
       </plugin>
+      
+      <plugin>
+        <groupId>com.github.ekryd.sortpom</groupId>
+        <artifactId>sortpom-maven-plugin</artifactId>
+        <version>${plugin.sortpom.version}</version>
+        <executions>
+          <execution>
+            <phase>verify</phase>
+            <goals>
+              <goal>verify</goal>
+            </goals>
+          </execution>
+        </executions>
+        <configuration>
+          <createBackupFile>false</createBackupFile>
+          <verifyFail>Stop</verifyFail>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>com.diffplug.spotless</groupId>
         <artifactId>spotless-maven-plugin</artifactId>
@@ -193,26 +220,21 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>com.github.ekryd.sortpom</groupId>
-        <artifactId>sortpom-maven-plugin</artifactId>
-        <version>${plugin.sortpom.version}</version>
-        <executions>
-          <execution>
-            <phase>verify</phase>
-            <goals>
-              <goal>verify</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <createBackupFile>false</createBackupFile>
-          <verifyFail>Stop</verifyFail>
-        </configuration>
-      </plugin>
-      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>${plugin.surefire.version}</version>
+        <dependencies>
+        <dependency>
+          <groupId>org.junit.platform</groupId>
+          <artifactId>junit-platform-surefire-provider</artifactId>
+          <version>${lib.junit-platform-surefire-provider.version}</version>
+        </dependency>
+        <dependency>
+          <groupId>org.junit.jupiter</groupId>
+          <artifactId>junit-jupiter-engine</artifactId>
+          <version>${lib.junit-jupiter.version}</version>
+        </dependency>
+      </dependencies>
       </plugin>
     </plugins>
   </build>
