@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.github.lana</groupId>
+  <groupId>com.github.princesslana</groupId>
   <artifactId>ErisCasper.java</artifactId>
   <version>${revision}</version>
   <packaging>jar</packaging>
   <name>ErisCasper.java</name>
   <description>Discord Bot API</description>
-  <url>https://github.com/ianagbip1oti/ErisCasper.java</url>
+  <url>https://github.com/princesslana/ErisCasper.java</url>
   <licenses>
     <license>
       <name>Apache License, Version 2.0</name>
@@ -16,7 +16,7 @@
     </license>
   </licenses>
   <scm>
-    <url>https://github.com/ianagbip1oti/ErisCasper.java</url>
+    <url>https://github.com/princesslana/ErisCasper.java</url>
   </scm>
   <properties>
     <revision>0-SNAPSHOT</revision>
