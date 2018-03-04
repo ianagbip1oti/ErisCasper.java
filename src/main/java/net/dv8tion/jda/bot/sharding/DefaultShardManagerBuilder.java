@@ -27,7 +27,6 @@ import java.util.function.IntFunction;
 import java.util.stream.Collectors;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.utils.Checks;
@@ -67,7 +66,6 @@ public class DefaultShardManagerBuilder {
   protected IEventManager eventManager = null;
   protected OkHttpClient.Builder httpClientBuilder = null;
   protected WebSocketFactory wsFactory = null;
-  protected IAudioSendFactory audioSendFactory = null;
   protected ThreadFactory threadFactory = null;
 
   /**
@@ -220,23 +218,6 @@ public class DefaultShardManagerBuilder {
    */
   public DefaultShardManagerBuilder setAudioEnabled(final boolean enabled) {
     this.enableVoice = enabled;
-    return this;
-  }
-
-  /**
-   * Changes the factory used to create {@link net.dv8tion.jda.core.audio.factory.IAudioSendSystem
-   * IAudioSendSystem} objects which handle the sending loop for audio packets. <br>
-   * By default, JDA uses {@link net.dv8tion.jda.core.audio.factory.DefaultSendFactory
-   * DefaultSendFactory}.
-   *
-   * @param factory The new {@link net.dv8tion.jda.core.audio.factory.IAudioSendFactory
-   *     IAudioSendFactory} to be used when creating new {@link
-   *     net.dv8tion.jda.core.audio.factory.IAudioSendSystem} objects.
-   * @return The {@link net.dv8tion.jda.bot.sharding.DefaultShardManagerBuilder
-   *     DefaultShardManagerBuilder} instance. Useful for chaining.
-   */
-  public DefaultShardManagerBuilder setAudioSendFactory(final IAudioSendFactory factory) {
-    this.audioSendFactory = factory;
     return this;
   }
 
@@ -703,7 +684,6 @@ public class DefaultShardManagerBuilder {
             this.listeners,
             this.token,
             this.eventManager,
-            this.audioSendFactory,
             this.gameProvider,
             this.statusProvider,
             this.httpClientBuilder,
