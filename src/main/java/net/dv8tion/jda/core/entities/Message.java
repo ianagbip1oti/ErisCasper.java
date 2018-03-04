@@ -16,6 +16,7 @@
  */
 package net.dv8tion.jda.core.entities;
 
+import com.google.common.io.ByteStreams;
 import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
@@ -36,7 +37,6 @@ import net.dv8tion.jda.core.requests.restaction.AuditableRestAction;
 import net.dv8tion.jda.core.requests.restaction.MessageAction;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.IOConsumer;
-import net.dv8tion.jda.core.utils.IOUtil;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -1210,7 +1210,7 @@ public interface Message extends ISnowflake, Formattable {
       try (Response response = openConnection()) {
         // creates a copy in order to properly close the response
         InputStream in = Requester.getBody(response);
-        return new ByteArrayInputStream(IOUtil.readFully(in));
+        return new ByteArrayInputStream(ByteStreams.toByteArray(in));
       }
     }
 

@@ -16,13 +16,14 @@
  */
 package net.dv8tion.jda.core.entities;
 
+import com.google.common.io.ByteStreams;
+import com.google.common.io.Files;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 import net.dv8tion.jda.core.utils.Checks;
-import net.dv8tion.jda.core.utils.IOUtil;
 
 /**
  * Icon containing a base64 encoded jpeg/png/gif/gifv image. <br>
@@ -62,7 +63,7 @@ public class Icon {
     Checks.notNull(file, "Provided File");
     Checks.check(file.exists(), "Provided file does not exist!");
 
-    return from(IOUtil.readFully(file));
+    return from(Files.toByteArray(file));
   }
 
   /**
@@ -80,7 +81,7 @@ public class Icon {
   public static Icon from(InputStream stream) throws IOException {
     Checks.notNull(stream, "InputStream");
 
-    return from(IOUtil.readFully(stream));
+    return from(ByteStreams.toByteArray(stream));
   }
 
   /**
