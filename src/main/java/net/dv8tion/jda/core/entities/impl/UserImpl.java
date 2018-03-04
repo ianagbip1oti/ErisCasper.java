@@ -63,29 +63,22 @@ public class UserImpl implements User {
 
   @Override
   public String getAvatarUrl() {
-    return getAvatarId() == null
-        ? null
-        : "https://cdn.discordapp.com/avatars/"
-            + getId()
-            + "/"
-            + getAvatarId()
-            + (getAvatarId().startsWith("a_") ? ".gif" : ".png");
+    if (avatarId == null) {
+      return getDefaultAvatarUrl();
+    }
+
+    String extension = avatarId.startsWith("a_") ? "gif" : "png";
+
+    return String.format(
+        "https://cdn.discordapp.com/avatars/%s/%s.%s", getId(), avatarId, extension);
   }
 
-  @Override
-  public String getDefaultAvatarId() {
-    return DefaultAvatar
-        .values()[Integer.parseInt(getDiscriminator()) % DefaultAvatar.values().length].toString();
-  }
+  private String getDefaultAvatarUrl() {
+    String defaultId =
+        DefaultAvatar.values()[Integer.parseInt(getDiscriminator()) % DefaultAvatar.values().length]
+            .toString();
 
-  @Override
-  public String getDefaultAvatarUrl() {
-    return "https://discordapp.com/assets/" + getDefaultAvatarId() + ".png";
-  }
-
-  @Override
-  public String getEffectiveAvatarUrl() {
-    return getAvatarUrl() == null ? getDefaultAvatarUrl() : getAvatarUrl();
+    return String.format("https://discordapp.com/assets/%s.png", defaultId);
   }
 
   @Override

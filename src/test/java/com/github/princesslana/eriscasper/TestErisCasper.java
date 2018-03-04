@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 public class TestErisCasper {
 
   @Test
-  public void shouldEmitEvents() {
+  public void events_whenJdaPublishesEvents_shouldEmitEvents() {
     JDA mockJda = Mockito.mock(JDA.class);
     Event mockEvent = Mockito.mock(Event.class);
 
