@@ -49,17 +49,18 @@ import net.dv8tion.jda.core.handle.*;
 import net.dv8tion.jda.core.managers.AudioManager;
 import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
 import net.dv8tion.jda.core.managers.impl.PresenceImpl;
-import net.dv8tion.jda.core.utils.JDALogger;
 import net.dv8tion.jda.core.utils.MiscUtil;
 import net.dv8tion.jda.core.utils.SessionController;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
-import org.slf4j.MDC;
+import org.slf4j.LoggerFactory;
 
 public class WebSocketClient extends WebSocketAdapter implements WebSocketListener {
-  public static final Logger LOG = JDALogger.getLog(WebSocketClient.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(WebSocketClient.class);
+
   public static final int DISCORD_GATEWAY_VERSION = 6;
   public static final int IDENTIFY_DELAY = 5;
   public static final int ZLIB_SUFFIX = 0x0000FFFF;
@@ -245,7 +246,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
     ratelimitThread =
         new Thread(
             () -> {
-              if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
               boolean needRatelimit;
               boolean attemptedToSend;
               while (!Thread.currentThread().isInterrupted()) {
@@ -418,7 +418,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
   @Override
   public void onConnected(WebSocket websocket, Map<String, List<String>> headers) {
     // writing thread
-    if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
     api.setStatus(JDA.Status.IDENTIFYING_SESSION);
     LOG.info("Connected to WebSocket");
     if (headers.containsKey("cf-ray")) {
@@ -545,7 +544,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
    */
   public void reconnect(boolean callFromQueue, boolean shouldHandleIdentify)
       throws InterruptedException {
-    if (callFromQueue && api.getContextMap() != null) api.getContextMap().forEach(MDC::put);
     if (shutdown) {
       api.setStatus(JDA.Status.SHUTDOWN);
       api.getEventManager().handle(new ShutdownEvent(api, OffsetDateTime.now(), 1000));
@@ -555,8 +553,7 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
       if (callFromQueue)
         LOG.warn(
             "Queue is attempting to reconnect a shard...{}",
-            JDALogger.getLazyString(
-                () -> shardInfo != null ? " Shard: " + shardInfo.getShardString() : ""));
+            shardInfo != null ? " Shard: " + shardInfo.getShardString() : "");
       else LOG.warn("Got disconnected from WebSocket (Internet?!)...");
       LOG.warn("Attempting to reconnect in {}s", reconnectTimeoutS);
     }
@@ -591,7 +588,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
   @Override
   public void onTextMessage(WebSocket websocket, String message) {
     // reading thread
-    if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
     JSONObject content = new JSONObject(message);
     try {
       int opCode = content.getInt("op");
@@ -649,7 +645,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
     keepAliveThread =
         new Thread(
             () -> {
-              if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
               while (connected) {
                 try {
                   sendKeepAlive();

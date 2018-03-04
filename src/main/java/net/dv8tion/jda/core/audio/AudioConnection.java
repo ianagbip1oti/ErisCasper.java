@@ -29,18 +29,16 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
-import net.dv8tion.jda.core.utils.JDALogger;
 import org.slf4j.Logger;
-import org.slf4j.MDC;
+import org.slf4j.LoggerFactory;
 
 public class AudioConnection {
-  public static final Logger LOG = JDALogger.getLog(AudioConnection.class);
+  public static final Logger LOG = LoggerFactory.getLogger(AudioConnection.class);
 
   private final TIntLongMap ssrcMap = new TIntLongHashMap();
 
   private final String threadIdentifier;
   private final AudioWebSocket webSocket;
-  private final ConcurrentMap<String, String> contextMap;
   private DatagramSocket udpSocket;
   private VoiceChannel channel;
   private volatile AudioReceiveHandler receiveHandler = null;
@@ -57,7 +55,6 @@ public class AudioConnection {
     final JDAImpl api = (JDAImpl) channel.getJDA();
     this.threadIdentifier =
         api.getIdentifierString() + " AudioConnection Guild: " + channel.getGuild().getId();
-    this.contextMap = api.getContextMap();
   }
 
   public void ready() {
@@ -65,7 +62,6 @@ public class AudioConnection {
         new Thread(
             AudioManagerImpl.AUDIO_THREADS,
             () -> {
-              if (contextMap != null) MDC.setContextMap(contextMap);
               final long timeout = getGuild().getAudioManager().getConnectTimeout();
 
               final long started = System.currentTimeMillis();

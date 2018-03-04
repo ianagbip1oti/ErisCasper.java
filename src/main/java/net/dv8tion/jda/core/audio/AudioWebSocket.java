@@ -34,14 +34,15 @@ import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.ExceptionEvent;
 import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
-import net.dv8tion.jda.core.utils.JDALogger;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
-import org.slf4j.MDC;
+import org.slf4j.LoggerFactory;
 
 public class AudioWebSocket extends WebSocketAdapter {
-  public static final Logger LOG = JDALogger.getLog(AudioWebSocket.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(AudioWebSocket.class);
+
   public static final int DISCORD_SECRET_KEY_LENGTH = 32;
   public static final int AUDIO_GATEWAY_VERSION = 3;
 
@@ -112,7 +113,6 @@ public class AudioWebSocket extends WebSocketAdapter {
   @Override
   public void onConnected(WebSocket websocket, Map<String, List<String>> headers) {
     // writing thread
-    if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
     if (shutdown) {
       // Somehow this AudioWebSocket was shutdown before we finished connecting....
       // thus we just disconnect here since we were asked to shutdown
@@ -132,7 +132,6 @@ public class AudioWebSocket extends WebSocketAdapter {
   public void onTextMessage(WebSocket websocket, String message) {
     // reading thread
     try {
-      if (api.getContextMap() != null) MDC.setContextMap(api.getContextMap());
       handleEvent(new JSONObject(message));
     } catch (Exception ex) {
       LOG.error("Encountered exception trying to handle an event message: {}", message, ex);
@@ -311,7 +310,6 @@ public class AudioWebSocket extends WebSocketAdapter {
 
   @Override
   public void handleCallbackError(WebSocket websocket, Throwable cause) {
-    MDC.setContextMap(api.getContextMap());
     LOG.error("There was some audio websocket error", cause);
     api.getEventManager().handle(new ExceptionEvent(api, cause, true));
   }
@@ -341,7 +339,6 @@ public class AudioWebSocket extends WebSocketAdapter {
 
   @Override
   public void onConnectError(WebSocket webSocket, WebSocketException e) {
-    MDC.setContextMap(api.getContextMap());
     LOG.warn(
         "Failed to establish websocket connection: {} - {}\nClosing connection and attempting to reconnect.",
         e.getError(),
@@ -650,7 +647,6 @@ public class AudioWebSocket extends WebSocketAdapter {
     public Thread newThread(Runnable r) {
       Runnable r2 =
           () -> {
-            if (contextMap != null) MDC.setContextMap(contextMap);
             r.run();
           };
       final Thread t =
