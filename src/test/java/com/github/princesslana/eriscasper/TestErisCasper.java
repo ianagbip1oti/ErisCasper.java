@@ -1,4 +1,4 @@
-package com.github.lana.eriscasper;
+package com.github.princesslana.eriscasper;
 
 import io.reactivex.observers.TestObserver;
 import net.dv8tion.jda.core.JDA;
