@@ -32,9 +32,12 @@ import net.dv8tion.jda.core.requests.Route;
 import net.dv8tion.jda.core.utils.tuple.Pair;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class SessionControllerAdapter implements SessionController {
-  protected static final Logger log = JDALogger.getLog(SessionControllerAdapter.class);
+
+  private static final Logger log = LoggerFactory.getLogger(SessionControllerAdapter.class);
+
   protected final Object lock = new Object();
   protected Queue<SessionConnectNode> connectQueue;
   protected AtomicLong globalRatelimit;

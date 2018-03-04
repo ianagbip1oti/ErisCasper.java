@@ -33,12 +33,12 @@ import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.managers.impl.PresenceImpl;
 import net.dv8tion.jda.core.utils.Checks;
-import net.dv8tion.jda.core.utils.JDALogger;
 import net.dv8tion.jda.core.utils.SessionController;
 import net.dv8tion.jda.core.utils.SessionControllerAdapter;
 import net.dv8tion.jda.core.utils.tuple.Pair;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * JDA's default {@link net.dv8tion.jda.bot.sharding.ShardManager ShardManager} implementation. To
@@ -49,7 +49,9 @@ import org.slf4j.Logger;
  * @author Aljoscha Grebe
  */
 public class DefaultShardManager implements ShardManager {
-  public static final Logger LOG = JDALogger.getLog(ShardManager.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(ShardManager.class);
+
   public static final ThreadFactory DEFAULT_THREAD_FACTORY =
       r -> {
         final Thread t = new Thread(r, "DefaultShardManager");

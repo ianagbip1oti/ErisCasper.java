@@ -45,16 +45,18 @@ import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.handle.GuildMembersChunkHandler;
 import net.dv8tion.jda.core.handle.ReadyHandler;
 import net.dv8tion.jda.core.utils.Helpers;
-import net.dv8tion.jda.core.utils.JDALogger;
 import net.dv8tion.jda.core.utils.MiscUtil;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class EntityBuilder {
-  public static final Logger LOG = JDALogger.getLog(EntityBuilder.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(EntityBuilder.class);
+
   public static final String MISSING_CHANNEL = "MISSING_CHANNEL";
   public static final String MISSING_USER = "MISSING_USER";
   public static final String UNKNOWN_MESSAGE_TYPE = "UNKNOWN_MESSAGE_TYPE";

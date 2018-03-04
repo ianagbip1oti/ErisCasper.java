@@ -33,7 +33,6 @@ import net.dv8tion.jda.core.requests.RequestFuture;
 import net.dv8tion.jda.core.requests.Requester;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.IOUtil;
-import net.dv8tion.jda.core.utils.JDALogger;
 import net.dv8tion.jda.core.utils.Promise;
 import net.dv8tion.jda.core.utils.tuple.ImmutablePair;
 import net.dv8tion.jda.core.utils.tuple.Pair;
@@ -44,6 +43,7 @@ import okhttp3.Response;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * WebhookClient representing an executable {@link net.dv8tion.jda.core.entities.Webhook Webhook}
@@ -58,7 +58,8 @@ public class WebhookClient implements AutoCloseable {
   public static final String WEBHOOK_URL = "https://discordapp.com/api/v6/webhooks/%s/%s";
   public static final String USER_AGENT =
       "JDA Webhook(https://github.com/DV8FromTheWorld/JDA | " + JDAInfo.VERSION + ")";
-  public static final Logger LOG = JDALogger.getLog(WebhookClient.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(WebhookClient.class);
 
   protected final String url;
   protected final long id;
@@ -384,8 +385,7 @@ public class WebhookClient implements AutoCloseable {
         LOG.debug(
             "Failed to update buckets due to unsuccessful response with code: {} and body: \n{}",
             response.code(),
-            JDALogger.getLazyString(
-                () -> new String(IOUtil.readFully(Requester.getBody(response)))));
+            new String(IOUtil.readFully(Requester.getBody(response))));
         return;
       }
       remainingUses = Integer.parseInt(response.header("X-RateLimit-Remaining"));

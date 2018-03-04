@@ -31,16 +31,18 @@ import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.requests.ratelimit.BotRateLimiter;
 import net.dv8tion.jda.core.requests.ratelimit.ClientRateLimiter;
-import net.dv8tion.jda.core.utils.JDALogger;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.RequestBody;
 import okhttp3.internal.http.HttpMethod;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Requester {
-  public static final Logger LOG = JDALogger.getLog(Requester.class);
+
+  public static final Logger LOG = LoggerFactory.getLogger(Requester.class);
+
   public static final String DISCORD_API_PREFIX =
       String.format("https://discordapp.com/api/v%d/", JDAInfo.DISCORD_REST_VERSION);
   public static final String USER_AGENT =

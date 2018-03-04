@@ -25,12 +25,12 @@ import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.dv8tion.jda.core.exceptions.PermissionException;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 import net.dv8tion.jda.core.utils.Checks;
-import net.dv8tion.jda.core.utils.JDALogger;
 import okhttp3.RequestBody;
 import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * A class representing a terminal between the user and the discord API. <br>
@@ -161,7 +161,7 @@ import org.slf4j.Logger;
  * @since 3.0
  */
 public abstract class RestAction<T> {
-  public static final Logger LOG = JDALogger.getLog(RestAction.class);
+  public static final Logger LOG = LoggerFactory.getLogger(RestAction.class);
 
   public static Consumer DEFAULT_SUCCESS = o -> {};
   public static Consumer<Throwable> DEFAULT_FAILURE =

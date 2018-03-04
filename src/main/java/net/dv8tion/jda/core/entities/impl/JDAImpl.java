@@ -48,10 +48,10 @@ import net.dv8tion.jda.core.utils.tuple.Pair;
 import okhttp3.OkHttpClient;
 import org.json.JSONObject;
 import org.slf4j.Logger;
-import org.slf4j.MDC;
+import org.slf4j.LoggerFactory;
 
 public class JDAImpl implements JDA {
-  public static final Logger LOG = JDALogger.getLog(JDA.class);
+  public static final Logger LOG = LoggerFactory.getLogger(JDA.class);
 
   public final ScheduledThreadPoolExecutor pool;
 
@@ -161,16 +161,11 @@ public class JDAImpl implements JDA {
         contextMap.put("jda.shard.id", String.valueOf(shardInfo.getShardId()));
         contextMap.put("jda.shard.total", String.valueOf(shardInfo.getShardTotal()));
       }
-      // set MDC metadata for build thread
-      previousContext = MDC.getCopyOfContextMap();
-      contextMap.forEach(MDC::put);
     }
     verifyToken();
     LOG.info("Login Successful!");
 
     client = new WebSocketClient(this);
-    // remove our MDC metadata when we exit our code
-    if (previousContext != null) previousContext.forEach(MDC::put);
 
     if (shutdownHook != null) Runtime.getRuntime().addShutdownHook(shutdownHook);
 
@@ -652,7 +647,6 @@ public class JDAImpl implements JDA {
       final Thread thread =
           new Thread(
               () -> {
-                if (contextMap != null) MDC.setContextMap(contextMap);
                 r.run();
               },
               "JDA-Thread " + getIdentifierString());

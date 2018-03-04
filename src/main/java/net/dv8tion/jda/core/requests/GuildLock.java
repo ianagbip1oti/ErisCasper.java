@@ -24,12 +24,12 @@ import java.util.LinkedList;
 import java.util.List;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
-import net.dv8tion.jda.core.utils.JDALogger;
 import org.json.JSONObject;
 import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class GuildLock {
-  public static final Logger LOG = JDALogger.getLog(GuildLock.class);
+  public static final Logger LOG = LoggerFactory.getLogger(GuildLock.class);
 
   private final JDA api;
   private final TLongObjectMap<List<JSONObject>> cache = new TLongObjectHashMap<>();

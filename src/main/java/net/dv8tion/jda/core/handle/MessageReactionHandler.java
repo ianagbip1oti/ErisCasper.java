@@ -32,11 +32,13 @@ import net.dv8tion.jda.core.events.message.priv.react.PrivateMessageReactionRemo
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.dv8tion.jda.core.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.core.hooks.IEventManager;
-import net.dv8tion.jda.core.requests.WebSocketClient;
-import net.dv8tion.jda.core.utils.JDALogger;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MessageReactionHandler extends SocketHandler {
+
+  private static final Logger LOG = LoggerFactory.getLogger(MessageReactionHandler.class);
 
   private final boolean add;
 
@@ -58,10 +60,8 @@ public class MessageReactionHandler extends SocketHandler {
     final boolean emojiAnimated = emoji.optBoolean("animated");
 
     if (emojiId == null && emojiName == null) {
-      WebSocketClient.LOG.debug(
-          "Received a reaction {} with no name nor id. json: {}",
-          JDALogger.getLazyString(() -> add ? "add" : "remove"),
-          content);
+      LOG.debug(
+          "Received a reaction {} with no name nor id. json: {}", add ? "add" : "remove", content);
       return null;
     }
 
@@ -100,10 +100,8 @@ public class MessageReactionHandler extends SocketHandler {
         if (emojiName != null) {
           emote = new EmoteImpl(emojiId, api).setAnimated(emojiAnimated).setName(emojiName);
         } else {
-          WebSocketClient.LOG.debug(
-              "Received a reaction {} with a null name. json: {}",
-              JDALogger.getLazyString(() -> add ? "add" : "remove"),
-              content);
+          LOG.debug(
+              "Received a reaction {} with a null name. json: {}", add ? "add" : "remove", content);
           return null;
         }
       }
