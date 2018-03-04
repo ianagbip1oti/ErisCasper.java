@@ -73,29 +73,14 @@ public class Requester {
           "The Requester has been shutdown! No new requests can be requested!");
 
     if (apiRequest.shouldQueue()) rateLimiter.queueRequest(apiRequest);
-    else execute(apiRequest, true);
+    else execute(apiRequest, false, true);
   }
 
   public Long execute(Request<?> apiRequest) {
-    return execute(apiRequest, false);
+    return execute(apiRequest, false, false);
   }
 
-  /**
-   * Used to execute a Request. Processes request related to provided bucket.
-   *
-   * @param apiRequest The API request that needs to be sent
-   * @param handleOnRateLimit Whether to forward rate-limits, false if rate limit handling should
-   *     take over
-   * @return Non-null if the request was ratelimited. Returns a Long containing retry_after
-   *     milliseconds until the request can be made again. This could either be for the Per-Route
-   *     ratelimit or the Global ratelimit. <br>
-   *     Check if globalCooldown is {@code null} to determine if it was Per-Route or Global.
-   */
-  public Long execute(Request<?> apiRequest, boolean handleOnRateLimit) {
-    return execute(apiRequest, false, handleOnRateLimit);
-  }
-
-  public Long execute(Request<?> apiRequest, boolean retried, boolean handleOnRatelimit) {
+  private Long execute(Request<?> apiRequest, boolean retried, boolean handleOnRatelimit) {
     Route.CompiledRoute route = apiRequest.getRoute();
     Long retryAfter = rateLimiter.getRateLimit(route);
     if (retryAfter != null) {
@@ -197,10 +182,6 @@ public class Requester {
 
   public OkHttpClient getHttpClient() {
     return this.httpClient;
-  }
-
-  public RateLimiter getRateLimiter() {
-    return rateLimiter;
   }
 
   public void setRetryOnTimeout(boolean retryOnTimeout) {
