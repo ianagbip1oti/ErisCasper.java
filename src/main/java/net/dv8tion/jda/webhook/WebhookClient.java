@@ -16,6 +16,7 @@
  */
 package net.dv8tion.jda.webhook;
 
+import com.google.common.io.ByteStreams;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +33,6 @@ import net.dv8tion.jda.core.exceptions.HttpException;
 import net.dv8tion.jda.core.requests.RequestFuture;
 import net.dv8tion.jda.core.requests.Requester;
 import net.dv8tion.jda.core.utils.Checks;
-import net.dv8tion.jda.core.utils.IOUtil;
 import net.dv8tion.jda.core.utils.Promise;
 import net.dv8tion.jda.core.utils.tuple.ImmutablePair;
 import net.dv8tion.jda.core.utils.tuple.Pair;
@@ -290,7 +290,7 @@ public class WebhookClient implements AutoCloseable {
 
   protected static HttpException failure(Response response) throws IOException {
     final InputStream stream = Requester.getBody(response);
-    final String responseBody = new String(IOUtil.readFully(stream));
+    final String responseBody = new String(ByteStreams.toByteArray(stream));
     return new HttpException("Request returned failure " + response.code() + ": " + responseBody);
   }
 
@@ -385,7 +385,7 @@ public class WebhookClient implements AutoCloseable {
         LOG.debug(
             "Failed to update buckets due to unsuccessful response with code: {} and body: \n{}",
             response.code(),
-            new String(IOUtil.readFully(Requester.getBody(response))));
+            new String(ByteStreams.toByteArray(Requester.getBody(response))));
         return;
       }
       remainingUses = Integer.parseInt(response.header("X-RateLimit-Remaining"));
