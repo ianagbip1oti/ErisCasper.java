@@ -382,10 +382,13 @@ public class WebhookClient implements AutoCloseable {
       if (is429) {
         handleRatelimit(response, current);
       } else if (!response.isSuccessful()) {
-        LOG.debug(
-            "Failed to update buckets due to unsuccessful response with code: {} and body: \n{}",
-            response.code(),
-            new String(ByteStreams.toByteArray(Requester.getBody(response))));
+        if (LOG.isDebugEnabled()) {
+          LOG.debug(
+              "Failed to update buckets due to unsuccessful response with code: {} and body: \n{}",
+              response.code(),
+              new String(ByteStreams.toByteArray(Requester.getBody(response))));
+        }
+
         return;
       }
       remainingUses = Integer.parseInt(response.header("X-RateLimit-Remaining"));
