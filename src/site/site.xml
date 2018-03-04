@@ -7,14 +7,14 @@
   <body>
     <menu>
       <item name="Overview" href="index.html"/>
-      <item name="SonarCloud Report" href="https://sonarcloud.io/dashboard?id=com.github.lana%3AErisCasper.java"/>
+      <item name="SonarCloud Report" href="https://sonarcloud.io/dashboard?id=com.github.princesslana%3AErisCasper.java"/>
     </menu>
     <menu ref="reports"/>
   </body>
   <custom>
     <fluidoSkin>
       <gitHub>
-        <projectId>ianagbip1oti/ErisCasper.java</projectId>
+        <projectId>princesslana/ErisCasper.java</projectId>
         <ribbonOrientation>right</ribbonOrientation>
         <ribbonColor>black</ribbonColor>
       </gitHub>
