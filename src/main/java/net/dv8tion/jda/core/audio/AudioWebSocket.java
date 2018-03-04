@@ -645,14 +645,10 @@ public class AudioWebSocket extends WebSocketAdapter {
 
     @Override
     public Thread newThread(Runnable r) {
-      Runnable r2 =
-          () -> {
-            r.run();
-          };
       final Thread t =
           new Thread(
               AudioManagerImpl.AUDIO_THREADS,
-              r2,
+              r,
               identifier + " - Thread " + threadCount.getAndIncrement());
       t.setDaemon(true);
       return t;

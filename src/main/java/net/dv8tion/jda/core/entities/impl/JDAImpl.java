@@ -154,13 +154,10 @@ public class JDAImpl implements JDA {
     if (token == null || token.isEmpty())
       throw new LoginException("Provided token was null or empty!");
 
-    Map<String, String> previousContext = null;
-    if (contextMap != null) {
-      if (shardInfo != null) {
-        contextMap.put("jda.shard", shardInfo.getShardString());
-        contextMap.put("jda.shard.id", String.valueOf(shardInfo.getShardId()));
-        contextMap.put("jda.shard.total", String.valueOf(shardInfo.getShardTotal()));
-      }
+    if (contextMap != null && shardInfo != null) {
+      contextMap.put("jda.shard", shardInfo.getShardString());
+      contextMap.put("jda.shard.id", String.valueOf(shardInfo.getShardId()));
+      contextMap.put("jda.shard.total", String.valueOf(shardInfo.getShardTotal()));
     }
     verifyToken();
     LOG.info("Login Successful!");
@@ -644,12 +641,7 @@ public class JDAImpl implements JDA {
   private class JDAThreadFactory implements ThreadFactory {
     @Override
     public Thread newThread(Runnable r) {
-      final Thread thread =
-          new Thread(
-              () -> {
-                r.run();
-              },
-              "JDA-Thread " + getIdentifierString());
+      final Thread thread = new Thread(r, "JDA-Thread " + getIdentifierString());
       thread.setDaemon(true);
       return thread;
     }
