@@ -1,4 +1,4 @@
-package com.github.lana.eriscasper;
+package com.github.princesslana.eriscasper;
 
 public class ErisCasperFatalException extends RuntimeException {
   public ErisCasperFatalException() {

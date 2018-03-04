@@ -1,4 +1,4 @@
-package com.github.lana.eriscasper;
+package com.github.princesslana.eriscasper;
 
 import io.reactivex.Observable;
 import javax.security.auth.login.LoginException;
