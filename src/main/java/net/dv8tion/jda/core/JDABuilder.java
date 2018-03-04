@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.concurrent.ConcurrentMap;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.JDA.Status;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.exceptions.AccountTypeException;
@@ -57,7 +56,6 @@ public class JDABuilder {
   protected AccountType accountType;
   protected String token = null;
   protected IEventManager eventManager = null;
-  protected IAudioSendFactory audioSendFactory = null;
   protected JDA.ShardInfo shardInfo = null;
   protected Game game = null;
   protected OnlineStatus status = OnlineStatus.ONLINE;
@@ -300,22 +298,6 @@ public class JDABuilder {
    */
   public JDABuilder setEventManager(IEventManager manager) {
     this.eventManager = manager;
-    return this;
-  }
-
-  /**
-   * Changes the factory used to create {@link net.dv8tion.jda.core.audio.factory.IAudioSendSystem
-   * IAudioSendSystem} objects which handle the sending loop for audio packets. <br>
-   * By default, JDA uses {@link net.dv8tion.jda.core.audio.factory.DefaultSendFactory
-   * DefaultSendFactory}.
-   *
-   * @param factory The new {@link net.dv8tion.jda.core.audio.factory.IAudioSendFactory
-   *     IAudioSendFactory} to be used when creating new {@link
-   *     net.dv8tion.jda.core.audio.factory.IAudioSendSystem} objects.
-   * @return The JDABuilder instance. Useful for chaining.
-   */
-  public JDABuilder setAudioSendFactory(IAudioSendFactory factory) {
-    this.audioSendFactory = factory;
     return this;
   }
 

@@ -28,7 +28,6 @@ import net.dv8tion.jda.bot.utils.cache.impl.ShardCacheViewImpl;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
-import net.dv8tion.jda.core.audio.factory.IAudioSendFactory;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.hooks.IEventManager;
@@ -61,12 +60,6 @@ public class DefaultShardManager implements ShardManager {
    * The {@link net.dv8tion.jda.core.utils.SessionController SessionController} for this manager.
    */
   protected final SessionController controller;
-
-  /**
-   * The factory used to create {@link net.dv8tion.jda.core.audio.factory.IAudioSendSystem
-   * IAudioSendSystem} objects which handle the sending loop for audio packets.
-   */
-  protected final IAudioSendFactory audioSendFactory;
 
   /**
    * Whether or not JDA should try to reconnect if a connection-error is encountered. <br>
@@ -220,7 +213,6 @@ public class DefaultShardManager implements ShardManager {
       final List<Object> listeners,
       final String token,
       final IEventManager eventManager,
-      final IAudioSendFactory audioSendFactory,
       final IntFunction<Game> gameProvider,
       final IntFunction<OnlineStatus> statusProvider,
       final OkHttpClient.Builder httpClientBuilder,
@@ -241,7 +233,6 @@ public class DefaultShardManager implements ShardManager {
     this.listeners = listeners;
     this.token = token;
     this.eventManager = eventManager;
-    this.audioSendFactory = audioSendFactory;
     this.gameProvider = gameProvider;
     this.statusProvider = statusProvider;
     this.httpClientBuilder =
