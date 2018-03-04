@@ -14,13 +14,13 @@ public class TestUserImpl {
   }
 
   @Test
-  public void getAvatarUrlWhenNoAvatarIdShouldReturnDefaultAvatarUrl() {
+  public void getAvatarUrl_whenNoAvatarId_shouldReturnDefaultAvatarUrl() {
     Assertions.assertThat(user.getAvatarUrl())
         .isEqualTo("https://discordapp.com/assets/6debd47ed13483642cf09e832ed0bc1b.png");
   }
 
   @Test
-  public void getAvatarUrlWhenIsAvatarIdShouldReturnAvatarUrl() {
+  public void getAvatarUrl_whenIsAvatarId_shouldReturnAvatarUrl() {
     user.setAvatarId("test_avatar_id");
 
     Assertions.assertThat(user.getAvatarUrl())
@@ -28,7 +28,7 @@ public class TestUserImpl {
   }
 
   @Test
-  public void getAvatarUrlWhenAvatarIdForGifShouldReturnGifAvatarUrl() {
+  public void getAvatarUrl_whenAvatarIdForGif_shouldReturnGifAvatarUrl() {
     user.setAvatarId("a_test_avatar_id");
 
     Assertions.assertThat(user.getAvatarUrl())
