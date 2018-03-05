@@ -16,7 +16,6 @@
  */
 package net.dv8tion.jda.core.entities.impl;
 
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.SelfUser;
@@ -72,34 +71,22 @@ public class SelfUserImpl extends UserImpl implements SelfUser {
 
   @Override
   public String getEmail() throws AccountTypeException {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT, "Email retrieval can only be done on CLIENT accounts!");
-    return email;
+    throw new AccountTypeException("Email retrieval can only be done on CLIENT accounts!");
   }
 
   @Override
   public String getPhoneNumber() throws AccountTypeException {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT, "Phone number retrieval can only be done on CLIENT accounts!");
-    return this.phoneNumber;
+    throw new AccountTypeException("Phone number retrieval can only be done on CLIENT accounts!");
   }
 
   @Override
   public boolean isMobile() throws AccountTypeException {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT, "Mobile app retrieval can only be done on CLIENT accounts!");
-    return this.mobile;
+    throw new AccountTypeException("Mobile app retrieval can only be done on CLIENT accounts!");
   }
 
   @Override
   public boolean isNitro() throws AccountTypeException {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT, "Nitro status retrieval can only be done on CLIENT accounts!");
-    return this.nitro;
+    throw new AccountTypeException("Nitro status retrieval can only be done on CLIENT accounts!");
   }
 
   @Override

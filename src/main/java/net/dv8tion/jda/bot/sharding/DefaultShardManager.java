@@ -25,7 +25,6 @@ import java.util.function.IntFunction;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.bot.utils.cache.ShardCacheView;
 import net.dv8tion.jda.bot.utils.cache.impl.ShardCacheViewImpl;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
@@ -451,7 +450,6 @@ public class DefaultShardManager implements ShardManager {
   protected JDAImpl buildInstance(final int shardId) throws LoginException, InterruptedException {
     final JDAImpl jda =
         new JDAImpl(
-            AccountType.BOT,
             this.token,
             this.controller,
             this.httpClientBuilder,

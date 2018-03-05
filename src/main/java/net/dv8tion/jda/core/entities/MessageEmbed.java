@@ -22,7 +22,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.utils.Checks;
 import net.dv8tion.jda.core.utils.Helpers;
@@ -353,20 +352,12 @@ public class MessageEmbed {
    * @return True, if this MessageEmbed can be used to send messages for this specified AccountType
    * @see #getLength()
    */
-  public boolean isSendable(AccountType type) {
+  public boolean isSendable() {
     Checks.notNull(type, "AccountType");
     final int length = getLength();
     if (isEmpty()) return false;
 
-    switch (type) {
-      case BOT:
-        return length <= EMBED_MAX_LENGTH_BOT;
-      case CLIENT:
-        return length <= EMBED_MAX_LENGTH_CLIENT;
-      default:
-        throw new IllegalArgumentException(
-            String.format("Cannot check against AccountType '%s'!", type));
-    }
+    return length <= EMBED_MAX_LENGTH_BOT;
   }
 
   @Override

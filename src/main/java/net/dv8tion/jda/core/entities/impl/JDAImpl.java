@@ -23,8 +23,6 @@ import java.util.concurrent.*;
 import java.util.stream.Collectors;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.bot.entities.impl.JDABotImpl;
-import net.dv8tion.jda.client.entities.impl.JDAClientImpl;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.audio.AudioWebSocket;
 import net.dv8tion.jda.core.entities.*;
@@ -77,9 +75,7 @@ public class JDAImpl implements JDA {
   protected final ConcurrentMap<String, String> contextMap;
   protected final OkHttpClient.Builder httpClientBuilder;
   protected final WebSocketFactory wsFactory;
-  protected final AccountType accountType;
   protected final PresenceImpl presence;
-  protected final JDAClientImpl jdaClient;
   protected final JDABotImpl jdaBot;
   protected final int maxReconnectDelay;
   protected final Thread shutdownHook;
@@ -106,7 +102,6 @@ public class JDAImpl implements JDA {
   protected String gatewayUrl;
 
   public JDAImpl(
-      AccountType accountType,
       String token,
       SessionController controller,
       OkHttpClient.Builder httpClientBuilder,
@@ -120,7 +115,6 @@ public class JDAImpl implements JDA {
       int corePoolSize,
       int maxReconnectDelay,
       ConcurrentMap<String, String> contextMap) {
-    this.accountType = accountType;
     this.setToken(token);
     this.httpClientBuilder = httpClientBuilder;
     this.wsFactory = wsFactory;
@@ -138,8 +132,7 @@ public class JDAImpl implements JDA {
     this.requester = new Requester(this);
     this.requester.setRetryOnTimeout(retryOnTimeout);
 
-    this.jdaClient = accountType == AccountType.CLIENT ? new JDAClientImpl(this) : null;
-    this.jdaBot = accountType == AccountType.BOT ? new JDABotImpl(this) : null;
+    this.jdaBot = new JDABotImpl(this);
   }
 
   public SessionController getSessionController() {
@@ -194,8 +187,7 @@ public class JDAImpl implements JDA {
   }
 
   public void setToken(String token) {
-    if (getAccountType() == AccountType.BOT) this.token = "Bot " + token;
-    else this.token = token;
+    this.token = "Bot " + token;
   }
 
   public void verifyToken() throws LoginException {
@@ -242,15 +234,8 @@ public class JDAImpl implements JDA {
 
     // If we attempted to login as a Bot, remove the "Bot " prefix and set the Requester to be a
     // client.
-    if (getAccountType() == AccountType.BOT) {
-      token = token.substring("Bot ".length());
-      requester = new Requester(this, AccountType.CLIENT);
-    } else // If we attempted to login as a Client, prepend the "Bot " prefix and set the Requester
-    // to be a Bot
-    {
-      token = "Bot " + token;
-      requester = new Requester(this, AccountType.BOT);
-    }
+    token = token.substring("Bot ".length());
+    requester = new Requester(this);
 
     userResponse = checkToken(login);
 
@@ -263,14 +248,8 @@ public class JDAImpl implements JDA {
   }
 
   private void verifyAccountType(JSONObject userResponse) {
-    if (getAccountType() == AccountType.BOT) {
-      if (!userResponse.has("bot") || !userResponse.getBoolean("bot"))
-        throw new AccountTypeException(
-            AccountType.BOT, "Attempted to login as a BOT with a CLIENT token!");
-    } else {
-      if (userResponse.has("bot") && userResponse.getBoolean("bot"))
-        throw new AccountTypeException(
-            AccountType.CLIENT, "Attempted to login as a CLIENT with a BOT token!");
+    if (!userResponse.has("bot") || !userResponse.getBoolean("bot")) {
+      throw new AccountTypeException("Attempted to login as a BOT with a CLIENT token!");
     }
   }
 
@@ -363,8 +342,6 @@ public class JDAImpl implements JDA {
 
   @Override
   public RestAction<User> retrieveUserById(long id) {
-    AccountTypeException.check(accountType, AccountType.BOT);
-
     // check cache
     User user = this.getUserById(id);
     if (user != null) return new RestAction.EmptyRestAction<>(this, user);
@@ -469,14 +446,7 @@ public class JDAImpl implements JDA {
   }
 
   @Override
-  public JDAClientImpl asClient() {
-    AccountTypeException.check(getAccountType(), AccountType.CLIENT);
-    return jdaClient;
-  }
-
-  @Override
   public JDABotImpl asBot() {
-    AccountTypeException.check(getAccountType(), AccountType.BOT);
     return jdaBot;
   }
 
@@ -498,19 +468,6 @@ public class JDAImpl implements JDA {
   @Override
   public Presence getPresence() {
     return presence;
-  }
-
-  // @Override
-  // public AuditableRestAction<Void> installAuxiliaryCable(int port) throws
-  // UnsupportedOperationException
-  // {
-  //    return new AuditableRestAction.FailedRestAction<>(new UnsupportedOperationException("nice
-  // try but next time think first :)"));
-  // }
-
-  @Override
-  public AccountType getAccountType() {
-    return accountType;
   }
 
   @Override
@@ -539,17 +496,10 @@ public class JDAImpl implements JDA {
 
   @Override
   public GuildAction createGuild(String name) {
-    switch (accountType) {
-      case BOT:
-        if (guildCache.size() >= 10)
-          throw new IllegalStateException(
-              "Cannot create a Guild with a Bot in more than 10 guilds!");
-        break;
-      case CLIENT:
-        if (guildCache.size() >= 100)
-          throw new IllegalStateException(
-              "Cannot be in more than 100 guilds with AccountType.CLIENT!");
+    if (guildCache.size() >= 10) {
+      throw new IllegalStateException("Cannot create a Guild with a Bot in more than 10 guilds!");
     }
+
     return new GuildAction(this, name);
   }
 

@@ -19,7 +19,6 @@ package net.dv8tion.jda.core;
 import java.util.Collection;
 import java.util.List;
 import net.dv8tion.jda.bot.JDABot;
-import net.dv8tion.jda.client.JDAClient;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.managers.AudioManager;
@@ -1069,34 +1068,6 @@ public interface JDA {
    * @see #shutdown()
    */
   void shutdownNow();
-
-  /// **
-  // * Installs an auxiliary cable into the given port of your system.
-  // *
-  // * @param  port
-  // *         The port in which the cable should be installed.
-  // *
-  // * @return {@link net.dv8tion.jda.core.requests.restaction.AuditableRestAction
-  // AuditableRestAction}{@literal <}{@link Void}{@literal >}
-  // */
-  // AuditableRestAction<Void> installAuxiliaryCable(int port);
-
-  /**
-   * The {@link net.dv8tion.jda.core.AccountType} of the currently logged in account. <br>
-   * Used when determining functions that are restricted based on the type of account.
-   *
-   * @return The current AccountType.
-   */
-  AccountType getAccountType();
-
-  /**
-   * Used to access Client specific functions like Groups, Calls, and Friends.
-   *
-   * @throws net.dv8tion.jda.core.exceptions.AccountTypeException Thrown if the currently logged in
-   *     account is {@link net.dv8tion.jda.core.AccountType#BOT}
-   * @return The {@link net.dv8tion.jda.client.JDAClient} registry for this instance of JDA.
-   */
-  JDAClient asClient();
 
   /**
    * Used to access Bot specific functions like OAuth information.

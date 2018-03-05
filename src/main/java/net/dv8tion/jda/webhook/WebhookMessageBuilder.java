@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageEmbed;
 import net.dv8tion.jda.core.utils.Checks;
@@ -107,7 +106,7 @@ public class WebhookMessageBuilder {
     for (MessageEmbed embed : embeds) {
       Checks.notNull(embed, "Embed");
       Checks.check(
-          embed.isSendable(AccountType.BOT),
+          embed.isSendable(),
           "One of the provided embeds is empty or exceeds the maximum character count of %d!",
           MessageEmbed.EMBED_MAX_LENGTH_BOT);
       this.embeds.add(embed);
@@ -132,7 +131,7 @@ public class WebhookMessageBuilder {
     for (MessageEmbed embed : embeds) {
       Checks.notNull(embed, "Embed");
       Checks.check(
-          embed.isSendable(AccountType.BOT),
+          embed.isSendable(),
           "One of the provided embeds is empty or exceeds the maximum character count of %d!",
           MessageEmbed.EMBED_MAX_LENGTH_BOT);
       this.embeds.add(embed);

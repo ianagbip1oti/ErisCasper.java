@@ -17,17 +17,15 @@
 package net.dv8tion.jda.client.entities.impl;
 
 import gnu.trove.map.TLongObjectMap;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import net.dv8tion.jda.client.entities.Call;
 import net.dv8tion.jda.client.entities.Friend;
 import net.dv8tion.jda.client.entities.Group;
-import net.dv8tion.jda.client.entities.Relationship;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
+import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.requests.RestAction;
 import net.dv8tion.jda.core.utils.cache.SnowflakeCacheView;
 import net.dv8tion.jda.core.utils.cache.impl.SnowflakeCacheViewImpl;
@@ -101,28 +99,12 @@ public class GroupImpl implements Group {
 
   @Override
   public List<User> getNonFriendUsers() {
-    List<User> nonFriends = new ArrayList<>();
-    TLongObjectMap<Relationship> map = api.asClient().getRelationshipMap();
-    userCache.forEach(
-        (user) -> {
-          Relationship relationship = map.get(user.getIdLong());
-          Friend friend = relationship instanceof Friend ? (Friend) relationship : null;
-          if (friend == null) nonFriends.add(user);
-        });
-    return Collections.unmodifiableList(nonFriends);
+    throw new AccountTypeException("Not allowed for bot");
   }
 
   @Override
   public List<Friend> getFriends() {
-    List<Friend> friends = new ArrayList<>();
-    TLongObjectMap<Relationship> map = api.asClient().getRelationshipMap();
-    userCache.forEach(
-        user -> {
-          Relationship relationship = map.get(user.getIdLong());
-          Friend friend = relationship instanceof Friend ? (Friend) relationship : null;
-          if (friend != null) friends.add(friend);
-        });
-    return Collections.unmodifiableList(friends);
+    throw new AccountTypeException("Not allowed for bot");
   }
 
   @Override
@@ -190,10 +172,6 @@ public class GroupImpl implements Group {
   public GroupImpl setLastMessageId(long lastMessageId) {
     this.lastMessageId = lastMessageId;
     return this;
-  }
-
-  private void checkNull(Object obj, String name) {
-    if (obj == null) throw new NullPointerException("Provided " + name + " was null!");
   }
 
   @Override

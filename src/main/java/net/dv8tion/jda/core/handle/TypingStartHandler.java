@@ -21,7 +21,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.client.entities.impl.GroupImpl;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -42,8 +41,6 @@ public class TypingStartHandler extends SocketHandler {
     MessageChannel channel = api.getTextChannelMap().get(channelId);
     if (channel == null) channel = api.getPrivateChannelMap().get(channelId);
     if (channel == null) channel = api.getFakePrivateChannelMap().get(channelId);
-    if (channel == null && api.getAccountType() == AccountType.CLIENT)
-      channel = api.asClient().getGroupById(channelId);
     if (channel == null)
       return null; // We don't have the channel cached yet. We chose not to cache this event
     // because that happen very often and could easily fill up the EventCache if

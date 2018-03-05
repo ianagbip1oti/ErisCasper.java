@@ -20,7 +20,6 @@ import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
@@ -222,14 +221,10 @@ public class MessageAction extends RestAction<Message> implements Appendable {
    */
   public MessageAction embed(final MessageEmbed embed) {
     if (embed != null) {
-      final AccountType type = getJDA().getAccountType();
       Checks.check(
-          embed.isSendable(type),
+          embed.isSendable(),
           "Provided Message contains an empty embed or an embed with a length greater than %d characters, which is the max for %s accounts!",
-          type == AccountType.BOT
-              ? MessageEmbed.EMBED_MAX_LENGTH_BOT
-              : MessageEmbed.EMBED_MAX_LENGTH_CLIENT,
-          type);
+          MessageEmbed.EMBED_MAX_LENGTH_BOT);
     }
     this.embed = embed;
     return this;

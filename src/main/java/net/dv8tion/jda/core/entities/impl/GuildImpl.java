@@ -17,12 +17,9 @@
 package net.dv8tion.jda.core.entities.impl;
 
 import gnu.trove.map.TLongObjectMap;
-import java.time.OffsetDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 import net.dv8tion.jda.client.requests.restaction.pagination.MentionPaginationAction;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.exceptions.AccountTypeException;
@@ -88,7 +85,6 @@ public class GuildImpl implements Guild {
   private ExplicitContentLevel explicitContentLevel;
   private Timeout afkTimeout;
   private boolean available;
-  private boolean canSendVerification = false;
 
   public GuildImpl(JDAImpl api, long id) {
     this.id = id;
@@ -357,8 +353,7 @@ public class GuildImpl implements Guild {
 
   @Override
   public MentionPaginationAction getRecentMentions() {
-    AccountTypeException.check(getJDA().getAccountType(), AccountType.CLIENT);
-    return getJDA().asClient().getRecentMentions(this);
+    throw new AccountTypeException("Not allowed for a BOT");
   }
 
   @Override
@@ -470,30 +465,7 @@ public class GuildImpl implements Guild {
 
   @Override
   public boolean checkVerification() {
-    if (api.getAccountType() == AccountType.BOT) return true;
-    if (canSendVerification) return true;
-
-    if (api.getSelfUser().getPhoneNumber() != null) return canSendVerification = true;
-
-    switch (verificationLevel) {
-      case VERY_HIGH:
-        break; // we already checked for a verified phone number
-      case HIGH:
-        if (ChronoUnit.MINUTES.between(getSelfMember().getJoinDate(), OffsetDateTime.now()) < 10)
-          break;
-      case MEDIUM:
-        if (ChronoUnit.MINUTES.between(
-                MiscUtil.getCreationTime(api.getSelfUser()), OffsetDateTime.now())
-            < 5) break;
-      case LOW:
-        if (!api.getSelfUser().isVerified()) break;
-      case NONE:
-        canSendVerification = true;
-        return true;
-      case UNKNOWN:
-        return true; // try and let discord decide
-    }
-    return false;
+    return true;
   }
 
   @Override
@@ -560,7 +532,6 @@ public class GuildImpl implements Guild {
 
   public GuildImpl setVerificationLevel(VerificationLevel level) {
     this.verificationLevel = level;
-    this.canSendVerification = false; // recalc on next send
     return this;
   }
 

@@ -16,8 +16,6 @@
  */
 package net.dv8tion.jda.core.handle;
 
-import net.dv8tion.jda.client.entities.impl.GroupImpl;
-import net.dv8tion.jda.client.events.group.GroupLeaveEvent;
 import net.dv8tion.jda.core.audio.hooks.ConnectionStatus;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.impl.GuildImpl;
@@ -132,44 +130,8 @@ public class ChannelDeleteHandler extends SocketHandler {
           break;
         }
       case GROUP:
-        {
-          // TODO: close call on group leave (kill audio manager)
-          final long groupId = content.getLong("id");
-          GroupImpl group = (GroupImpl) api.asClient().getGroupMap().remove(groupId);
-          if (group == null) {
-            //                    api.getEventCache().cache(EventCache.Type.CHANNEL, channelId, ()
-            // -> handle(responseNumber, allContent));
-            WebSocketClient.LOG.debug(
-                "CHANNEL_DELETE attempted to delete a group that is not yet cached. JSON: {}",
-                content);
-            return null;
-          }
-
-          group
-              .getUserMap()
-              .forEachEntry(
-                  (userId, user) -> {
-                    // User is fake, has no privateChannel, is not in a relationship, and is not in
-                    // any other groups
-                    // then we remove the fake user from the fake cache as it was only in this group
-                    // Note: we getGroups() which gets all groups, however we already removed the
-                    // current group above.
-                    if (user.isFake()
-                        && !user.hasPrivateChannel()
-                        && api.asClient().getRelationshipMap().get(userId) == null
-                        && api.asClient()
-                            .getGroups()
-                            .stream()
-                            .noneMatch(g -> g.getUsers().contains(user))) {
-                      api.getFakeUserMap().remove(userId);
-                    }
-
-                    return true;
-                  });
-
-          api.getEventManager().handle(new GroupLeaveEvent(api, responseNumber, group));
-          break;
-        }
+        // do nothing
+        break;
       default:
         throw new IllegalArgumentException(
             "CHANNEL_DELETE provided an unknown channel type. JSON: " + content);

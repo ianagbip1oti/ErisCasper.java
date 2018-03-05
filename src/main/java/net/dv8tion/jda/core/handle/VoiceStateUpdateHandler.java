@@ -17,23 +17,14 @@
 package net.dv8tion.jda.core.handle;
 
 import java.util.Objects;
-import net.dv8tion.jda.client.entities.Call;
-import net.dv8tion.jda.client.entities.CallUser;
-import net.dv8tion.jda.client.entities.CallableChannel;
-import net.dv8tion.jda.client.entities.impl.CallImpl;
-import net.dv8tion.jda.client.entities.impl.CallVoiceStateImpl;
-import net.dv8tion.jda.client.events.call.voice.CallVoiceJoinEvent;
-import net.dv8tion.jda.client.events.call.voice.CallVoiceLeaveEvent;
-import net.dv8tion.jda.client.events.call.voice.CallVoiceSelfDeafenEvent;
-import net.dv8tion.jda.client.events.call.voice.CallVoiceSelfMuteEvent;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.impl.GuildVoiceStateImpl;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.entities.impl.MemberImpl;
 import net.dv8tion.jda.core.entities.impl.VoiceChannelImpl;
 import net.dv8tion.jda.core.events.guild.voice.*;
+import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.managers.impl.AudioManagerImpl;
-import net.dv8tion.jda.core.requests.WebSocketClient;
 import org.json.JSONObject;
 
 public class VoiceStateUpdateHandler extends SocketHandler {
@@ -182,93 +173,6 @@ public class VoiceStateUpdateHandler extends SocketHandler {
   }
 
   private void handleCallVoiceState(JSONObject content) {
-    final long userId = content.getLong("user_id");
-    final Long channelId = content.isNull("channel_id") ? null : content.getLong("channel_id");
-    String sessionId = content.optString("session_id", null);
-    boolean selfMuted = content.getBoolean("self_mute");
-    boolean selfDeafened = content.getBoolean("self_deaf");
-
-    // Joining a call
-    CallableChannel channel;
-    CallVoiceStateImpl vState;
-    if (channelId != null) {
-      channel = api.asClient().getGroupById(channelId);
-      if (channel == null) channel = api.getPrivateChannelMap().get(channelId);
-
-      if (channel == null) {
-        api.getEventCache()
-            .cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));
-        EventCache.LOG.debug(
-            "Received a VOICE_STATE_UPDATE for a Group/PrivateChannel that was not yet cached! JSON: {}",
-            content);
-        return;
-      }
-
-      CallImpl call = (CallImpl) channel.getCurrentCall();
-      if (call == null) {
-        api.getEventCache()
-            .cache(EventCache.Type.CALL, channelId, () -> handle(responseNumber, allContent));
-        EventCache.LOG.debug(
-            "Received a VOICE_STATE_UPDATE for a Call that is not yet cached. JSON: {}", content);
-        return;
-      }
-
-      CallUser cUser = api.asClient().getCallUserMap().get(userId);
-      if (cUser != null && channelId != cUser.getCall().getCallableChannel().getIdLong()) {
-        WebSocketClient.LOG.error(
-            "Received a VOICE_STATE_UPDATE for a user joining a call, but the user was already in a different call! Big error! JSON: {}",
-            content);
-        ((CallVoiceStateImpl) cUser.getVoiceState()).setInCall(false);
-      }
-
-      cUser = call.getCallUserMap().get(userId);
-      if (cUser == null) {
-        api.getEventCache()
-            .cache(EventCache.Type.USER, userId, () -> handle(responseNumber, allContent));
-        EventCache.LOG.debug(
-            "Received a VOICE_STATE_UPDATE for a user that is not yet a a cached CallUser for the call. (groups only). JSON: {}",
-            content);
-        return;
-      }
-
-      api.asClient().getCallUserMap().put(userId, cUser);
-      vState = (CallVoiceStateImpl) cUser.getVoiceState();
-      vState.setSessionId(sessionId);
-      vState.setInCall(true);
-
-      api.getEventManager().handle(new CallVoiceJoinEvent(api, responseNumber, cUser));
-    } else // Leaving a call
-    {
-      CallUser cUser = api.asClient().getCallUserMap().remove(userId);
-      if (cUser == null) {
-        api.getEventCache()
-            .cache(EventCache.Type.USER, userId, () -> handle(responseNumber, allContent));
-        EventCache.LOG.debug(
-            "Received a VOICE_STATE_UPDATE for a User leaving a Call, but the Call was not yet cached! JSON: {}",
-            content);
-        return;
-      }
-
-      Call call = cUser.getCall();
-      channel = call.getCallableChannel();
-      vState = (CallVoiceStateImpl) cUser.getVoiceState();
-      vState.setSessionId(sessionId);
-      vState.setInCall(false);
-
-      api.getEventManager().handle(new CallVoiceLeaveEvent(api, responseNumber, cUser));
-    }
-
-    // Now that we're done dealing with the joins and leaves, we can deal with the mute/deaf
-    // changes.
-    if (selfMuted != vState.isSelfMuted()) {
-      vState.setSelfMuted(selfMuted);
-      api.getEventManager()
-          .handle(new CallVoiceSelfMuteEvent(api, responseNumber, vState.getCallUser()));
-    }
-    if (selfDeafened != vState.isSelfDeafened()) {
-      vState.setSelfDeafened(selfDeafened);
-      api.getEventManager()
-          .handle(new CallVoiceSelfDeafenEvent(api, responseNumber, vState.getCallUser()));
-    }
+    throw new AccountTypeException("Not allowed for BOT");
   }
 }
