@@ -16,8 +16,6 @@
  */
 package net.dv8tion.jda.core.handle;
 
-import net.dv8tion.jda.client.entities.Group;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 import net.dv8tion.jda.core.entities.impl.*;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberLeaveEvent;
@@ -79,9 +77,7 @@ public class GuildMemberRemoveHandler extends SocketHandler {
         && api.getGuildMap()
             .valueCollection()
             .stream()
-            .noneMatch(g -> ((GuildImpl) g).getMembersMap().containsKey(userId))
-        && !(api.getAccountType() == AccountType.CLIENT
-            && api.asClient().getFriendById(userId) != null)) {
+            .noneMatch(g -> ((GuildImpl) g).getMembersMap().containsKey(userId))) {
       UserImpl user = (UserImpl) api.getUserMap().remove(userId);
       if (user.hasPrivateChannel()) {
         PrivateChannelImpl priv = (PrivateChannelImpl) user.getPrivateChannel();
@@ -89,18 +85,6 @@ public class GuildMemberRemoveHandler extends SocketHandler {
         priv.setFake(true);
         api.getFakeUserMap().put(user.getIdLong(), user);
         api.getFakePrivateChannelMap().put(priv.getIdLong(), priv);
-      } else if (api.getAccountType() == AccountType.CLIENT) {
-        // While the user might not have a private channel, if this is a client account then the
-        // user
-        // could be in a Group, and if so we need to change the User object to be fake and
-        // place it in the FakeUserMap
-        for (Group grp : api.asClient().getGroups()) {
-          if (grp.getNonFriendUsers().contains(user)) {
-            user.setFake(true);
-            api.getFakeUserMap().put(user.getIdLong(), user);
-            break; // Breaks from groups loop
-          }
-        }
       }
       api.getEventCache().clear(EventCache.Type.USER, userId);
     }

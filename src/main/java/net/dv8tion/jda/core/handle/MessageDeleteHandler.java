@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.handle;
 
 import net.dv8tion.jda.client.entities.impl.GroupImpl;
 import net.dv8tion.jda.client.events.message.group.GroupMessageDeleteEvent;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.PrivateChannel;
 import net.dv8tion.jda.core.entities.TextChannel;
@@ -47,9 +46,6 @@ public class MessageDeleteHandler extends SocketHandler {
     }
     if (channel == null) {
       channel = api.getFakePrivateChannelMap().get(channelId);
-    }
-    if (channel == null && api.getAccountType() == AccountType.CLIENT) {
-      channel = api.asClient().getGroupById(channelId);
     }
     if (channel == null) {
       api.getEventCache()

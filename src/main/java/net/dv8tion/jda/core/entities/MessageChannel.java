@@ -18,9 +18,7 @@ package net.dv8tion.jda.core.entities;
 
 import java.io.*;
 import java.util.*;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.requests.Request;
 import net.dv8tion.jda.core.requests.Response;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -937,7 +935,6 @@ public interface MessageChannel extends ISnowflake, Formattable {
    *     The Message defined by the provided id.
    */
   default RestAction<Message> getMessageById(String messageId) {
-    AccountTypeException.check(getJDA().getAccountType(), AccountType.BOT);
     Checks.notEmpty(messageId, "Provided messageId");
 
     Route.CompiledRoute route = Route.Messages.GET_MESSAGE.compile(getId(), messageId);

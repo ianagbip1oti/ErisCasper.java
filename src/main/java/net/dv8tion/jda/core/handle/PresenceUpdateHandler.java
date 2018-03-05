@@ -17,9 +17,6 @@
 package net.dv8tion.jda.core.handle;
 
 import java.util.Objects;
-import net.dv8tion.jda.client.JDAClient;
-import net.dv8tion.jda.client.entities.impl.FriendImpl;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.EntityBuilder;
 import net.dv8tion.jda.core.entities.Game;
@@ -161,25 +158,7 @@ public class PresenceUpdateHandler extends SocketHandler {
         }
       } else {
         // In this case, this PRESENCE_UPDATE is for a Relation.
-        if (api.getAccountType() != AccountType.CLIENT) return null;
-        JDAClient client = api.asClient();
-        FriendImpl friend = (FriendImpl) client.getFriendById(userId);
-
-        if (friend != null) {
-          if (!friend.getOnlineStatus().equals(status)) {
-            OnlineStatus oldStatus = friend.getOnlineStatus();
-            friend.setOnlineStatus(status);
-            api.getEventManager()
-                .handle(
-                    new UserOnlineStatusUpdateEvent(api, responseNumber, user, null, oldStatus));
-          }
-          if (parsedGame && !Objects.equals(friend.getGame(), nextGame)) {
-            Game oldGame = friend.getGame();
-            friend.setGame(nextGame);
-            api.getEventManager()
-                .handle(new UserGameUpdateEvent(api, responseNumber, user, null, oldGame));
-          }
-        }
+        return null;
       }
     } else {
       // In this case, we don't have the User cached, which means that we can't update the User's

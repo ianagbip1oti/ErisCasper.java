@@ -23,10 +23,6 @@ import gnu.trove.map.TLongObjectMap;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import net.dv8tion.jda.client.entities.impl.GroupImpl;
-import net.dv8tion.jda.client.events.group.update.GroupUpdateIconEvent;
-import net.dv8tion.jda.client.events.group.update.GroupUpdateNameEvent;
-import net.dv8tion.jda.client.events.group.update.GroupUpdateOwnerEvent;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.impl.*;
 import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdateNameEvent;
@@ -34,6 +30,7 @@ import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdatePermiss
 import net.dv8tion.jda.core.events.channel.category.update.CategoryUpdatePositionEvent;
 import net.dv8tion.jda.core.events.channel.text.update.*;
 import net.dv8tion.jda.core.events.channel.voice.update.*;
+import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.utils.Helpers;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -387,55 +384,6 @@ public class ChannelUpdateHandler extends SocketHandler {
   }
 
   private void handleGroup(JSONObject content) {
-    final long groupId = content.getLong("id");
-    final long ownerId = content.getLong("owner_id");
-    final String name = content.optString("name", null);
-    final String iconId = content.optString("icon", null);
-
-    GroupImpl group = (GroupImpl) api.asClient().getGroupById(groupId);
-    if (group == null) {
-      api.getEventCache()
-          .cache(EventCache.Type.CHANNEL, groupId, () -> handle(responseNumber, allContent));
-      EventCache.LOG.debug(
-          "Received CHANNEL_UPDATE for a group that was not yet cached. JSON: {}", content);
-      return;
-    }
-
-    final User owner = group.getUserMap().get(ownerId);
-    final User oldOwner = group.getOwner();
-    final String oldName = group.getName();
-    final String oldIconId = group.getIconId();
-
-    if (owner == null) {
-      EventCache.LOG.warn(
-          "Received CHANNEL_UPDATE for a group with an owner_id for a user that is not cached. owner_id: {}",
-          ownerId);
-    } else {
-      if (!Objects.equals(owner, oldOwner)) {
-        group.setOwner(owner);
-        api.getEventManager()
-            .handle(
-                new GroupUpdateOwnerEvent(
-                    api, responseNumber,
-                    group, oldOwner));
-      }
-    }
-
-    if (!Objects.equals(name, oldName)) {
-      group.setName(name);
-      api.getEventManager()
-          .handle(
-              new GroupUpdateNameEvent(
-                  api, responseNumber,
-                  group, oldName));
-    }
-    if (!Objects.equals(iconId, oldIconId)) {
-      group.setIconId(iconId);
-      api.getEventManager()
-          .handle(
-              new GroupUpdateIconEvent(
-                  api, responseNumber,
-                  group, oldIconId));
-    }
+    throw new AccountTypeException("Not allowed for BOT");
   }
 }

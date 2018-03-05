@@ -29,9 +29,7 @@ import java.util.function.Supplier;
 import java.util.zip.DataFormatException;
 import java.util.zip.Inflater;
 import java.util.zip.InflaterOutputStream;
-import net.dv8tion.jda.client.entities.impl.JDAClientImpl;
 import net.dv8tion.jda.client.handle.*;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.WebSocketCode;
@@ -745,14 +743,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
     api.getGuildLock().clear();
     this.<ReadyHandler>getHandler("READY").clearCache();
     this.<GuildMembersChunkHandler>getHandler("GUILD_MEMBERS_CHUNK").clearCache();
-
-    if (api.getAccountType() == AccountType.CLIENT) {
-      JDAClientImpl client = api.asClient();
-
-      client.getRelationshipMap().clear();
-      client.getGroupMap().clear();
-      client.getCallUserMap().clear();
-    }
   }
 
   protected void updateAudioManagerReferences() {
@@ -809,8 +799,7 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
   }
 
   protected String getToken() {
-    if (api.getAccountType() == AccountType.BOT) return api.getToken().substring("Bot ".length());
-    return api.getToken();
+    return api.getToken().substring("Bot ".length());
   }
 
   private List<JSONObject> convertPresencesReplace(long responseTotal, JSONArray array) {
@@ -1245,19 +1234,6 @@ public class WebSocketClient extends WebSocketAdapter implements WebSocketListen
     handlers.put("GUILD_INTEGRATIONS_UPDATE", nopHandler);
     handlers.put("PRESENCES_REPLACE", nopHandler);
     handlers.put("WEBHOOKS_UPDATE", nopHandler);
-
-    if (api.getAccountType() == AccountType.CLIENT) {
-      handlers.put("CALL_CREATE", new CallCreateHandler(api));
-      handlers.put("CALL_DELETE", new CallDeleteHandler(api));
-      handlers.put("CALL_UPDATE", new CallUpdateHandler(api));
-      handlers.put("CHANNEL_RECIPIENT_ADD", new ChannelRecipientAddHandler(api));
-      handlers.put("CHANNEL_RECIPIENT_REMOVE", new ChannelRecipientRemoveHandler(api));
-      handlers.put("RELATIONSHIP_ADD", new RelationshipAddHandler(api));
-      handlers.put("RELATIONSHIP_REMOVE", new RelationshipRemoveHandler(api));
-
-      // Unused client events
-      handlers.put("MESSAGE_ACK", nopHandler);
-    }
   }
 
   protected abstract class ConnectNode implements SessionController.SessionConnectNode {

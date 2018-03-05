@@ -26,7 +26,6 @@ import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.JDA.Status;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
-import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.hooks.IEventManager;
 import net.dv8tion.jda.core.managers.impl.PresenceImpl;
 import net.dv8tion.jda.core.utils.Checks;
@@ -53,7 +52,6 @@ public class JDABuilder {
   protected SessionController controller = null;
   protected OkHttpClient.Builder httpClientBuilder = null;
   protected WebSocketFactory wsFactory = null;
-  protected AccountType accountType;
   protected String token = null;
   protected IEventManager eventManager = null;
   protected JDA.ShardInfo shardInfo = null;
@@ -75,13 +73,9 @@ public class JDABuilder {
    * net.dv8tion.jda.core.JDABuilder#buildAsync() buildAsync()} or {@link
    * net.dv8tion.jda.core.JDABuilder#buildBlocking() buildBlocking()}
    *
-   * @param accountType The {@link net.dv8tion.jda.core.AccountType AccountType}.
    * @throws IllegalArgumentException If the given AccountType is {@code null}
    */
-  public JDABuilder(AccountType accountType) {
-    Checks.notNull(accountType, "accountType");
-
-    this.accountType = accountType;
+  public JDABuilder() {
     this.listeners = new LinkedList<>();
   }
 
@@ -444,7 +438,6 @@ public class JDABuilder {
    * @see net.dv8tion.jda.bot.sharding.ShardManager ShardManager
    */
   public JDABuilder useSharding(int shardId, int shardTotal) {
-    AccountTypeException.check(accountType, AccountType.BOT);
     Checks.notNegative(shardId, "Shard ID");
     Checks.positive(shardTotal, "Shard Total");
     Checks.check(
@@ -501,7 +494,6 @@ public class JDABuilder {
 
     JDAImpl jda =
         new JDAImpl(
-            accountType,
             token,
             controller,
             httpClientBuilder,

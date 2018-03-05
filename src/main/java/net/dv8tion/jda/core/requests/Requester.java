@@ -25,12 +25,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.zip.GZIPInputStream;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDAInfo;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.requests.ratelimit.BotRateLimiter;
-import net.dv8tion.jda.core.requests.ratelimit.ClientRateLimiter;
 import okhttp3.Call;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -59,15 +57,8 @@ public class Requester {
   private volatile boolean retryOnTimeout = false;
 
   public Requester(JDA api) {
-    this(api, api.getAccountType());
-  }
-
-  public Requester(JDA api, AccountType accountType) {
-    if (accountType == null) throw new NullPointerException("Provided accountType was null!");
-
     this.api = (JDAImpl) api;
-    if (accountType == AccountType.BOT) rateLimiter = new BotRateLimiter(this, 5);
-    else rateLimiter = new ClientRateLimiter(this, 5);
+    rateLimiter = new BotRateLimiter(this, 5);
 
     this.httpClient = this.api.getHttpClientBuilder().build();
   }

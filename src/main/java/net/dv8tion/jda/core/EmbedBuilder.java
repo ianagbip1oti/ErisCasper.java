@@ -199,16 +199,9 @@ public class EmbedBuilder {
    * @throws java.lang.IllegalArgumentException If provided with {@code null}
    * @return True, if the {@link #length() length} is less or equal to the specific limit
    */
-  public boolean isValidLength(AccountType type) {
-    Checks.notNull(type, "AccountType");
+  public boolean isValidLength() {
     final int length = length();
-    switch (type) {
-      case BOT:
-        return length <= MessageEmbed.EMBED_MAX_LENGTH_BOT;
-      case CLIENT:
-      default:
-        return length <= MessageEmbed.EMBED_MAX_LENGTH_CLIENT;
-    }
+    return length <= MessageEmbed.EMBED_MAX_LENGTH_BOT;
   }
 
   /**

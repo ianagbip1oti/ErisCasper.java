@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.handle;
 
 import net.dv8tion.jda.client.events.message.group.react.GroupMessageReactionAddEvent;
 import net.dv8tion.jda.client.events.message.group.react.GroupMessageReactionRemoveEvent;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.Emote;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.MessageReaction;
@@ -81,9 +80,6 @@ public class MessageReactionHandler extends SocketHandler {
     }
     if (channel == null) {
       channel = api.getFakePrivateChannelMap().get(channelId);
-    }
-    if (channel == null && api.getAccountType() == AccountType.CLIENT) {
-      channel = api.asClient().getGroupById(channelId);
     }
     if (channel == null) {
       api.getEventCache()

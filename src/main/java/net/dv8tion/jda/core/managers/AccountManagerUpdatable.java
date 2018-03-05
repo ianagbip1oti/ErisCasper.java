@@ -17,7 +17,6 @@
 package net.dv8tion.jda.core.managers;
 
 import java.util.regex.Pattern;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Icon;
 import net.dv8tion.jda.core.entities.SelfUser;
@@ -151,9 +150,7 @@ public class AccountManagerUpdatable {
    *     String}
    */
   public AccountField<String> getEmailField() {
-    if (!isType(AccountType.CLIENT)) throw new AccountTypeException(AccountType.CLIENT);
-
-    return email;
+    throw new AccountTypeException("Not allowed for BOT");
   }
 
   /**
@@ -177,9 +174,7 @@ public class AccountManagerUpdatable {
    *     String}
    */
   public AccountField<String> getPasswordField() {
-    if (!isType(AccountType.CLIENT)) throw new AccountTypeException(AccountType.CLIENT);
-
-    return password;
+    throw new AccountTypeException("Not allowed for BOT");
   }
 
   /**
@@ -190,11 +185,6 @@ public class AccountManagerUpdatable {
   public void reset() {
     name.reset();
     avatar.reset();
-
-    if (isType(AccountType.CLIENT)) {
-      email.reset();
-      password.reset();
-    }
   }
 
   /**
@@ -225,10 +215,6 @@ public class AccountManagerUpdatable {
    *     net.dv8tion.jda.core.requests.RestAction.EmptyRestAction EmptyRestAction})
    */
   public RestAction<Void> update(String currentPassword) {
-    if (isType(AccountType.CLIENT) && (currentPassword == null || currentPassword.isEmpty()))
-      throw new IllegalArgumentException(
-          "Provided client account password to be used in auth is null or empty!");
-
     if (!needToUpdate()) return new RestAction.EmptyRestAction<>(getJDA(), null);
 
     JSONObject body = new JSONObject();
@@ -241,15 +227,6 @@ public class AccountManagerUpdatable {
     if (avatar.shouldUpdate())
       body.put(
           "avatar", avatar.getValue() != null ? avatar.getValue().getEncoding() : JSONObject.NULL);
-
-    if (isType(AccountType.CLIENT)) {
-      // Required fields. Populate with current values.
-      body.put("password", currentPassword);
-      body.put("email", email.getOriginalValue());
-
-      if (email.shouldUpdate()) body.put("email", email.getValue());
-      if (password.shouldUpdate()) body.put("new_password", password.getValue());
-    }
 
     reset(); // now that we've built our JSON object, reset the manager back to the non-modified
     // state
@@ -288,16 +265,11 @@ public class AccountManagerUpdatable {
    *     net.dv8tion.jda.core.requests.RestAction.EmptyRestAction EmptyRestAction})
    */
   public RestAction<Void> update() {
-    if (getJDA().getAccountType() == AccountType.CLIENT)
-      throw new AccountTypeException(AccountType.BOT);
     return update(null);
   }
 
   protected boolean needToUpdate() {
-    return name.shouldUpdate()
-        || avatar.shouldUpdate()
-        || (isType(AccountType.CLIENT) && email.shouldUpdate())
-        || (isType(AccountType.CLIENT) && password.shouldUpdate());
+    return name.shouldUpdate() || avatar.shouldUpdate();
   }
 
   protected void setupFields() {
@@ -328,44 +300,5 @@ public class AccountManagerUpdatable {
             return isSet();
           }
         };
-
-    if (isType(AccountType.CLIENT)) {
-      email =
-          new AccountField<String>(this, selfUser::getEmail) {
-            @Override
-            public void checkValue(String value) {
-              Checks.notNull(value, "account email");
-              if (!EMAIL_PATTERN.matcher(value).find())
-                throw new IllegalArgumentException(
-                    "Provided email is in invalid format. Provided value: " + value);
-            }
-          };
-
-      password =
-          new AccountField<String>(this, null) {
-            @Override
-            public void checkValue(String value) {
-              Checks.notNull(value, "account password");
-              if (value.length() < 6 || value.length() > 128)
-                throw new IllegalArgumentException(
-                    "Provided password must ben 6 to 128 characters in length");
-            }
-
-            @Override
-            public String getOriginalValue() {
-              throw new UnsupportedOperationException(
-                  "Cannot get the original password. We are not given this information.");
-            }
-
-            @Override
-            public boolean shouldUpdate() {
-              return isSet();
-            }
-          };
-    }
-  }
-
-  private boolean isType(AccountType type) {
-    return getJDA().getAccountType() == type;
   }
 }

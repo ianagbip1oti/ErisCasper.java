@@ -21,6 +21,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.exceptions.AccountTypeException;
 
 public abstract class GenericUserPresenceEvent extends GenericUserEvent {
   protected final Guild guild;
@@ -39,7 +40,10 @@ public abstract class GenericUserPresenceEvent extends GenericUserEvent {
   }
 
   public Friend getFriend() {
-    return isRelationshipUpdate() ? getJDA().asClient().getFriend(getUser()) : null;
+    if (isRelationshipUpdate()) {
+      throw new AccountTypeException("Not allowed for BOT");
+    }
+    return null;
   }
 
   public boolean isRelationshipUpdate() {

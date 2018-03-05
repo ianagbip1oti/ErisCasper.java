@@ -20,7 +20,6 @@ import java.util.LinkedList;
 import net.dv8tion.jda.client.entities.Group;
 import net.dv8tion.jda.client.events.message.group.GroupMessageEmbedEvent;
 import net.dv8tion.jda.client.events.message.group.GroupMessageUpdateEvent;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
 import net.dv8tion.jda.core.events.message.MessageEmbedEvent;
@@ -134,8 +133,6 @@ public class MessageUpdateHandler extends SocketHandler {
     MessageChannel channel = api.getTextChannelMap().get(channelId);
     if (channel == null) channel = api.getPrivateChannelMap().get(channelId);
     if (channel == null) channel = api.getFakePrivateChannelMap().get(channelId);
-    if (channel == null && api.getAccountType() == AccountType.CLIENT)
-      channel = api.asClient().getGroupById(channelId);
     if (channel == null) {
       api.getEventCache()
           .cache(EventCache.Type.CHANNEL, channelId, () -> handle(responseNumber, allContent));

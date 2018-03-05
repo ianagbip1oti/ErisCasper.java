@@ -22,9 +22,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.security.auth.login.LoginException;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.exceptions.AccountTypeException;
 import net.dv8tion.jda.core.requests.Request;
 import net.dv8tion.jda.core.requests.Response;
 import net.dv8tion.jda.core.requests.RestAction;
@@ -84,7 +82,6 @@ public class SessionControllerAdapter implements SessionController {
 
   @Override
   public Pair<String, Integer> getGatewayBot(JDA api) {
-    AccountTypeException.check(api.getAccountType(), AccountType.BOT);
     return new RestAction<Pair<String, Integer>>(api, Route.Misc.GATEWAY_BOT.compile()) {
       @Override
       protected void handleResponse(Response response, Request<Pair<String, Integer>> request) {

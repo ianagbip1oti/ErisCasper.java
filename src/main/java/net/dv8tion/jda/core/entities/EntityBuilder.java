@@ -32,7 +32,6 @@ import net.dv8tion.jda.bot.entities.ApplicationInfo;
 import net.dv8tion.jda.bot.entities.impl.ApplicationInfoImpl;
 import net.dv8tion.jda.client.entities.*;
 import net.dv8tion.jda.client.entities.impl.*;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.WebSocketCode;
@@ -87,14 +86,6 @@ public class EntityBuilder {
         .setDiscriminator(self.getString("discriminator"))
         .setAvatarId(self.optString("avatar", null))
         .setBot(Helpers.optBoolean(self, "bot"));
-
-    if (this.api.getAccountType() == AccountType.CLIENT) {
-      selfUser
-          .setEmail(self.optString("email", null))
-          .setMobile(Helpers.optBoolean(self, "mobile"))
-          .setNitro(Helpers.optBoolean(self, "premium"))
-          .setPhoneNumber(self.optString("phone", null));
-    }
 
     return selfUser;
   }
@@ -292,13 +283,6 @@ public class EntityBuilder {
       // ReadyHandler
       // and let it send a burst chunk request.
       if (api.getClient().isReady()) {
-        if (api.getAccountType() == AccountType.CLIENT) {
-          JSONObject obj =
-              new JSONObject()
-                  .put("op", WebSocketCode.GUILD_SYNC)
-                  .put("guild_id", guildObj.getId());
-          api.getClient().chunkOrSyncRequest(obj);
-        }
         JSONObject obj =
             new JSONObject()
                 .put("op", WebSocketCode.MEMBER_CHUNK_REQUEST)
@@ -306,8 +290,7 @@ public class EntityBuilder {
         api.getClient().chunkOrSyncRequest(obj);
       } else {
         ReadyHandler readyHandler = api.getClient().getHandler("READY");
-        readyHandler.acknowledgeGuild(
-            guildObj, true, true, api.getAccountType() == AccountType.CLIENT);
+        readyHandler.acknowledgeGuild(guildObj, true, true, false);
       }
 
       api.getGuildLock().lock(id);
@@ -811,8 +794,6 @@ public class EntityBuilder {
     MessageChannel chan = api.getTextChannelById(channelId);
     if (chan == null) chan = api.getPrivateChannelById(channelId);
     if (chan == null) chan = api.getFakePrivateChannelMap().get(channelId);
-    if (chan == null && api.getAccountType() == AccountType.CLIENT)
-      chan = api.asClient().getGroupById(channelId);
     if (chan == null) throw new IllegalArgumentException(MISSING_CHANNEL);
 
     return createMessage(jsonObject, chan, exceptionOnMissingUser);
@@ -1191,73 +1172,13 @@ public class EntityBuilder {
   }
 
   public Relationship createRelationship(JSONObject relationshipJson) {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT,
-          "Attempted to create a Relationship but the logged in account is not a CLIENT!");
-
-    RelationshipType type = RelationshipType.fromKey(relationshipJson.getInt("type"));
-    User user;
-    if (type == RelationshipType.FRIEND) user = createUser(relationshipJson.getJSONObject("user"));
-    else user = createFakeUser(relationshipJson.getJSONObject("user"), true);
-
-    Relationship relationship = api.asClient().getRelationshipById(user.getIdLong(), type);
-    if (relationship == null) {
-      switch (type) {
-        case FRIEND:
-          relationship = new FriendImpl(user);
-          break;
-        case BLOCKED:
-          relationship = new BlockedUserImpl(user);
-          break;
-        case INCOMING_FRIEND_REQUEST:
-          relationship = new IncomingFriendRequestImpl(user);
-          break;
-        case OUTGOING_FRIEND_REQUEST:
-          relationship = new OutgoingFriendRequestImpl(user);
-          break;
-        default:
-          return null;
-      }
-      api.asClient().getRelationshipMap().put(user.getIdLong(), relationship);
-    }
-    return relationship;
+    throw new AccountTypeException(
+        "Attempted to create a Relationship but the logged in account is not a CLIENT!");
   }
 
   public Group createGroup(JSONObject groupJson) {
-    if (api.getAccountType() != AccountType.CLIENT)
-      throw new AccountTypeException(
-          AccountType.CLIENT,
-          "Attempted to create a Group but the logged in account is not a CLIENT!");
-
-    final long groupId = groupJson.getLong("id");
-    JSONArray recipients = groupJson.getJSONArray("recipients");
-    final long ownerId = groupJson.getLong("owner_id");
-    final String name = groupJson.optString("name", null);
-    final String iconId = groupJson.optString("icon", null);
-    final long lastMessage = Helpers.optLong(groupJson, "last_message_id", 0);
-
-    GroupImpl group = (GroupImpl) api.asClient().getGroupById(groupId);
-    if (group == null) {
-      group = new GroupImpl(groupId, api);
-      api.asClient().getGroupMap().put(groupId, group);
-    }
-
-    TLongObjectMap<User> groupUsers = group.getUserMap();
-    groupUsers.put(api.getSelfUser().getIdLong(), api.getSelfUser());
-    for (int i = 0; i < recipients.length(); i++) {
-      JSONObject groupUser = recipients.getJSONObject(i);
-      groupUsers.put(groupUser.getLong("id"), createFakeUser(groupUser, true));
-    }
-
-    User owner = api.getUserMap().get(ownerId);
-    if (owner == null) owner = api.getFakeUserMap().get(ownerId);
-    if (owner == null)
-      throw new IllegalArgumentException(
-          "Attempted to build a Group, but could not find user by provided owner id."
-              + "This should not be possible because the owner should be IN the group!");
-
-    return group.setOwner(owner).setLastMessageId(lastMessage).setName(name).setIconId(iconId);
+    throw new AccountTypeException(
+        "Attempted to create a Group but the logged in account is not a CLIENT!");
   }
 
   public Invite createInvite(JSONObject object) {

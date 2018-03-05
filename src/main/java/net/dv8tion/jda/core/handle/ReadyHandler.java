@@ -19,17 +19,11 @@ package net.dv8tion.jda.core.handle;
 import gnu.trove.iterator.TLongIterator;
 import gnu.trove.set.TLongSet;
 import gnu.trove.set.hash.TLongHashSet;
-import net.dv8tion.jda.client.entities.Relationship;
-import net.dv8tion.jda.client.entities.impl.FriendImpl;
-import net.dv8tion.jda.client.entities.impl.UserSettingsImpl;
-import net.dv8tion.jda.core.AccountType;
-import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.WebSocketCode;
 import net.dv8tion.jda.core.entities.ChannelType;
 import net.dv8tion.jda.core.entities.EntityBuilder;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.impl.JDAImpl;
-import net.dv8tion.jda.core.managers.impl.PresenceImpl;
 import net.dv8tion.jda.core.requests.WebSocketClient;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -54,21 +48,6 @@ public class ReadyHandler extends SocketHandler {
     JSONObject selfJson = content.getJSONObject("user");
 
     builder.createSelfUser(selfJson);
-
-    if (api.getAccountType() == AccountType.CLIENT && !content.isNull("user_settings")) {
-      // handle user settings
-      JSONObject userSettingsJson = content.getJSONObject("user_settings");
-      UserSettingsImpl userSettingsObj = (UserSettingsImpl) api.asClient().getSettings();
-      userSettingsObj
-          // TODO: set all information and handle updates
-          .setStatus(
-          userSettingsJson.isNull("status")
-              ? OnlineStatus.ONLINE
-              : OnlineStatus.fromKey(userSettingsJson.getString("status")));
-      // update presence information unless the status is ONLINE
-      if (userSettingsObj.getStatus() != OnlineStatus.ONLINE)
-        ((PresenceImpl) api.getPresence()).setCacheStatus(userSettingsObj.getStatus());
-    }
 
     // Keep a list of all guilds in incompleteGuilds that need to be setup (GuildMemberChunk /
     // GuildSync)
@@ -116,34 +95,6 @@ public class ReadyHandler extends SocketHandler {
     api.getClient().setChunkingAndSyncing(false);
     EntityBuilder builder = api.getEntityBuilder();
     JSONArray privateChannels = content.getJSONArray("private_channels");
-
-    if (api.getAccountType() == AccountType.CLIENT) {
-      JSONArray relationships = content.getJSONArray("relationships");
-      JSONArray presences = content.getJSONArray("presences");
-      JSONObject notes = content.getJSONObject("notes");
-      JSONArray readstates = content.has("read_state") ? content.getJSONArray("read_state") : null;
-      JSONArray guildSettings =
-          content.has("user_guild_settings") ? content.getJSONArray("user_guild_settings") : null;
-
-      for (int i = 0; i < relationships.length(); i++) {
-        JSONObject relationship = relationships.getJSONObject(i);
-        Relationship r = builder.createRelationship(relationship);
-        if (r == null)
-          JDAImpl.LOG.error(
-              "Provided relationship in READY with an unknown type! JSON: {}", relationship);
-      }
-
-      for (int i = 0; i < presences.length(); i++) {
-        JSONObject presence = presences.getJSONObject(i);
-        String userId = presence.getJSONObject("user").getString("id");
-        FriendImpl friend = (FriendImpl) api.asClient().getFriendById(userId);
-        if (friend == null)
-          WebSocketClient.LOG.warn(
-              "Received a presence in the Presences array in READY that did not correspond to a cached Friend! JSON: {}",
-              presence);
-        else builder.createPresence(friend, presence);
-      }
-    }
 
     for (int i = 0; i < privateChannels.length(); i++) {
       JSONObject chan = privateChannels.getJSONObject(i);
@@ -201,7 +152,6 @@ public class ReadyHandler extends SocketHandler {
   private void checkIfReadyToSendRequests() {
     if (acknowledgedGuilds.size() == incompleteGuilds.size()) {
       api.getClient().setChunkingAndSyncing(true);
-      if (api.getAccountType() == AccountType.CLIENT) sendGuildSyncRequests();
       sendMemberChunkRequests();
     }
   }

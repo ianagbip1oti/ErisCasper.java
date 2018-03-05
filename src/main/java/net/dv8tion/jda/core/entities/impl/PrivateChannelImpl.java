@@ -18,7 +18,6 @@ package net.dv8tion.jda.core.entities.impl;
 
 import java.io.InputStream;
 import net.dv8tion.jda.client.entities.Call;
-import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.requests.Request;
@@ -161,7 +160,7 @@ public class PrivateChannelImpl implements PrivateChannel {
   }
 
   private void checkBot() {
-    if (user.isBot() && getJDA().getAccountType() == AccountType.BOT)
+    if (user.isBot())
       throw new UnsupportedOperationException("Cannot send a private message between bots.");
   }
 }
