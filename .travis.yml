@@ -48,4 +48,6 @@ jobs:
         github-token: $GITHUB_TOKEN
         keep-history: true
         local-dir: target/site
+        on:
+          tags: true
     
