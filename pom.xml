@@ -15,14 +15,18 @@
       <distribution>repo</distribution>
     </license>
   </licenses>
+  <developers>
+    <developer>
+      <id>ianagbip1oti</id>
+      <name>Princess Lana</name>
+      <email>ianagbip1oti@gmail.com</email>
+      <url>https://github.com/ianagbip1oti</url>
+    </developer>
+  </developers>
   <scm>
     <url>https://github.com/princesslana/ErisCasper.java</url>
   </scm>
   <distributionManagement>
-    <repository>
-      <id>ossrh</id>
-      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
-    </repository>
     <snapshotRepository>
       <id>ossrh</id>
       <url>https://oss.sonatype.org/content/repositories/snapshots</url>
@@ -57,6 +61,7 @@
     <plugin.jacoco.version>0.8.0</plugin.jacoco.version>
     <plugin.javadoc.version>3.0.0</plugin.javadoc.version>
     <plugin.jxr.version>2.5</plugin.jxr.version>
+    <plugin.nexus-staging.version>1.6.7</plugin.nexus-staging.version>
     <plugin.pmd.version>3.9.0</plugin.pmd.version>
     <plugin.project-info-reports.version>2.9</plugin.project-info-reports.version>
     <plugin.resources.version>3.0.2</plugin.resources.version>
@@ -342,6 +347,17 @@
                 </goals>
               </execution>
             </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.sonatype.plugins</groupId>
+            <artifactId>nexus-staging-maven-plugin</artifactId>
+            <version>${plugin.nexus-staging.version}</version>
+            <extensions>true</extensions>
+            <configuration>
+              <serverId>ossrh</serverId>
+              <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+              <autoReleaseAfterClose>true</autoReleaseAfterClose>
+            </configuration>
           </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
