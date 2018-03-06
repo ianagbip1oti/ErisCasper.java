@@ -61,6 +61,7 @@
     <plugin.resources.version>3.0.2</plugin.resources.version>
     <plugin.site.version>3.7</plugin.site.version>
     <plugin.sortpom.version>2.8.0</plugin.sortpom.version>
+    <plugin.source.version>3.0.1</plugin.source.version>
     <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
     <plugin.surefire.version>2.20.1</plugin.surefire.version>
   </properties>
@@ -309,4 +310,39 @@
       </plugin>
     </plugins>
   </reporting>
+  <profiles>
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <version>${plugin.javadoc.version}</version>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <version>${plugin.source.version}</version>
+            <executions>
+              <execution>
+                <id>attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
 </project>
