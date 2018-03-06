@@ -14,7 +14,7 @@ before_install:
 
 stages:
 - build
-- name: publish
+- name: snapshot
   if: branch = master AND NOT type = pull_request
 - name: release
   if: tag =~ ^\d+\.\d+\.\d+$
@@ -28,7 +28,7 @@ jobs:
       script: mvn -B verify
     - jdk: openjdk8
       script: mvn -B verify
-    - stage: publish
+    - stage: snapshot
       jdk: openjdk8
       script: mvn -s etc/settings.xml -B deploy -P release
     - jdk: openjdk8
