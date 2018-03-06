@@ -51,6 +51,7 @@
     <plugin.dependency.version>3.0.2</plugin.dependency.version>
     <plugin.enforcer.version>3.0.0-M1</plugin.enforcer.version>
     <plugin.github-site.version>0.12</plugin.github-site.version>
+    <plugin.gpg.version>1.6</plugin.gpg.version>
     <plugin.install.version>2.5.2</plugin.install.version>
     <plugin.jar.version>3.0.2</plugin.jar.version>
     <plugin.jacoco.version>0.8.0</plugin.jacoco.version>
@@ -315,6 +316,20 @@
       <id>release</id>
       <build>
         <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <version>${plugin.gpg.version}</version>
+            <executions>
+              <execution>
+                <id>sign-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
           <plugin>
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-javadoc-plugin</artifactId>
