@@ -6,5 +6,9 @@
 
 **Latest Snapshot:** ![Sonatype Nexus (Snapshots)](https://img.shields.io/nexus/s/https/oss.sonatype.org/com.github.princesslana/ErisCasper.java.svg)
 
+Documentation is available at https://princesslana.github.io/ErisCasper.java
+
+  * [Usage](https://princesslana.github.io/ErisCasper.java/usage.html)
+
 Initially started as a fork of [JDA](https://github.com/DV8FromTheWorld/JDA)
 
