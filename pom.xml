@@ -18,6 +18,16 @@
   <scm>
     <url>https://github.com/princesslana/ErisCasper.java</url>
   </scm>
+  <distributionManagement>
+    <repository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/service/local/staging/deploy/maven2/</url>
+    </repository>
+    <snapshotRepository>
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </snapshotRepository>
+  </distributionManagement>
   <properties>
     <revision>0-SNAPSHOT</revision>
     <maven.compiler.source>1.8</maven.compiler.source>
@@ -55,12 +65,12 @@
     <plugin.surefire.version>2.20.1</plugin.surefire.version>
   </properties>
   <dependencies>
-  <dependency>
-    <groupId>org.assertj</groupId>
-    <artifactId>assertj-core</artifactId>
-    <version>${lib.assertj.version}</version>
-    <scope>test</scope>
-  </dependency>
+    <dependency>
+      <groupId>org.assertj</groupId>
+      <artifactId>assertj-core</artifactId>
+      <version>${lib.assertj.version}</version>
+      <scope>test</scope>
+    </dependency>
     <dependency>
       <groupId>org.apache.commons</groupId>
       <artifactId>commons-collections4</artifactId>

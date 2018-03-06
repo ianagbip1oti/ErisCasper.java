@@ -24,6 +24,8 @@ jobs:
       script: mvn -B verify
     - stage: publish
       jdk: openjdk8
+      script: mvn -s etc/settings.xml -B deploy
+    - jdk: openjdk8
       script: mvn -B site
       deploy:
         provider: pages
