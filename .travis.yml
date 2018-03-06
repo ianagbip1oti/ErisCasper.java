@@ -34,6 +34,7 @@ jobs:
     - jdk: openjdk8
       script: mvn -B verify sonar:sonar
     - stage: release
+      jdk: openjdk8
       env:
         - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)"
       script: mvn -s etc/settings.xml -B deploy -P release
