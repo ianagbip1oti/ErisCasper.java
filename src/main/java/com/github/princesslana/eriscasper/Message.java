@@ -3,9 +3,14 @@ package com.github.princesslana.eriscasper;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import net.dv8tion.jda.core.MessageBuilder;
+import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Message {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Message.class);
 
   private final net.dv8tion.jda.core.entities.Message jdaMessage;
 
@@ -32,6 +37,12 @@ public class Message {
   }
 
   public static Observable<Message> from(ErisCasper ec) {
-    return ec.events().ofType(MessageReceivedEvent.class).map(Message::create);
+    return from(ec.events());
+  }
+
+  public static Observable<Message> from(Observable<Event> evts) {
+    return evts.ofType(MessageReceivedEvent.class)
+        .map(Message::create)
+        .doOnNext(m -> LOG.debug("Message received: {}", m.getContent()));
   }
 }
