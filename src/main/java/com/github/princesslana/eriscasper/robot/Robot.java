@@ -18,10 +18,7 @@ public class Robot {
   }
 
   public void hear(Pattern regex, Consumer<Context> run) {
-    Message.from(ec)
-        .map(m -> new Context(regex, m))
-        .filter(Context::isMatch)
-        .subscribe(run);
+    Message.from(ec).map(m -> new Context(regex, m)).filter(Context::isMatch).subscribe(run);
   }
 
   public static Robot from(ErisCasper ec) {

@@ -4,29 +4,15 @@ import io.reactivex.Observable;
 import javax.security.auth.login.LoginException;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.Event;
 import net.dv8tion.jda.core.hooks.EventListener;
 
 public class ErisCasper {
 
-  private final JDA jda;
-
   private final Observable<Event> events;
 
-  public ErisCasper(JDA jda) {
-    this.jda = jda;
-
-    this.events =
-        Observable.create(
-            emitter -> {
-              EventListener el = emitter::onNext;
-              jda.addEventListener(el);
-            });
-  }
-
-  public User getSelf() {
-    return jda.getSelfUser();
+  public ErisCasper(Observable<Event> events) {
+    this.events = events;
   }
 
   public Observable<Event> events() {
@@ -42,6 +28,13 @@ public class ErisCasper {
   }
 
   public static ErisCasper create(JDA jda) {
-    return new ErisCasper(jda);
+    Observable<Event> events =
+        Observable.create(
+            emitter -> {
+              EventListener el = emitter::onNext;
+              jda.addEventListener(el);
+            });
+
+    return new ErisCasper(events);
   }
 }
