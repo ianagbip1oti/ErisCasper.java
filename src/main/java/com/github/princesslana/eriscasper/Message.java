@@ -1,37 +1,25 @@
 package com.github.princesslana.eriscasper;
 
 import io.reactivex.Completable;
-import io.reactivex.Observable;
 import net.dv8tion.jda.core.MessageBuilder;
-import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.entities.TextChannel;
+import org.immutables.value.Value;
 
-public class Message {
+@Value.Immutable
+public interface Message {
 
-  private final net.dv8tion.jda.core.entities.Message jdaMessage;
+  String getContent();
 
-  private Message(net.dv8tion.jda.core.entities.Message jdaMessage) {
-    this.jdaMessage = jdaMessage;
+  public static Completable send(Message m, TextChannel to) {
+    return Completable.fromAction(
+        () -> to.sendMessage(new MessageBuilder().append(m.getContent()).build()).complete());
   }
 
-  public String getContent() {
-    return jdaMessage.getContentRaw();
+  public static Message from(String content) {
+    return ImmutableMessage.builder().content(content).build();
   }
 
-  // TODO: This doesn't follow the contract of Completable,
-  //   since it does not wait for a subscription to execute
-  public Completable reply(String content) {
-    return Completable.fromFuture(
-        jdaMessage
-            .getTextChannel()
-            .sendMessage(new MessageBuilder().append(content).build())
-            .submit());
-  }
-
-  public static Message create(MessageReceivedEvent evt) {
-    return new Message(evt.getMessage());
-  }
-
-  public static Observable<Message> from(ErisCasper ec) {
-    return ec.events().ofType(MessageReceivedEvent.class).map(Message::create);
+  public static Message from(net.dv8tion.jda.core.entities.Message jdaMsg) {
+    return from(jdaMsg.getContentRaw());
   }
 }
