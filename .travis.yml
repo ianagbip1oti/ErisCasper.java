@@ -43,10 +43,12 @@ jobs:
         - MAVEN_OPTS="-Drevision=$(git describe --dirty --tags)"
       script: mvn -B site
       deploy:
+        edge:
+          branch: v1.8.47
         provider: pages
         skip-cleanup: true
         github-token: $GITHUB_TOKEN
-        keep-history: false
+        keep-history: true
         local-dir: target/site
         on:
           tags: true
