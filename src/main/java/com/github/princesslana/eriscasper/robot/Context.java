@@ -1,18 +1,18 @@
 package com.github.princesslana.eriscasper.robot;
 
-import com.github.princesslana.eriscasper.Message;
+import com.github.princesslana.eriscasper.ReceivedMessage;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class Context {
 
-  private final Message message;
+  private final ReceivedMessage received;
 
   private final Matcher matcher;
 
-  public Context(Pattern regex, Message message) {
-    this.message = message;
-    this.matcher = regex.matcher(message.getContent());
+  public Context(Pattern regex, ReceivedMessage received) {
+    this.received = received;
+    this.matcher = regex.matcher(received.getMessage().getContent());
   }
 
   public boolean isMatch() {
@@ -28,6 +28,10 @@ public class Context {
   }
 
   public void reply(String reply) {
-    message.reply(reply).subscribe();
+    send(String.format("%s %s", received.getAuthor().getAsMention(), reply));
+  }
+
+  public void send(String reply) {
+    ReceivedMessage.sendReply(received, reply).subscribe();
   }
 }
