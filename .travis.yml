@@ -46,7 +46,7 @@ jobs:
         provider: pages
         skip-cleanup: true
         github-token: $GITHUB_TOKEN
-        keep-history: true
+        keep-history: false
         local-dir: target/site
         on:
           tags: true
