@@ -12,8 +12,6 @@
 
 Documentation for the latest release is available at https://princesslana.github.io/ErisCasper.java
 
-  * [Usage](https://princesslana.github.io/ErisCasper.java/dependency-info.html)
-
 ## Snapshots
 
 Snapshots of master are automatically published to sonatype.
@@ -42,8 +40,3 @@ Snapshot versions can be found [here](https://oss.sonatype.org/#nexus-search;qui
     <version>LATEST.SNAPSHOT.VERSION</version>
   </dependency>
 ```
-
-## Other
-
-Initially started as a fork of v3.5.1 of [JDA](https://github.com/DV8FromTheWorld/JDA)
-
