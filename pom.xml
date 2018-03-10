@@ -38,6 +38,10 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.assertj.version>3.9.0</lib.assertj.version>
+    <lib.immutables.version>2.5.5</lib.immutables.version>
+    <lib.netty.version>4.1.22.Final</lib.netty.version>
+    <lib.rxjava.version>2.1.10</lib.rxjava.version>
+    <lib.rxnetty-http.version>0.5.2</lib.rxnetty-http.version>
     <lib.testng.version>6.14.2</lib.testng.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
@@ -69,10 +73,31 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>${lib.netty.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.reactivex.rxjava2</groupId>
+      <artifactId>rxjava</artifactId>
+      <version>${lib.rxjava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.reactivex</groupId>
+      <artifactId>rxnetty-http</artifactId>
+      <version>${lib.rxnetty-http.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${lib.testng.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>${lib.immutables.version}</version>
+      <scope>provided</scope> <!-- compile only -->
     </dependency>
   </dependencies>
   <build>
