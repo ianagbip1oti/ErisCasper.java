@@ -38,21 +38,7 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.assertj.version>3.9.0</lib.assertj.version>
-    <lib.commons-collections4.version>4.1</lib.commons-collections4.version>
-    <lib.commons-lang3.version>3.7</lib.commons-lang3.version>
-    <lib.errorprone.version>2.1.3</lib.errorprone.version>
-    <lib.jsr305.version>1.3.9</lib.jsr305.version>
-    <lib.guava.version>24.0-jre</lib.guava.version>
-    <lib.immutables.version>2.5.5</lib.immutables.version>
-    <lib.json.version>20160810</lib.json.version>
-    <lib.mockito.version>2.15.0</lib.mockito.version>
-    <lib.nv-websocket-client.version>2.2</lib.nv-websocket-client.version>
-    <lib.okhttp.version>3.8.1</lib.okhttp.version>
-    <lib.okio.version>1.13.0</lib.okio.version>
-    <lib.rxjava.version>2.1.10</lib.rxjava.version>
-    <lib.slf4j-api.version>1.7.25</lib.slf4j-api.version>
     <lib.testng.version>6.14.2</lib.testng.version>
-    <lib.trove4j.version>3.0.3</lib.trove4j.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
     <plugin.deploy.version>2.8.2</plugin.deploy.version>
@@ -83,81 +69,10 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-collections4</artifactId>
-      <version>${lib.commons-collections4.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.commons</groupId>
-      <artifactId>commons-lang3</artifactId>
-      <version>${lib.commons-lang3.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.errorprone</groupId>
-      <artifactId>error_prone_annotations</artifactId>
-      <version>${lib.errorprone.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.guava</groupId>
-      <artifactId>guava</artifactId>
-      <version>${lib.guava.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.immutables</groupId>
-      <artifactId>value</artifactId>
-      <version>${lib.immutables.version}</version>
-      <scope>provided</scope> <!-- compile only -->
-    </dependency>
-    <dependency>
-      <groupId>org.json</groupId>
-      <artifactId>json</artifactId>
-      <version>${lib.json.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.google.code.findbugs</groupId>
-      <artifactId>jsr305</artifactId>
-      <version>${lib.jsr305.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.mockito</groupId>
-      <artifactId>mockito-core</artifactId>
-      <version>${lib.mockito.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.neovisionaries</groupId>
-      <artifactId>nv-websocket-client</artifactId>
-      <version>${lib.nv-websocket-client.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okhttp3</groupId>
-      <artifactId>okhttp</artifactId>
-      <version>${lib.okhttp.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>com.squareup.okio</groupId>
-      <artifactId>okio</artifactId>
-      <version>${lib.okio.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.reactivex.rxjava2</groupId>
-      <artifactId>rxjava</artifactId>
-      <version>${lib.rxjava.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-api</artifactId>
-      <version>${lib.slf4j-api.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${lib.testng.version}</version>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>net.sf.trove4j</groupId>
-      <artifactId>trove4j</artifactId>
-      <version>${lib.trove4j.version}</version>
     </dependency>
   </dependencies>
   <build>
