@@ -1,7 +1,9 @@
 package com.github.princesslana.eriscasper.gateway;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.reactivex.Single;
 import java.util.Optional;
 import org.immutables.value.Value;
 
@@ -11,12 +13,16 @@ import org.immutables.value.Value;
  */
 @Value.Immutable
 @JsonDeserialize(as = ImmutablePayload.class)
-public interface Payload {
-  Integer op();
+public abstract class Payload {
+  public abstract OpCode op();
 
-  Optional<JsonNode> d();
+  protected abstract Optional<JsonNode> d();
 
-  Optional<Integer> s();
+  protected abstract Optional<Integer> s();
 
-  Optional<String> t();
+  protected abstract Optional<String> t();
+
+  public <T> Single<T> d(ObjectMapper jackson, Class<T> clazz) {
+    return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(d().get()));
+  }
 }

@@ -41,7 +41,7 @@ public class Gateway implements Closeable {
             .map(m -> jackson.readValue(m.getText(), Payload.class))
             .cache();
 
-    payloads.filter(p -> p.op() == 10).subscribe(p -> setupHeartbeat(ws, p));
+    payloads.filter(p -> p.op() == OpCode.HELLO).subscribe(p -> setupHeartbeat(ws, p));
 
     return payloads;
   }
@@ -53,15 +53,21 @@ public class Gateway implements Closeable {
 
   private void setupHeartbeat(RxWebSocket ws, Payload hello) {
     hello
-        .d()
-        .ifPresent(
-            json -> {
-              long heartbeatInterval = json.get("heartbeat_interval").asLong();
-
-              Observable.interval(heartbeatInterval, TimeUnit.MILLISECONDS)
-                  .flatMapCompletable((l) -> send(ws, ImmutablePayload.builder().op(1).build()))
+        .d(jackson, Payloads.Heartbeat.class)
+        .subscribe(
+            h -> {
+              Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS)
+                  .flatMapCompletable(
+                      (l) -> send(ws, ImmutablePayload.builder().op(OpCode.HEARTBEAT).build()))
                   .subscribe();
             });
+
+    /*.ifPresent(
+    json -> {
+      long heartbeatInterval = json.get("heartbeat_interval").asLong();
+
+
+    });*/
   }
 
   @Override
