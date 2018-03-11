@@ -1,4 +1,4 @@
-package com.github.princesslana.eriscasper.api;
+package com.github.princesslana.eriscasper.rest;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import org.immutables.value.Value;

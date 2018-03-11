@@ -1,4 +1,4 @@
-package com.github.princesslana.eriscasper.api;
+package com.github.princesslana.eriscasper.rest;
 
 public final class RouteCatalog {
 
