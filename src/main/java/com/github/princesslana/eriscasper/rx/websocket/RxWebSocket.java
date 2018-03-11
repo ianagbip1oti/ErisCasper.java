@@ -57,34 +57,34 @@ public class RxWebSocket implements Closeable {
     }
 
     @Override
-    public void onClosed(WebSocket webSocket, int code, String reason) {
-      em.onNext(ClosedTuple.of(code, reason, webSocket));
+    public void onClosed(WebSocket ws, int code, String reason) {
+      em.onNext(ClosedTuple.of(ws, code, reason));
     }
 
     @Override
-    public void onClosing(WebSocket webSocket, int code, String reason) {
-      em.onNext(ClosingTuple.of(code, reason, webSocket));
+    public void onClosing(WebSocket ws, int code, String reason) {
+      em.onNext(ClosingTuple.of(ws, code, reason));
     }
 
     @Override
-    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-      em.onNext(FailureTuple.of(t, response, webSocket));
+    public void onFailure(WebSocket ws, Throwable t, Response response) {
+      em.onNext(FailureTuple.of(ws, t, response));
       em.onError(t);
     }
 
     @Override
-    public void onMessage(WebSocket webSocket, okio.ByteString bytes) {
-      em.onNext(ByteStringMessageTuple.of(bytes, webSocket));
+    public void onMessage(WebSocket ws, okio.ByteString bytes) {
+      em.onNext(ByteStringMessageTuple.of(ws, bytes));
     }
 
     @Override
-    public void onMessage(WebSocket webSocket, String text) {
-      em.onNext(StringMessageTuple.of(text, webSocket));
+    public void onMessage(WebSocket ws, String text) {
+      em.onNext(StringMessageTuple.of(ws, text));
     }
 
     @Override
-    public void onOpen(WebSocket webSocket, Response response) {
-      em.onNext(OpenTuple.of(response, webSocket));
+    public void onOpen(WebSocket ws, Response response) {
+      em.onNext(OpenTuple.of(ws, response));
     }
   }
 }

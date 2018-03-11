@@ -1,7 +1,7 @@
 package com.github.princesslana.eriscasper.gateway;
 
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import java.util.Optional;
 import org.immutables.value.Value;
 
@@ -14,7 +14,7 @@ import org.immutables.value.Value;
 public interface Payload {
   Integer op();
 
-  Optional<ObjectNode> d();
+  Optional<JsonNode> d();
 
   Optional<Integer> s();
 

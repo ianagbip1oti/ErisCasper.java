@@ -9,10 +9,10 @@ import org.immutables.value.Value;
 @Tuple
 public interface RxWebSocketEvent {
 
-  WebSocket getWebSocket();
-
   @Value.Immutable
   interface Closed extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     int getCode();
 
     String getReason();
@@ -20,6 +20,8 @@ public interface RxWebSocketEvent {
 
   @Value.Immutable
   interface Closing extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     int getCode();
 
     String getReason();
@@ -27,6 +29,8 @@ public interface RxWebSocketEvent {
 
   @Value.Immutable
   interface Failure extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     Throwable getThrowable();
 
     Response getRespons();
@@ -34,16 +38,22 @@ public interface RxWebSocketEvent {
 
   @Value.Immutable
   interface ByteStringMessage extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     ByteString getBytes();
   }
 
   @Value.Immutable
   interface StringMessage extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     String getText();
   }
 
   @Value.Immutable
   interface Open extends RxWebSocketEvent {
+    WebSocket getWebSocket();
+
     Response getResponse();
   }
 }
