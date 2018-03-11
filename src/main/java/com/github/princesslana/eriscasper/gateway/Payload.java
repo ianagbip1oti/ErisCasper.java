@@ -14,7 +14,7 @@ import org.immutables.value.Value;
 public interface Payload {
   Integer op();
 
-  ObjectNode d();
+  Optional<ObjectNode> d();
 
   Optional<Integer> s();
 

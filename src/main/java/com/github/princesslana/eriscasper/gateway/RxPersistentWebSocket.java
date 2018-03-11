@@ -62,7 +62,7 @@ public class RxPersistentWebSocket implements AutoCloseable {
   }
 
   public void send(String payload) {
-    LOG.debug("Sending: {}...");
+    LOG.debug("Sending: {}...", payload);
     ws.send(payload);
   }
 
