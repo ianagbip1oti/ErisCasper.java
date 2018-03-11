@@ -7,7 +7,6 @@ import com.github.princesslana.eriscasper.gateway.Gateway;
 import com.github.princesslana.eriscasper.gateway.Payload;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
-
 import io.reactivex.Flowable;
 import okhttp3.OkHttpClient;
 
