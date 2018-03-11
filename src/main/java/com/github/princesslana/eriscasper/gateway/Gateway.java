@@ -1,14 +1,10 @@
 package com.github.princesslana.eriscasper.gateway;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.reactivex.BackpressureStrategy;
+import com.github.princesslana.eriscasper.gateway.RxPersistentWebSocket.Message;
+import com.github.princesslana.eriscasper.gateway.RxPersistentWebSocket.StringMessage;
 import io.reactivex.Flowable;
-import java.io.IOException;
 import okhttp3.OkHttpClient;
-import okhttp3.Request;
-import okhttp3.Response;
-import okhttp3.WebSocket;
-import okhttp3.WebSocketListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -16,10 +12,13 @@ public class Gateway implements AutoCloseable {
 
   private static final Logger LOG = LoggerFactory.getLogger(Gateway.class);
 
+  private static final String VERSION = "6";
+  private static final String ENCODING = "json";
+
   private final OkHttpClient client;
   private final ObjectMapper jackson;
 
-  private WebSocket ws;
+  private RxPersistentWebSocket ws;
 
   public Gateway(OkHttpClient client, ObjectMapper jackson) {
     this.client = client;
@@ -27,44 +26,23 @@ public class Gateway implements AutoCloseable {
   }
 
   public Flowable<Payload> connect(String url) {
-    return Flowable.create(
-        em -> {
-          Request request = new Request.Builder().url(url).build();
+    ws = new RxPersistentWebSocket(client);
 
-          ws =
-              client.newWebSocket(
-                  request,
-                  new WebSocketListener() {
-                    @Override
-                    public void onOpen(WebSocket webSocket, Response response) {
-                      LOG.info("Open: {}.", response);
-                    }
+    Flowable<Message<?>> messages =
+        ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING));
 
-                    @Override
-                    public void onMessage(WebSocket webSocket, String text) {
-                      LOG.info("Message: {}", text);
-                      try {
-                        em.onNext(jackson.readValue(text, Payload.class));
-                      } catch (IOException e) {
-                        LOG.info("Message Failed: {}", e);
-                        em.onError(e);
-                      }
-                    }
+    Flowable<Payload> payloads =
+        messages
+            .ofType(StringMessage.class)
+            .map(m -> jackson.readValue(m.getContent(), Payload.class));
 
-                    @Override
-                    public void onFailure(WebSocket webSocket, Throwable t, Response response) {
-                      LOG.info("Failure: {}/{}. Reconnecting...", t, response);
-                      ws = client.newWebSocket(request, this);
-                    }
-                  });
-        },
-        BackpressureStrategy.BUFFER);
+    return payloads;
   }
 
   @Override
   public void close() {
     if (ws != null) {
-      ws.close(1000, "Closing");
+      ws.close();
     }
   }
 }
