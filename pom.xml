@@ -39,15 +39,15 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.assertj.version>3.9.0</lib.assertj.version>
     <lib.immutables.version>2.5.5</lib.immutables.version>
-    <lib.netty.version>4.1.22.Final</lib.netty.version>
+    <lib.okhttp.version>3.10.0</lib.okhttp.version>
     <lib.rxjava.version>2.1.10</lib.rxjava.version>
-    <lib.rxnetty-http.version>0.5.2</lib.rxnetty-http.version>
     <lib.testng.version>6.14.2</lib.testng.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
     <plugin.deploy.version>2.8.2</plugin.deploy.version>
     <plugin.dependency.version>3.0.2</plugin.dependency.version>
     <plugin.enforcer.version>3.0.0-M1</plugin.enforcer.version>
+    <plugin.exec.version>1.6.0</plugin.exec.version>
     <plugin.github-site.version>0.12</plugin.github-site.version>
     <plugin.gpg.version>1.6</plugin.gpg.version>
     <plugin.install.version>2.5.2</plugin.install.version>
@@ -73,19 +73,14 @@
       <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>${lib.netty.version}</version>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${lib.okhttp.version}</version>
     </dependency>
     <dependency>
       <groupId>io.reactivex.rxjava2</groupId>
       <artifactId>rxjava</artifactId>
       <version>${lib.rxjava.version}</version>
-    </dependency>
-    <dependency>
-      <groupId>io.reactivex</groupId>
-      <artifactId>rxnetty-http</artifactId>
-      <version>${lib.rxnetty-http.version}</version>
     </dependency>
     <dependency>
       <groupId>org.testng</groupId>
@@ -159,6 +154,11 @@
             <requirePluginVersions></requirePluginVersions>
           </rules>
         </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${plugin.exec.version}</version>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

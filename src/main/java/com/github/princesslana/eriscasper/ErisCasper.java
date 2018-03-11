@@ -1,16 +1,16 @@
 package com.github.princesslana.eriscasper;
 
-import io.reactivex.Flowable;
-
 import com.github.princesslana.eriscasper.api.Route;
-import com.github.princesslana.eriscasper.api.Routes;
+import com.github.princesslana.eriscasper.api.RouteCatalog;
+import io.reactivex.Flowable;
+import okhttp3.Response;
 
 public class ErisCasper {
-  
-  public Flowable<Event> events() {
-    return Route.execute(Routes.getGateway()).toFlowable();
+
+  public Flowable<Response> events() {
+    return Route.execute(RouteCatalog.getGateway()).toFlowable();
   }
-  
+
   public static ErisCasper create() {
     return new ErisCasper();
   }

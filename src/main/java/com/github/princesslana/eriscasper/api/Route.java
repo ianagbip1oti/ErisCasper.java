@@ -1,36 +1,67 @@
 package com.github.princesslana.eriscasper.api;
 
-import java.nio.ByteBuffer;
-
+import io.reactivex.Single;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.immutables.value.Value;
 
-import io.netty.buffer.ByteBuf;
-import io.netty.handler.codec.http.HttpMethod;
-import io.reactivex.Single;
-import io.reactivex.netty.protocol.http.client.HttpClient;
-
 @Value.Immutable
-public interface Route<Request, Response> {
-  HttpMethod getMethod();
-  
-  String getPath();
-  
-  Class<Request> getRequestClass();
-  
-  Class<Response> getResponseClass();
-  
+public abstract class Route<Rq, Rs> {
+
+  private static final String VERSION = "v6";
+  private static final String URL = String.format("https://discordapp.com/api/%s", VERSION);
+
+  private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
+
+  protected static enum Method {
+    GET("GET");
+
+    private final String method;
+
+    private Method(String method) {
+      this.method = method;
+    }
+
+    public String get() {
+      return method;
+    }
+  }
+
+  protected abstract Method getMethod();
+
+  protected abstract String getPath();
+
+  protected abstract Class<Rq> getRequestClass();
+
+  protected abstract Class<Rs> getResponseClass();
+
+  private String getUrl() {
+    return String.format("%s%s", URL, getPath());
+  }
+
   public static <Rs> Route<Void, Rs> get(String path, Class<Rs> rsClass) {
-    return ImmutableRoute.builder().method(HttpMethod.GET).path(path).requestClass(Void.class)
-      .responseClass(rsClass).build();
+    return ImmutableRoute.<Void, Rs>builder()
+        .method(Method.GET)
+        .path(path)
+        .requestClass(Void.class)
+        .responseClass(rsClass)
+        .build();
   }
-  
-  public static <Rs> Single<ByteBuf> execute(Route<Void, Rs> route) {
-    return HttpClient.newClient(Rest.HOST, 443)
-                  .createRequest(route.getMethod(), String.format("/api/%s%s", Rest.VERSION, route.getPath()))
-                  .flatMap(r -> r.getContent())
-                  .toSingle();
+
+  public static <Rs> Single<Response> execute(Route<Void, Rs> route) {
+    return Single.fromCallable(
+        () -> {
+          Request request =
+              new Request.Builder()
+                  .method(route.getMethod().get(), null)
+                  .url(route.getUrl())
+                  .build();
+
+          return HTTP_CLIENT.newCall(request).execute();
+        });
   }
-  
+
   public static <Rq, Rs> Single<Rs> execute(Route<Rq, Rs> route, Rq rq) {
     throw new UnsupportedOperationException();
   }
