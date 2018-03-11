@@ -24,6 +24,10 @@ public class RxPersistentWebSocket implements AutoCloseable {
 
   private static final Logger LOG = LoggerFactory.getLogger(RxPersistentWebSocket.class);
 
+  /**
+   * @see <a href="https://discordapp.com/developers/docs/topics/gateway#sending-payloads">
+   *     https://discordapp.com/developers/docs/topics/gateway#sending-payloads</a>
+   */
   private static final int MAX_MESSAGE_SIZE = 4096;
 
   private final OkHttpClient client;
