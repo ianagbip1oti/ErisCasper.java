@@ -8,6 +8,7 @@ import com.github.princesslana.eriscasper.gateway.Payload;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
 import io.reactivex.Flowable;
+import java.io.IOException;
 import okhttp3.OkHttpClient;
 
 public class ErisCasper {
@@ -25,6 +26,8 @@ public class ErisCasper {
           .toFlowable()
           .flatMap(gr -> gateway.connect(gr.getUrl()))
           .onBackpressureBuffer();
+    } catch (IOException e) {
+      return Flowable.error(e);
     }
   }
 
