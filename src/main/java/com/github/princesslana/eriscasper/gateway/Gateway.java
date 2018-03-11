@@ -2,8 +2,10 @@ package com.github.princesslana.eriscasper.gateway;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.princesslana.eriscasper.gateway.RxPersistentWebSocket.StringMessage;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.Single;
 import java.util.concurrent.TimeUnit;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
@@ -40,6 +42,11 @@ public class Gateway implements AutoCloseable {
     return payloads;
   }
 
+  private Completable send(Payload payload) {
+    return Single.fromCallable(() -> jackson.writeValueAsString(payload))
+        .flatMapCompletable(ws::send);
+  }
+
   private void setupHeartbeat(Payload hello) {
     hello
         .d()
@@ -48,7 +55,8 @@ public class Gateway implements AutoCloseable {
               long heartbeatInterval = json.get("heartbeat_interval").asLong();
 
               Observable.interval(heartbeatInterval, TimeUnit.MILLISECONDS)
-                  .subscribe(i -> ws.send("{ \"op\" : 1, \"d\" : null }"));
+                  .flatMapCompletable((l) -> send(ImmutablePayload.builder().op(1).build()))
+                  .subscribe();
             });
   }
 

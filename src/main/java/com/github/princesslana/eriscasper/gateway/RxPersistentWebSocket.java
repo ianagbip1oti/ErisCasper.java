@@ -1,6 +1,8 @@
 package com.github.princesslana.eriscasper.gateway;
 
+import com.google.common.base.Preconditions;
 import io.reactivex.BackpressureStrategy;
+import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -21,6 +23,8 @@ import org.slf4j.LoggerFactory;
 public class RxPersistentWebSocket implements AutoCloseable {
 
   private static final Logger LOG = LoggerFactory.getLogger(RxPersistentWebSocket.class);
+
+  private static final int MAX_MESSAGE_SIZE = 4096;
 
   private final OkHttpClient client;
 
@@ -61,9 +65,18 @@ public class RxPersistentWebSocket implements AutoCloseable {
         BackpressureStrategy.BUFFER);
   }
 
-  public void send(String payload) {
-    LOG.debug("Sending: {}...", payload);
-    ws.send(payload);
+  public Completable send(String payload) {
+    return Completable.fromAction(
+        () -> {
+          LOG.debug("Sending: {}...", payload);
+
+          Preconditions.checkState(
+              payload.getBytes().length <= MAX_MESSAGE_SIZE,
+              "Websocket payload too large (%s bytes)",
+              payload.getBytes().length);
+
+          ws.send(payload);
+        });
   }
 
   @Override
