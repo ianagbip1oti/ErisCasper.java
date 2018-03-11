@@ -38,12 +38,18 @@
     <maven.compiler.target>1.8</maven.compiler.target>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.assertj.version>3.9.0</lib.assertj.version>
+    <lib.immutables.version>2.5.5</lib.immutables.version>
+    <lib.jackson.version>2.9.4</lib.jackson.version>
+    <lib.okhttp.version>3.10.0</lib.okhttp.version>
+    <lib.rxjava.version>2.1.10</lib.rxjava.version>
+    <lib.slf4j.version>1.7.25</lib.slf4j.version>
     <lib.testng.version>6.14.2</lib.testng.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
     <plugin.deploy.version>2.8.2</plugin.deploy.version>
     <plugin.dependency.version>3.0.2</plugin.dependency.version>
     <plugin.enforcer.version>3.0.0-M1</plugin.enforcer.version>
+    <plugin.exec.version>1.6.0</plugin.exec.version>
     <plugin.github-site.version>0.12</plugin.github-site.version>
     <plugin.gpg.version>1.6</plugin.gpg.version>
     <plugin.install.version>2.5.2</plugin.install.version>
@@ -61,6 +67,17 @@
     <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
     <plugin.surefire.version>2.20.1</plugin.surefire.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${lib.jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.assertj</groupId>
@@ -69,10 +86,40 @@
       <scope>test</scope>
     </dependency>
     <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.squareup.okhttp3</groupId>
+      <artifactId>okhttp</artifactId>
+      <version>${lib.okhttp.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>io.reactivex.rxjava2</groupId>
+      <artifactId>rxjava</artifactId>
+      <version>${lib.rxjava.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${lib.slf4j.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${lib.testng.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+      <version>${lib.immutables.version}</version>
+      <scope>provided</scope>
+      <!-- compile only -->
     </dependency>
   </dependencies>
   <build>
@@ -133,6 +180,27 @@
             </requireReleaseDeps>
             <requirePluginVersions></requirePluginVersions>
           </rules>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>exec-maven-plugin</artifactId>
+        <version>${plugin.exec.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${lib.slf4j.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <includePluginDependencies>true</includePluginDependencies>
+          <systemProperties>
+            <systemProperty>
+              <key>org.slf4j.simpleLogger.defaultLogLevel</key>
+              <value>debug</value>
+            </systemProperty>
+          </systemProperties>
         </configuration>
       </plugin>
       <plugin>
