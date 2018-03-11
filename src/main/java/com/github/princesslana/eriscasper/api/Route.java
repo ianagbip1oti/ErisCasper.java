@@ -1,19 +1,17 @@
 package com.github.princesslana.eriscasper.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
-
 import org.immutables.value.Value;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 @Value.Immutable
 public abstract class Route<Rq, Rs> {
-  
+
   private static final Logger LOG = LoggerFactory.getLogger(Route.class);
 
   private static final String VERSION = "v6";
@@ -21,7 +19,7 @@ public abstract class Route<Rq, Rs> {
 
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
   private static final ObjectMapper JACKSON = new ObjectMapper();
-  
+
   protected static enum Method {
     GET("GET");
 
@@ -59,20 +57,21 @@ public abstract class Route<Rq, Rs> {
 
   public static <Rs> Single<Rs> execute(Route<Void, Rs> route) {
     return Single.fromCallable(
-        () -> {
-          LOG.debug("Executing: {}...", route);
-          
-          Request rq =
-              new Request.Builder()
-                  .method(route.getMethod().get(), null)
-                  .url(route.getUrl())
-                  .build();
-                  
-          try(Response rs = HTTP_CLIENT.newCall(rq).execute()) {
-            return JACKSON.readValue(rs.body().byteStream(), route.getResponseClass());
-          }
-        })
-        .doOnSuccess(r -> LOG.debug("Done: {} -> {}.", route, r));
+            () -> {
+              LOG.debug("Executing: {}...", route);
+
+              Request rq =
+                  new Request.Builder()
+                      .method(route.getMethod().get(), null)
+                      .url(route.getUrl())
+                      .build();
+
+              try (Response rs = HTTP_CLIENT.newCall(rq).execute()) {
+                return JACKSON.readValue(rs.body().byteStream(), route.getResponseClass());
+              }
+            })
+        .doOnSuccess(r -> LOG.debug("Done: {} -> {}.", route, r))
+        .doOnError(e -> LOG.warn("Error: {} - {}.", route, e));
   }
 
   public static <Rq, Rs> Single<Rs> execute(Route<Rq, Rs> route, Rq rq) {

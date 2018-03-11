@@ -3,7 +3,6 @@ package com.github.princesslana.eriscasper;
 import com.github.princesslana.eriscasper.api.GatewayResponse;
 import com.github.princesslana.eriscasper.api.Route;
 import com.github.princesslana.eriscasper.api.RouteCatalog;
-
 import io.reactivex.Flowable;
 
 public class ErisCasper {
