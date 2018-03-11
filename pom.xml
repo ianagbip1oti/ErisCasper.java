@@ -44,9 +44,11 @@
     <lib.immutables.version>2.5.5</lib.immutables.version>
     <lib.jackson.version>2.9.4</lib.jackson.version>
     <lib.okhttp.version>3.10.0</lib.okhttp.version>
+    <lib.okio.version>1.14.0</lib.okio.version>
     <lib.reactive-streams.version>1.0.2</lib.reactive-streams.version>
+    <lib.resilience4j.version>0.11.0</lib.resilience4j.version>
     <lib.rxjava.version>2.1.10</lib.rxjava.version>
-    <lib.slf4j.version>1.7.25</lib.slf4j.version>
+    <lib.slf4j.version>1.7.24</lib.slf4j.version>
     <lib.testng.version>6.14.2</lib.testng.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
@@ -122,10 +124,20 @@
       <version>${lib.okhttp.version}</version>
     </dependency>
     <dependency>
+      <groupId>com.squareup.okio</groupId>
+      <artifactId>okio</artifactId>
+      <version>${lib.okio.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.reactivestreams</groupId>
       <artifactId>reactive-streams</artifactId>
       <version>${lib.reactive-streams.version}</version>
     </dependency>
+    <!--<dependency>
+      <groupId>io.github.resilience4j</groupId>
+      <artifactId>resilience4j-ratelimiter</artifactId>
+      <version>${lib.resilience4j.version}</version>
+    </dependency>-->
     <dependency>
       <groupId>io.reactivex.rxjava2</groupId>
       <artifactId>rxjava</artifactId>
