@@ -39,8 +39,10 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <lib.assertj.version>3.9.0</lib.assertj.version>
     <lib.immutables.version>2.5.5</lib.immutables.version>
+    <lib.jackson.version>2.9.4</lib.jackson.version>
     <lib.okhttp.version>3.10.0</lib.okhttp.version>
     <lib.rxjava.version>2.1.10</lib.rxjava.version>
+    <lib.slf4j.version>1.7.25</lib.slf4j.version>
     <lib.testng.version>6.14.2</lib.testng.version>
     <plugin.clean.version>3.0.0</plugin.clean.version>
     <plugin.compiler.version>3.7.0</plugin.compiler.version>
@@ -65,12 +67,27 @@
     <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
     <plugin.surefire.version>2.20.1</plugin.surefire.version>
   </properties>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>com.fasterxml.jackson</groupId>
+        <artifactId>jackson-bom</artifactId>
+        <version>${lib.jackson.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
   <dependencies>
     <dependency>
       <groupId>org.assertj</groupId>
       <artifactId>assertj-core</artifactId>
       <version>${lib.assertj.version}</version>
       <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
     </dependency>
     <dependency>
       <groupId>com.squareup.okhttp3</groupId>
@@ -83,6 +100,11 @@
       <version>${lib.rxjava.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <version>${lib.slf4j.version}</version>
+    </dependency>
+    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <version>${lib.testng.version}</version>
@@ -92,7 +114,8 @@
       <groupId>org.immutables</groupId>
       <artifactId>value</artifactId>
       <version>${lib.immutables.version}</version>
-      <scope>provided</scope> <!-- compile only -->
+      <scope>provided</scope>
+      <!-- compile only -->
     </dependency>
   </dependencies>
   <build>
@@ -159,6 +182,22 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>exec-maven-plugin</artifactId>
         <version>${plugin.exec.version}</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${lib.slf4j.version}</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <includePluginDependencies>true</includePluginDependencies>
+          <systemProperties>
+            <systemProperty>
+              <key>org.slf4j.simpleLogger.defaultLogLevel</key>
+              <value>debug</value>
+            </systemProperty>
+          </systemProperties>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>

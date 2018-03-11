@@ -1,19 +1,27 @@
 package com.github.princesslana.eriscasper.api;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import io.reactivex.Single;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+
 import org.immutables.value.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Value.Immutable
 public abstract class Route<Rq, Rs> {
+  
+  private static final Logger LOG = LoggerFactory.getLogger(Route.class);
 
   private static final String VERSION = "v6";
   private static final String URL = String.format("https://discordapp.com/api/%s", VERSION);
 
   private static final OkHttpClient HTTP_CLIENT = new OkHttpClient();
-
+  private static final ObjectMapper JACKSON = new ObjectMapper();
+  
   protected static enum Method {
     GET("GET");
 
@@ -49,17 +57,22 @@ public abstract class Route<Rq, Rs> {
         .build();
   }
 
-  public static <Rs> Single<Response> execute(Route<Void, Rs> route) {
+  public static <Rs> Single<Rs> execute(Route<Void, Rs> route) {
     return Single.fromCallable(
         () -> {
-          Request request =
+          LOG.debug("Executing: {}...", route);
+          
+          Request rq =
               new Request.Builder()
                   .method(route.getMethod().get(), null)
                   .url(route.getUrl())
                   .build();
-
-          return HTTP_CLIENT.newCall(request).execute();
-        });
+                  
+          try(Response rs = HTTP_CLIENT.newCall(rq).execute()) {
+            return JACKSON.readValue(rs.body().byteStream(), route.getResponseClass());
+          }
+        })
+        .doOnSuccess(r -> LOG.debug("Done: {} -> {}.", route, r));
   }
 
   public static <Rq, Rs> Single<Rs> execute(Route<Rq, Rs> route, Rq rq) {

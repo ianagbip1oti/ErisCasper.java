@@ -4,7 +4,7 @@ public final class RouteCatalog {
 
   private RouteCatalog() {}
 
-  public static Route<Void, String> getGateway() {
-    return Route.get("/gateway", String.class);
+  public static Route<Void, GatewayResponse> getGateway() {
+    return Route.get("/gateway", GatewayResponse.class);
   }
 }
