@@ -133,11 +133,22 @@
       <artifactId>reactive-streams</artifactId>
       <version>${lib.reactive-streams.version}</version>
     </dependency>
-    <!--<dependency>
+    <dependency>
       <groupId>io.github.resilience4j</groupId>
       <artifactId>resilience4j-ratelimiter</artifactId>
       <version>${lib.resilience4j.version}</version>
-    </dependency>-->
+    </dependency>
+    <dependency>
+      <groupId>io.github.resilience4j</groupId>
+      <artifactId>resilience4j-rxjava2</artifactId>
+      <version>${lib.resilience4j.version}</version>
+      <exclusions>
+        <exclusion>
+          <artifactId>rxjava</artifactId>
+          <groupId>io.reactivex.rxjava2</groupId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <dependency>
       <groupId>io.reactivex.rxjava2</groupId>
       <artifactId>rxjava</artifactId>
