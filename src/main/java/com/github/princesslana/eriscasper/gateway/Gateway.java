@@ -23,16 +23,18 @@ public class Gateway implements Closeable {
   private static final String ENCODING = "json";
 
   private final OkHttpClient client;
+  private final Payloads payloads;
   private final ObjectMapper jackson;
 
   private final Closer closer = Closer.create();
 
-  public Gateway(OkHttpClient client, ObjectMapper jackson) {
+  public Gateway(OkHttpClient client, Payloads payloads, ObjectMapper jackson) {
     this.client = client;
+    this.payloads = payloads;
     this.jackson = jackson;
   }
 
-  public Flowable<Payload> connect(String url) {
+  public Flowable<Payload> connect(String url, String token) {
     RxWebSocket ws = closer.register(new RxWebSocket(client));
 
     Flowable<Payload> payloads =
@@ -41,7 +43,12 @@ public class Gateway implements Closeable {
             .map(m -> jackson.readValue(m.getText(), Payload.class))
             .cache();
 
-    payloads.filter(p -> p.op() == OpCode.HELLO).subscribe(p -> setupHeartbeat(ws, p));
+    payloads.filter(Payload.isOp(OpCode.HELLO)).subscribe(p -> setupHeartbeat(ws, p));
+
+    payloads
+        .filter(Payload.isOp(OpCode.HELLO))
+        .flatMapCompletable(p -> identify(ws, token))
+        .subscribe();
 
     return payloads;
   }
@@ -51,6 +58,10 @@ public class Gateway implements Closeable {
         .flatMapCompletable(ws::send);
   }
 
+  private Completable identify(RxWebSocket ws, String token) {
+    return send(ws, payloads.identify(token));
+  }
+
   private void setupHeartbeat(RxWebSocket ws, Payload hello) {
     hello
         .d(jackson, Payloads.Heartbeat.class)
@@ -58,16 +69,9 @@ public class Gateway implements Closeable {
             h -> {
               Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS)
                   .flatMapCompletable(
-                      (l) -> send(ws, ImmutablePayload.builder().op(OpCode.HEARTBEAT).build()))
+                      l -> send(ws, ImmutablePayload.builder().op(OpCode.HEARTBEAT).build()))
                   .subscribe();
             });
-
-    /*.ifPresent(
-    json -> {
-      long heartbeatInterval = json.get("heartbeat_interval").asLong();
-
-
-    });*/
   }
 
   @Override
