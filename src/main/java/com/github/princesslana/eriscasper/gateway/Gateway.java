@@ -10,6 +10,7 @@ import io.github.resilience4j.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
+import io.reactivex.flowables.ConnectableFlowable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
@@ -70,16 +71,18 @@ public class Gateway implements Closeable {
   public Flowable<Payload> connect(String url, String token) {
     RxWebSocket ws = closer.register(new RxWebSocket(client));
 
-    Flowable<Payload> ps =
+    ConnectableFlowable<Payload> ps =
         ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING))
             .ofType(RxWebSocketEvent.StringMessage.class)
             .map(RxWebSocketEvent.StringMessage::getText)
             .flatMapSingle(payloads::read)
-            .cache();
+            .publish();
 
     ps.filter(Payload.isOp(OpCode.HELLO)).subscribe(p -> setupHeartbeat(ws, p));
 
     ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token)).subscribe();
+
+    ps.connect();
 
     return ps;
   }
