@@ -3,6 +3,7 @@ package com.github.princesslana.eriscasper.gateway;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import io.reactivex.Single;
 import java.util.Collection;
 import org.immutables.value.Value;
 
@@ -14,12 +15,24 @@ public class Payloads {
     this.jackson = jackson;
   }
 
+  public <T> Single<T> dataAs(Payload p, Class<T> clazz) {
+    return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(p.d().get()));
+  }
+
   public Payload identify(String token) {
     return identify(ImmutableIdentify.builder().token(token).build());
   }
 
   public Payload identify(Identify id) {
     return ImmutablePayload.builder().op(OpCode.IDENTIFY).d(jackson.valueToTree(id)).build();
+  }
+
+  public Single<Payload> read(String text) {
+    return Single.fromCallable(() -> jackson.readValue(text, Payload.class));
+  }
+
+  public Single<String> writeToString(Payload p) {
+    return Single.fromCallable(() -> jackson.writeValueAsString(p));
   }
 
   @Value.Immutable

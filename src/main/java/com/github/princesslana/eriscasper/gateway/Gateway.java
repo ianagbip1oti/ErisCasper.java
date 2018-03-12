@@ -1,13 +1,11 @@
 package com.github.princesslana.eriscasper.gateway;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocket;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocketEvent;
 import com.google.common.io.Closer;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.Single;
 import java.io.Closeable;
 import java.io.IOException;
 import java.util.concurrent.TimeUnit;
@@ -24,38 +22,33 @@ public class Gateway implements Closeable {
 
   private final OkHttpClient client;
   private final Payloads payloads;
-  private final ObjectMapper jackson;
 
   private final Closer closer = Closer.create();
 
-  public Gateway(OkHttpClient client, Payloads payloads, ObjectMapper jackson) {
+  public Gateway(OkHttpClient client, Payloads payloads) {
     this.client = client;
     this.payloads = payloads;
-    this.jackson = jackson;
   }
 
   public Flowable<Payload> connect(String url, String token) {
     RxWebSocket ws = closer.register(new RxWebSocket(client));
 
-    Flowable<Payload> payloads =
+    Flowable<Payload> ps =
         ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING))
             .ofType(RxWebSocketEvent.StringMessage.class)
-            .map(m -> jackson.readValue(m.getText(), Payload.class))
+            .map(RxWebSocketEvent.StringMessage::getText)
+            .flatMapSingle(payloads::read)
             .cache();
 
-    payloads.filter(Payload.isOp(OpCode.HELLO)).subscribe(p -> setupHeartbeat(ws, p));
+    ps.filter(Payload.isOp(OpCode.HELLO)).subscribe(p -> setupHeartbeat(ws, p));
 
-    payloads
-        .filter(Payload.isOp(OpCode.HELLO))
-        .flatMapCompletable(p -> identify(ws, token))
-        .subscribe();
+    ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token)).subscribe();
 
-    return payloads;
+    return ps;
   }
 
   private Completable send(RxWebSocket ws, Payload payload) {
-    return Single.fromCallable(() -> jackson.writeValueAsString(payload))
-        .flatMapCompletable(ws::send);
+    return payloads.writeToString(payload).flatMapCompletable(ws::send);
   }
 
   private Completable identify(RxWebSocket ws, String token) {
@@ -63,8 +56,8 @@ public class Gateway implements Closeable {
   }
 
   private void setupHeartbeat(RxWebSocket ws, Payload hello) {
-    hello
-        .d(jackson, Payloads.Heartbeat.class)
+    payloads
+        .dataAs(hello, Payloads.Heartbeat.class)
         .subscribe(
             h -> {
               Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS)

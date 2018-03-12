@@ -21,10 +21,10 @@ public class ErisCasper {
 
   public Flowable<Payload> events() {
     OkHttpClient httpClient = new OkHttpClient();
-
     ObjectMapper jackson = Jackson.newObjectMapper();
+    Payloads payloads = new Payloads(jackson);
 
-    try (Gateway gateway = new Gateway(httpClient, new Payloads(jackson), jackson)) {
+    try (Gateway gateway = new Gateway(httpClient, payloads)) {
       return new Routes(httpClient, jackson)
           .execute(RouteCatalog.getGateway())
           .toFlowable()
