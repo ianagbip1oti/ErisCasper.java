@@ -2,6 +2,7 @@ package com.github.princesslana.eriscasper.gateway;
 
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocket;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocketEvent;
+import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
@@ -20,6 +21,12 @@ import org.slf4j.LoggerFactory;
 public class Gateway implements Closeable {
 
   private static final Logger LOG = LoggerFactory.getLogger(Gateway.class);
+
+  /**
+   * @see <a href="https://discordapp.com/developers/docs/topics/gateway#sending-payloads">
+   *     https://discordapp.com/developers/docs/topics/gateway#sending-payloads</a>
+   */
+  private static final int MAX_MESSAGE_SIZE = 4096;
 
   private static final String VERSION = "6";
   private static final String ENCODING = "json";
@@ -80,6 +87,14 @@ public class Gateway implements Closeable {
   private Completable send(RxWebSocket ws, Payload payload) {
     return payloads
         .writeToString(payload)
+        .doOnSuccess(
+            p ->
+                Preconditions.checkState(
+                    p.getBytes().length < MAX_MESSAGE_SIZE,
+                    "Paylod for %s was %s bytes. Maximum is %s",
+                    payload.op(),
+                    p.getBytes().length,
+                    MAX_MESSAGE_SIZE))
         .lift(RateLimiterOperator.of(sendLimit))
         .flatMapCompletable(ws::send);
   }
