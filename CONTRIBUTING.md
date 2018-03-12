@@ -19,7 +19,19 @@ If you're unsure where to get started, here are some starting points:
     or [Help Wanted](https://github.com/princesslana/ErisCasper.java/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22+label%3A%22help+wanted%22)
   * Checkout the [Sonarcloud dashboard](https://sonarcloud.io/dashboard?id=com.github.princesslana%3AErisCasper.java)
     for any technical debt reported and submit a fix
-  
+ 
+### Before you get started
+
+Ready to jump in? Great!
+
+Before you get started on a task:
+  * Have you run a quick search of issues and PRs to see if something similar has been suggested or submitted before?
+    This doesn't mean you shouldn't attempt this task, but previous discussion could raise issues you'd like
+    to address with your work.
+  * Multiple PRs with small and targeted improvements are preferable to large changes.
+    Smaller PRs are easier to review, so usually get merged quicker.
+    If you can break your work down into multiple PRs, then do it.
+ 
 ### IDE
 
 ErisCasper.java is IDE agnostic.
@@ -42,4 +54,7 @@ The dashboard for ErisCasper.java is located
 [here](https://sonarcloud.io/dashboard?id=com.github.princesslana%3AErisCasper.java).
 It does not currently give feedback on PRs, but it can be useful to know the kinds of issues it reports.
 
+## Finally
+
+If you have any questions or comments, or anything else really, please reach out to [The Programmer's Hangout](https://discord.gg/programming) and look for Princess Lana.
 
