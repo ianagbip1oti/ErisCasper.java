@@ -3,11 +3,19 @@ package com.github.princesslana.eriscasper.gateway;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.rx.Maybes;
+import com.github.princesslana.eriscasper.rx.Singles;
+import io.reactivex.Maybe;
 import io.reactivex.Single;
 import java.util.Collection;
 import org.immutables.value.Value;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class Payloads {
+
+  private static final Logger LOG = LoggerFactory.getLogger(Payloads.class);
 
   private ObjectMapper jackson;
 
@@ -33,6 +41,19 @@ public class Payloads {
 
   public Single<Payload> read(String text) {
     return Single.fromCallable(() -> jackson.readValue(text, Payload.class));
+  }
+
+  public Maybe<Event> toEvent(Payload payload) {
+    return Single.just(payload)
+        .filter(Payload.isOp(OpCode.DISPATCH))
+        .flatMap(
+            p ->
+                Maybes.fromOptional(p.t())
+                    .doOnComplete(() -> LOG.warn("No type for dispatch: {}", p)))
+        .flatMap(
+            Singles.toMaybeAnd(
+                et -> dataAs(payload, et.getDataClass()),
+                (p, e) -> LOG.warn("Error getting data for event payload: {}", p, e)));
   }
 
   public Single<String> writeToString(Payload p) {

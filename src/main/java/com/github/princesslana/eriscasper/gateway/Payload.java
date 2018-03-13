@@ -3,6 +3,7 @@ package com.github.princesslana.eriscasper.gateway;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.princesslana.eriscasper.event.EventType;
 import io.reactivex.Single;
 import io.reactivex.functions.Predicate;
 import java.util.Optional;
@@ -19,9 +20,9 @@ public abstract class Payload {
 
   protected abstract Optional<JsonNode> d();
 
-  protected abstract Optional<Long> s();
+  public abstract Optional<Long> s();
 
-  protected abstract Optional<String> t();
+  public abstract Optional<EventType> t();
 
   public <T> Single<T> d(ObjectMapper jackson, Class<T> clazz) {
     return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(d().get()));

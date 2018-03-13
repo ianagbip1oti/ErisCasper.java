@@ -1,8 +1,8 @@
 package com.github.princesslana.eriscasper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.princesslana.eriscasper.event.Event;
 import com.github.princesslana.eriscasper.gateway.Gateway;
-import com.github.princesslana.eriscasper.gateway.Payload;
 import com.github.princesslana.eriscasper.gateway.Payloads;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
@@ -10,8 +10,12 @@ import com.github.princesslana.eriscasper.util.Jackson;
 import io.reactivex.Flowable;
 import java.io.IOException;
 import okhttp3.OkHttpClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ErisCasper {
+
+  private static final Logger LOG = LoggerFactory.getLogger(ErisCasper.class);
 
   private final String token;
 
@@ -19,7 +23,7 @@ public class ErisCasper {
     this.token = token;
   }
 
-  public Flowable<Payload> events() {
+  public Flowable<Event> events() {
     OkHttpClient httpClient = new OkHttpClient();
     ObjectMapper jackson = Jackson.newObjectMapper();
     Payloads payloads = new Payloads(jackson);
@@ -29,6 +33,7 @@ public class ErisCasper {
           .execute(RouteCatalog.getGateway())
           .toFlowable()
           .flatMap(gr -> gateway.connect(gr.getUrl(), token))
+          .flatMapMaybe(payloads::toEvent)
           .onBackpressureBuffer();
     } catch (IOException e) {
       return Flowable.error(e);
