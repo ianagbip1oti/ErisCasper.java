@@ -10,7 +10,6 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-import io.reactivex.flowables.ConnectableFlowable;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
@@ -78,11 +77,14 @@ public class Gateway implements Closeable {
             .flatMapSingle(payloads::read)
             .share();
 
-    Completable heartbeat = ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> heartbeat(ws, p));
+    Completable heartbeat =
+        ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> heartbeat(ws, p));
 
-    Completable identify = ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token));
+    Completable identify =
+        ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token));
 
-    return Flowable.merge(Flowable.just(ps, heartbeat.<Payload>toFlowable(), identify.<Payload>toFlowable()));
+    return Flowable.merge(
+        Flowable.just(ps, heartbeat.<Payload>toFlowable(), identify.<Payload>toFlowable()));
   }
 
   private Completable send(RxWebSocket ws, Payload payload) {
@@ -103,7 +105,8 @@ public class Gateway implements Closeable {
   private Completable heartbeat(RxWebSocket ws, Payload hello) {
     return payloads
         .dataAs(hello, Payloads.Heartbeat.class)
-        .flatMapObservable(h -> Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS))
+        .flatMapObservable(
+            h -> Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS))
         .flatMapCompletable(l -> send(ws, payloads.heartbeat()));
   }
 
