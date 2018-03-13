@@ -3,10 +3,16 @@ package com.github.princesslana.eriscasper.gateway;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.github.princesslana.eriscasper.event.EventType;
+import com.github.princesslana.eriscasper.immutable.Wrapped;
+import com.github.princesslana.eriscasper.immutable.Wrapper;
+
 import io.reactivex.Single;
 import io.reactivex.functions.Predicate;
+
 import java.util.Optional;
+
 import org.immutables.value.Value;
 
 /**
@@ -20,7 +26,7 @@ public abstract class Payload {
 
   protected abstract Optional<JsonNode> d();
 
-  public abstract Optional<Long> s();
+  public abstract Optional<SequenceNumber> s();
 
   public abstract Optional<EventType> t();
 
@@ -31,4 +37,8 @@ public abstract class Payload {
   public static Predicate<Payload> isOp(OpCode op) {
     return p -> p.op() == op;
   }
+
+  @Value.Immutable
+  @Wrapped
+  public static interface SequenceNumberWrapper extends Wrapper<Integer> { }
 }

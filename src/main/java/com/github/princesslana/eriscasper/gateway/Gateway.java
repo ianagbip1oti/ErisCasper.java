@@ -36,7 +36,7 @@ public class Gateway implements Closeable {
   private final OkHttpClient client;
   private final Payloads payloads;
 
-  private final AtomicReference<Long> lastSeenSequenceNumber = new AtomicReference<>();
+  private final AtomicReference<SequenceNumber> lastSeenSequenceNumber = new AtomicReference<>();
 
   private final Closer closer = Closer.create();
 
