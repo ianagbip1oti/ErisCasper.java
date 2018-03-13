@@ -3,7 +3,6 @@ package com.github.princesslana.eriscasper.gateway;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocket;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocketEvent;
 import com.google.common.io.Closer;
-
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.operator.RateLimiterOperator;
@@ -11,16 +10,12 @@ import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
-
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
-
 import okhttp3.OkHttpClient;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,7 +38,6 @@ public class Gateway implements Closeable {
   private final AtomicReference<Long> lastSeenSequenceNumber = new AtomicReference<>();
 
   private final Closer closer = Closer.create();
-  
 
   /**
    * @see <a href="https://discordapp.com/developers/docs/topics/gateway#rate-limiting">
