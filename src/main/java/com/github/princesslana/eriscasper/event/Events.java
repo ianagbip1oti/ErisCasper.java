@@ -8,6 +8,10 @@ public class Events {
   private Events() {}
 
   @Value.Immutable
+  @JsonDeserialize(as = ImmutableGuildCreate.class)
+  public static interface GuildCreate extends Event {}
+
+  @Value.Immutable
   @JsonDeserialize(as = ImmutableReady.class)
   public static interface Ready extends Event {}
 }
