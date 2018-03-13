@@ -14,6 +14,7 @@ import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicReference;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,8 @@ public class Gateway implements Closeable {
 
   private final OkHttpClient client;
   private final Payloads payloads;
+
+  private final AtomicReference<Long> lastSeenSequenceNumber = new AtomicReference<>();
 
   private final Closer closer = Closer.create();
 
@@ -75,6 +78,7 @@ public class Gateway implements Closeable {
             .ofType(RxWebSocketEvent.StringMessage.class)
             .map(RxWebSocketEvent.StringMessage::getText)
             .flatMapSingle(payloads::read)
+            .doOnNext(p -> p.s().ifPresent(lastSeenSequenceNumber::set))
             .share();
 
     Completable heartbeat =
@@ -107,7 +111,7 @@ public class Gateway implements Closeable {
         .dataAs(hello, Payloads.Heartbeat.class)
         .flatMapObservable(
             h -> Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS))
-        .flatMapCompletable(l -> send(ws, payloads.heartbeat()));
+        .flatMapCompletable(l -> send(ws, payloads.heartbeat(lastSeenSequenceNumber.get())));
   }
 
   @Override

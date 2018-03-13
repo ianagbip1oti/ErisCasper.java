@@ -19,7 +19,7 @@ public abstract class Payload {
 
   protected abstract Optional<JsonNode> d();
 
-  protected abstract Optional<Integer> s();
+  protected abstract Optional<Long> s();
 
   protected abstract Optional<String> t();
 
