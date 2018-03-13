@@ -1,7 +1,6 @@
 package com.github.princesslana.eriscasper.event;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-
 import org.immutables.value.Value;
 
 public class Events {
