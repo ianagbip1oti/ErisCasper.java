@@ -2,7 +2,6 @@ package com.github.princesslana.eriscasper.gateway;
 
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocket;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocketEvent;
-import com.google.common.base.Preconditions;
 import com.google.common.io.Closer;
 import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
@@ -10,7 +9,7 @@ import io.github.resilience4j.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.Completable;
 import io.reactivex.Flowable;
 import io.reactivex.Observable;
-import io.reactivex.flowables.ConnectableFlowable;
+import io.reactivex.Single;
 import java.io.Closeable;
 import java.io.IOException;
 import java.time.Duration;
@@ -71,54 +70,44 @@ public class Gateway implements Closeable {
   public Flowable<Payload> connect(String url, String token) {
     RxWebSocket ws = closer.register(new RxWebSocket(client));
 
-    ConnectableFlowable<Payload> ps =
+    Flowable<Payload> ps =
         ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING))
             .ofType(RxWebSocketEvent.StringMessage.class)
             .map(RxWebSocketEvent.StringMessage::getText)
             .flatMapSingle(payloads::read)
-            .publish();
+            .share();
 
-    ps.filter(Payload.isOp(OpCode.HELLO)).subscribe(p -> setupHeartbeat(ws, p));
+    Completable heartbeat =
+        ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> heartbeat(ws, p));
 
-    ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token)).subscribe();
+    Completable identify =
+        ps.filter(Payload.isOp(OpCode.HELLO)).flatMapCompletable(p -> identify(ws, token));
 
-    ps.connect();
-
-    return ps;
+    return Flowable.merge(
+        Flowable.just(ps, heartbeat.<Payload>toFlowable(), identify.<Payload>toFlowable()));
   }
 
   private Completable send(RxWebSocket ws, Payload payload) {
     return payloads
         .writeToString(payload)
-        .doOnSuccess(
-            p ->
-                Preconditions.checkState(
-                    p.getBytes().length < MAX_MESSAGE_SIZE,
-                    "Paylod for %s was %s bytes. Maximum is %s",
-                    payload.op(),
-                    p.getBytes().length,
-                    MAX_MESSAGE_SIZE))
         .lift(RateLimiterOperator.of(sendLimit))
+        .filter(s -> s.getBytes().length <= MAX_MESSAGE_SIZE)
+        .doOnComplete(() -> LOG.warn("Payload rejected as too long: {}.", payload))
         .flatMapCompletable(ws::send);
   }
 
   private Completable identify(RxWebSocket ws, String token) {
-    return send(ws, payloads.identify(token))
-        .toObservable()
+    return Single.just(payloads.identify(token))
         .lift(RateLimiterOperator.of(identifyLimit))
-        .ignoreElements();
+        .flatMapCompletable(p -> send(ws, p));
   }
 
-  private void setupHeartbeat(RxWebSocket ws, Payload hello) {
-    payloads
+  private Completable heartbeat(RxWebSocket ws, Payload hello) {
+    return payloads
         .dataAs(hello, Payloads.Heartbeat.class)
-        .subscribe(
-            h -> {
-              Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS)
-                  .flatMapCompletable(
-                      l -> send(ws, ImmutablePayload.builder().op(OpCode.HEARTBEAT).build()))
-                  .subscribe();
-            });
+        .flatMapObservable(
+            h -> Observable.interval(h.getHeartbeatInterval(), TimeUnit.MILLISECONDS))
+        .flatMapCompletable(l -> send(ws, payloads.heartbeat()));
   }
 
   @Override
