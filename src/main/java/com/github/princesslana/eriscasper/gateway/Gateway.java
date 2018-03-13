@@ -1,5 +1,6 @@
 package com.github.princesslana.eriscasper.gateway;
 
+import com.github.princesslana.eriscasper.rx.Singles;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocket;
 import com.github.princesslana.eriscasper.rx.websocket.RxWebSocketEvent;
 import com.google.common.io.Closer;
@@ -77,7 +78,9 @@ public class Gateway implements Closeable {
         ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING))
             .ofType(RxWebSocketEvent.StringMessage.class)
             .map(RxWebSocketEvent.StringMessage::getText)
-            .flatMapSingle(payloads::read)
+            .flatMapMaybe(
+                Singles.toMaybeAnd(
+                    payloads::read, (s, t) -> LOG.warn("Error reading payload: {}", s, t)))
             .doOnNext(p -> p.s().ifPresent(lastSeenSequenceNumber::set))
             .share();
 
