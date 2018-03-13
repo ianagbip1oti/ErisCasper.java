@@ -19,8 +19,8 @@ public class Payloads {
     return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(p.d().get()));
   }
 
-  public Payload heartbeat() {
-    return ImmutablePayload.builder().op(OpCode.HEARTBEAT).build();
+  public Payload heartbeat(Long s) {
+    return ImmutablePayload.builder().op(OpCode.HEARTBEAT).s(s).build();
   }
 
   public Payload identify(String token) {
