@@ -13,7 +13,6 @@ public class PingBot {
     ErisCasper.create()
         .run(
             ctx -> {
-              // Flowable<Event<?>> events = ctx.getEvents().share();
               Completable ping =
                   ctx.getEvents()
                       .ofType(Events.MessageCreate.class)
