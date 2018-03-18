@@ -18,7 +18,7 @@ public class EchoBot {
                             .filter(d -> d.getContent().startsWith("+echo"))
 
                             .flatMapCompletable( d -> {
-                                String replyMessage = d.getContent().replace("+echo", "");
+                                String replyMessage = d.getContent().replaceFirst("+echo", "");
 
                                 return ctx.execute(RouteCatalog.createMessage(d.getChannelId()),
                                         ImmutableSendMessageRequest.builder().content(replyMessage).build()).toCompletable();
