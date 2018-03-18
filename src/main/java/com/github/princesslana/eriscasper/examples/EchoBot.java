@@ -19,10 +19,7 @@ public class EchoBot {
 
                             .flatMapCompletable( d -> {
                                 String replyMessage = d.getContent().replaceFirst("\\+echo", " ");
-
-                                if (replyMessage == " ") {
-                                    System.out.println("This command requires one argument");
-                                }
+                                
 
                                 return ctx.execute(RouteCatalog.createMessage(d.getChannelId()),
                                         ImmutableSendMessageRequest.builder().content(replyMessage).build()).toCompletable();
