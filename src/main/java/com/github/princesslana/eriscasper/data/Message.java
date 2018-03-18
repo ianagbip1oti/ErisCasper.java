@@ -8,7 +8,7 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutableMessage.class)
 public interface Message {
   @JsonProperty("channel_id")
-  ChannelId getChannelId();
+  String getChannelId();
 
   String getContent();
 }

@@ -6,5 +6,5 @@ import org.immutables.value.Value;
 public interface Wrapper<T> {
   @Value.Parameter
   @JsonValue
-  public abstract T unwrap();
+  T unwrap();
 }
