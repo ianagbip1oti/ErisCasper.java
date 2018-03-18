@@ -18,12 +18,11 @@ public class EchoBot {
                             .filter(d -> d.getContent().startsWith("+echo"))
 
                             .flatMapCompletable( d -> {
-                                String replyMessage = d.getContent().replaceFirst("\\+echo", "");
-                                if (replyMessage.startsWith("")) {
+                                String replyMessage = d.getContent().replaceFirst("\\+echo", " ");
+                                /*do {
                                     replyMessage = replyMessage;
-                                } else {
-                                    System.out.println("Error Message");
-                                }
+                                } while (replyMessage.startsWith(""));
+                                */
                                 return ctx.execute(RouteCatalog.createMessage(d.getChannelId()),
                                         ImmutableSendMessageRequest.builder().content(replyMessage).build()).toCompletable();
                             }));
