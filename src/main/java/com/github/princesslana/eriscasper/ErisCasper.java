@@ -9,7 +9,8 @@ import com.github.princesslana.eriscasper.rest.Routes;
 import com.github.princesslana.eriscasper.util.Jackson;
 import com.github.princesslana.eriscasper.util.OkHttp;
 import io.reactivex.Flowable;
-import java.io.IOException;
+import io.reactivex.Single;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,21 +33,23 @@ public class ErisCasper {
   }
 
   private Flowable<Event<?>> getEvents() {
-    try (Gateway gateway = new Gateway(httpClient, payloads)) {
-      return routes
-          .execute(RouteCatalog.getGateway())
-          .toFlowable()
-          .flatMap(gr -> gateway.connect(gr.getUrl(), token))
-          .flatMapMaybe(payloads::toEvent)
-          .onBackpressureBuffer()
-          .share();
-    } catch (IOException e) {
-      return Flowable.error(e);
-    }
+    Gateway gateway = new Gateway(httpClient, payloads);
+
+    return Single.just(RouteCatalog.getGateway())
+        .observeOn(Schedulers.io())
+        .flatMap(routes::execute)
+        .toFlowable()
+        .flatMap(gr -> gateway.connect(gr.getUrl(), token))
+        .onBackpressureBuffer()
+        .observeOn(Schedulers.computation())
+        .share();
   }
 
   public void run(Bot bot) {
-    bot.apply(new BotContext(getEvents(), routes)).subscribe();
+    bot.apply(new BotContext(getEvents(), routes))
+        .doOnError(t -> LOG.warn("Exception thrown by Bot", t))
+        .retry()
+        .blockingAwait();
   }
 
   public static ErisCasper create() {

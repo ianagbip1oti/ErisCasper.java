@@ -5,6 +5,7 @@ import com.github.princesslana.eriscasper.event.Event;
 import com.github.princesslana.eriscasper.event.Events;
 import com.github.princesslana.eriscasper.rest.ImmutableSendMessageRequest;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
+import io.reactivex.schedulers.Schedulers;
 
 public class PingBot {
 
@@ -23,6 +24,7 @@ public class PingBot {
 
                     // send create message request
                     .map(d -> RouteCatalog.createMessage(d.getChannelId()))
+                    .observeOn(Schedulers.io())
                     .flatMapCompletable(
                         r ->
                             ctx.execute(

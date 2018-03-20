@@ -2,7 +2,6 @@ package com.github.princesslana.eriscasper.rx.websocket;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.notNull;
-import static org.mockito.BDDMockito.then;
 
 import io.reactivex.subscribers.TestSubscriber;
 import okhttp3.OkHttpClient;
@@ -60,20 +59,5 @@ public class TestRxWebSocket {
     wsl.getValue().onMessage(mockWebSocket, "test message");
 
     subscriber.assertValuesOnly(StringMessageTuple.of(mockWebSocket, "test message"));
-  }
-
-  @Test
-  public void close_whenBeforeConnect_shouldNotError() {
-    Assertions.assertThatCode(() -> subject.close()).doesNotThrowAnyException();
-  }
-
-  @Test
-  public void close_whenAfterSubscribe_shouldCloseWebSocket() {
-    given(mockClient.newWebSocket(notNull(), notNull())).willReturn(mockWebSocket);
-
-    subject.connect(TEST_WS_URL).subscribe();
-    subject.close();
-
-    then(mockWebSocket).should().close(1000, "Bye.");
   }
 }
