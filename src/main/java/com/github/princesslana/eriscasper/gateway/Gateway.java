@@ -12,7 +12,6 @@ import io.github.resilience4j.ratelimiter.RateLimiter;
 import io.github.resilience4j.ratelimiter.RateLimiterConfig;
 import io.github.resilience4j.ratelimiter.operator.RateLimiterOperator;
 import io.reactivex.Completable;
-import io.reactivex.Flowable;
 import io.reactivex.Observable;
 import io.reactivex.Single;
 import java.time.Duration;
@@ -35,7 +34,7 @@ public class Gateway {
   private static final String VERSION = "6";
   private static final String ENCODING = "json";
 
-  private final OkHttpClient client;
+  private final RxWebSocket ws;
   private final Payloads payloads;
 
   private Optional<SequenceNumber> lastSeenSequenceNumber = Optional.empty();
@@ -68,8 +67,8 @@ public class Gateway {
               .timeoutDuration(Duration.ofSeconds(60))
               .build());
 
-  public Gateway(OkHttpClient client, Payloads payloads) {
-    this.client = client;
+  public Gateway(RxWebSocket ws, Payloads payloads) {
+    this.ws = ws;
     this.payloads = payloads;
   }
 
@@ -85,10 +84,8 @@ public class Gateway {
     seq.ifPresent(sid -> lastSeenSequenceNumber = Optional.of(sid));
   }
 
-  public Flowable<Event<?>> connect(String url, BotToken token) {
-    RxWebSocket ws = new RxWebSocket(client);
-
-    Flowable<Payload> ps =
+  public Observable<Event> connect(String url, BotToken token) {
+    Observable<Payload> ps =
         ws.connect(String.format("%s?v=%s&encoding=%s", url, VERSION, ENCODING))
             .ofType(RxWebSocketEvent.StringMessage.class)
             .map(RxWebSocketEvent.StringMessage::getText)
@@ -105,7 +102,7 @@ public class Gateway {
         ps.filter(Payload.isOp(OpCode.HELLO))
             .flatMapCompletable(p -> isResumable() ? resume(ws, token) : identify(ws, token));
 
-    Flowable<Event<?>> events = ps.flatMapMaybe(payloads::toEvent).share();
+    Observable<Event> events = ps.flatMapMaybe(payloads::toEvent).share();
 
     Completable setSessionId =
         events
@@ -114,9 +111,8 @@ public class Gateway {
             .doOnNext(this::setSessionId)
             .ignoreElements();
 
-    return Flowable.merge(
-            Flowable.just(
-                events, setSessionId.toFlowable(), heartbeat.toFlowable(), identify.toFlowable()))
+    return Observable.mergeArray(
+            events, setSessionId.toObservable(), heartbeat.toObservable(), identify.toObservable())
         .doOnNext(e -> LOG.debug("Event: {}.", e));
   }
 
@@ -144,7 +140,7 @@ public class Gateway {
         .flatMapCompletable(l -> send(ws, payloads.heartbeat(lastSeenSequenceNumber)));
   }
 
-  public Completable resume(RxWebSocket ws, BotToken token) {
+  private Completable resume(RxWebSocket ws, BotToken token) {
     Preconditions.checkState(sessionId.isPresent(), "Can not resume without a session id");
     Preconditions.checkState(
         lastSeenSequenceNumber.isPresent(), "Can not resume without a sequence number");
@@ -157,5 +153,9 @@ public class Gateway {
                 .build())
         .map(payloads::resume)
         .flatMapCompletable(p -> send(ws, p));
+  }
+
+  public static Gateway create(OkHttpClient client, Payloads payloads) {
+    return new Gateway(new RxWebSocket(client), payloads);
   }
 }

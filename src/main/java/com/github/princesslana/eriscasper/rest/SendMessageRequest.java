@@ -9,4 +9,8 @@ import org.immutables.value.Value;
 @Value.Immutable
 public interface SendMessageRequest {
   String getContent();
+
+  static SendMessageRequest ofText(String message) {
+    return ImmutableSendMessageRequest.builder().content(message).build();
+  }
 }

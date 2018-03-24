@@ -10,6 +10,7 @@ import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.functions.Consumer;
 import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.Optional;
@@ -108,6 +109,7 @@ public class Routes {
     // wrong - we're tricking rxjava into thinking there is something coming next so as to delay the
     // close.
     return Observable.using(execute, Observable::just, close)
+        .subscribeOn(Schedulers.io())
         .doOnNext(r -> LOG.debug("Done: {} -> {}.", route, r))
         .doOnNext(updateRateLimit)
         .flatMapSingle(

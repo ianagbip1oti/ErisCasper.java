@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.princesslana.eriscasper.BotToken;
 import com.github.princesslana.eriscasper.data.SessionId;
 import com.github.princesslana.eriscasper.event.Event;
-import com.github.princesslana.eriscasper.event.EventType;
 import com.github.princesslana.eriscasper.rx.Maybes;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
@@ -50,12 +49,11 @@ public class Payloads {
     return ImmutablePayload.builder().op(OpCode.RESUME).d(jackson.valueToTree(r)).build();
   }
 
-  public Maybe<Event<?>> toEvent(Payload payload) {
+  public Maybe<Event> toEvent(Payload payload) {
     return Single.just(payload)
         .filter(Payload.isOp(OpCode.DISPATCH))
         .flatMap(p -> Maybes.fromOptional(p.t()))
-        .map(EventType::getFactory)
-        .flatMap(f -> dataAs(payload, f.getDataClass()).map(f::apply).toMaybe())
+        .flatMap(et -> dataAs(payload, et.getDataClass()).map(et::newEvent).toMaybe())
         .doOnError(t -> LOG.warn("Unable to convert payload to event: {}", payload, t))
         .onErrorComplete();
   }

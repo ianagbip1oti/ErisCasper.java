@@ -4,11 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.princesslana.eriscasper.event.Event;
 import com.github.princesslana.eriscasper.gateway.Gateway;
 import com.github.princesslana.eriscasper.gateway.Payloads;
+import com.github.princesslana.eriscasper.repository.RepositoryManager;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
 import com.github.princesslana.eriscasper.util.Jackson;
 import com.github.princesslana.eriscasper.util.OkHttp;
-import io.reactivex.Flowable;
+import io.reactivex.Observable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import okhttp3.OkHttpClient;
@@ -24,6 +25,7 @@ public class ErisCasper {
   private final OkHttpClient httpClient = OkHttp.newHttpClient();
   private final ObjectMapper jackson = Jackson.newObjectMapper();
   private final Payloads payloads = new Payloads(jackson);
+
   private final Routes routes;
 
   private ErisCasper(BotToken token) {
@@ -32,21 +34,26 @@ public class ErisCasper {
     routes = new Routes(token, httpClient, jackson);
   }
 
-  private Flowable<Event<?>> getEvents() {
-    Gateway gateway = new Gateway(httpClient, payloads);
+  private Observable<Event> getEvents() {
+    Gateway gateway = Gateway.create(httpClient, payloads);
 
     return Single.just(RouteCatalog.getGateway())
         .observeOn(Schedulers.io())
         .flatMap(routes::execute)
-        .toFlowable()
+        .toObservable()
         .flatMap(gr -> gateway.connect(gr.getUrl(), token))
-        .onBackpressureBuffer()
         .observeOn(Schedulers.computation())
         .share();
   }
 
   public void run(Bot bot) {
-    bot.apply(new BotContext(getEvents(), routes))
+    Observable<Event> events = getEvents();
+
+    RepositoryManager rm = RepositoryManager.create();
+
+    rm.connect(events);
+
+    bot.apply(new BotContext(events, routes, rm))
         .doOnError(t -> LOG.warn("Exception thrown by Bot", t))
         .retry()
         .blockingAwait();

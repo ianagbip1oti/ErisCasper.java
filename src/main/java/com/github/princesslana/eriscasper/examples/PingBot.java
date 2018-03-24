@@ -1,35 +1,31 @@
 package com.github.princesslana.eriscasper.examples;
 
+import com.github.princesslana.eriscasper.Bot;
+import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.ErisCasper;
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.action.Actions;
+import com.github.princesslana.eriscasper.data.Message;
 import com.github.princesslana.eriscasper.event.Events;
-import com.github.princesslana.eriscasper.rest.ImmutableSendMessageRequest;
-import com.github.princesslana.eriscasper.rest.RouteCatalog;
-import io.reactivex.schedulers.Schedulers;
+import io.reactivex.Completable;
 
-public class PingBot {
+public class PingBot implements Bot {
+
+  @Override
+  public Completable apply(BotContext ctx) {
+    return ctx.on(
+        Events.MessageCreate.class,
+        e -> {
+          Message recv = e.getData();
+
+          if (recv.getContent().equals("+ping")) {
+            return ctx.execute(Actions.sendMessage(recv.getChannelId(), "pong"));
+          }
+
+          return ctx.doNothing();
+        });
+  }
 
   public static void main(String[] args) {
-    ErisCasper.create()
-        .run(
-            ctx ->
-                ctx.getEvents()
-
-                    // only message create events
-                    .ofType(Events.MessageCreate.class)
-                    .map(Event::getData)
-
-                    // only with content "+ping"
-                    .filter(d -> d.getContent().equals("+ping"))
-
-                    // send create message request
-                    .map(d -> RouteCatalog.createMessage(d.getChannelId()))
-                    .observeOn(Schedulers.io())
-                    .flatMapCompletable(
-                        r ->
-                            ctx.execute(
-                                    r,
-                                    ImmutableSendMessageRequest.builder().content("pong").build())
-                                .toCompletable()));
+    ErisCasper.create().run(new PingBot());
   }
 }

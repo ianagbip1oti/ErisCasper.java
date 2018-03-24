@@ -10,7 +10,7 @@ public abstract class EventFactory<D> {
 
   public abstract Class<D> getDataClass();
 
-  protected abstract Function<D, Event<D>> getConstructor();
+  protected abstract Function<D, Event> getConstructor();
 
   /**
    * Takes a data payload and constructs a given event from it.
@@ -24,7 +24,7 @@ public abstract class EventFactory<D> {
    * @throw ClassCastException if the data is not an instance of that given in {@link
    *     #getDataClass()}
    */
-  public Event<?> apply(Object data) {
+  public Event apply(Object data) {
     return getConstructor().apply(getDataClass().cast(data));
   }
 }

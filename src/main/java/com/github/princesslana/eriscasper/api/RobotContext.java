@@ -7,20 +7,16 @@ import com.github.princesslana.eriscasper.rest.ImmutableSendMessageRequest;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.SendMessageRequest;
 import io.reactivex.Completable;
-import io.reactivex.Observable;
-import io.reactivex.functions.Function;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 
 public class RobotContext {
 
+  private final BotContext bctx;
   private final Matcher matcher;
   private final Message message;
 
-  private final List<Function<BotContext, Completable>> actions = new ArrayList<>();
-
-  public RobotContext(Matcher matcher, Message message) {
+  public RobotContext(BotContext bctx, Matcher matcher, Message message) {
+    this.bctx = bctx;
     this.matcher = matcher;
     this.message = message;
   }
@@ -37,19 +33,13 @@ public class RobotContext {
     return matcher.group(name);
   }
 
-  public Completable actions(BotContext bctx) {
-    return Observable.fromIterable(actions).flatMapCompletable(a -> a.apply(bctx));
+  public Completable reply(String msg) {
+    return send(Users.mentionByNickname(message.getAuthor()) + " " + msg);
   }
 
-  public void reply(String msg) {
-    send(Users.mentionByNickname(message.getAuthor()) + " " + msg);
-  }
-
-  public void send(String msg) {
+  public Completable send(String msg) {
     SendMessageRequest req = ImmutableSendMessageRequest.builder().content(msg).build();
 
-    actions.add(
-        bctx ->
-            bctx.execute(RouteCatalog.createMessage(message.getChannelId()), req).toCompletable());
+    return bctx.execute(RouteCatalog.createMessage(message.getChannelId()), req).toCompletable();
   }
 }

@@ -5,10 +5,10 @@ import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.Bots;
 import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.data.Message;
-import com.github.princesslana.eriscasper.event.Event;
 import com.github.princesslana.eriscasper.event.Events;
-import io.reactivex.Flowable;
-import io.reactivex.functions.Consumer;
+import io.reactivex.Completable;
+import io.reactivex.Observable;
+import io.reactivex.functions.BiFunction;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import java.util.ArrayList;
@@ -21,43 +21,43 @@ public class Robot {
 
   private List<Bot> bots = new ArrayList<>();
 
-  public void hear(String regex, Consumer<RobotContext> f) {
+  public void hear(String regex, Function<RobotContext, Completable> f) {
     hear(Pattern.compile(regex), f);
   }
 
-  public void hear(Pattern regex, Consumer<RobotContext> f) {
+  public void hear(Pattern regex, Function<RobotContext, Completable> f) {
     listen(regex, f, Optional.empty());
   }
 
-  public void listen(String regex, Consumer<RobotContext> f) {
+  public void listen(String regex, Function<RobotContext, Completable> f) {
     listen(Pattern.compile(regex), f);
   }
 
-  public void listen(Pattern regex, Consumer<RobotContext> f) {
+  public void listen(Pattern regex, Function<RobotContext, Completable> f) {
     // TODO: Add more prefixes. e.g., name, which requires BotContext#getSelf
     listen(regex, f, Optional.of("+"));
   }
 
-  private void listen(Pattern regex, Consumer<RobotContext> f, Optional<String> prefix) {
+  private void listen(
+      Pattern regex, Function<RobotContext, Completable> f, Optional<String> prefix) {
     Predicate<Message> startsWithPrefix =
         m -> prefix.map(p -> m.getContent().startsWith(p)).orElse(true);
 
-    Function<Message, RobotContext> toRobotContext =
-        m -> {
+    BiFunction<BotContext, Message, RobotContext> toRobotContext =
+        (bctx, m) -> {
           String content =
               prefix.map(p -> StringUtils.removeStart(m.getContent(), p)).orElse(m.getContent());
 
-          return new RobotContext(regex.matcher(content), m);
+          return new RobotContext(bctx, regex.matcher(content), m);
         };
 
     bots.add(
         bctx ->
             messages(bctx)
                 .filter(startsWithPrefix)
-                .map(toRobotContext)
+                .map(msg -> toRobotContext.apply(bctx, msg))
                 .filter(RobotContext::matches)
-                .doOnNext(f::accept)
-                .flatMapCompletable(rctx -> rctx.actions(bctx)));
+                .flatMapCompletable(f));
   }
 
   public void run() {
@@ -68,10 +68,10 @@ public class Robot {
     ec.run(Bots.merge(bots));
   }
 
-  private static Flowable<Message> messages(BotContext bctx) {
+  private static Observable<Message> messages(BotContext bctx) {
     return bctx.getEvents()
         .ofType(Events.MessageCreate.class)
-        .map(Event::getData)
+        .map(Events.MessageCreate::getData)
         .filter(m -> !m.getAuthor().isBot());
   }
 }
