@@ -1,4 +1,4 @@
-package com.github.princesslana.eriscasper.api;
+package com.github.princesslana.eriscasper.api.robot;
 
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.data.Message;

@@ -1,11 +1,11 @@
-package com.github.princesslana.eriscasper.api;
+package com.github.princesslana.eriscasper.api.robot;
 
 import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.Bots;
 import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.data.Message;
-import com.github.princesslana.eriscasper.event.Events;
+import com.github.princesslana.eriscasper.event.MessageCreate;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
@@ -70,8 +70,8 @@ public class Robot {
 
   private static Observable<Message> messages(BotContext bctx) {
     return bctx.getEvents()
-        .ofType(Events.MessageCreate.class)
-        .map(Events.MessageCreate::getData)
+        .ofType(MessageCreate.class)
+        .map(MessageCreate::unwrap)
         .filter(m -> !m.getAuthor().isBot());
   }
 }

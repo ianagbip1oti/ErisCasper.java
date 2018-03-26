@@ -21,11 +21,11 @@ import java.util.function.Function;
  *     https://discordapp.com/developers/docs/topics/gateway#commands-and-events-gateway-events</a>
  */
 public enum EventType {
-  GUILD_CREATE(GuildCreateData.class, GuildCreateTuple::of),
-  MESSAGE_CREATE(Message.class, MessageCreateTuple::of),
-  READY(ReadyData.class, ReadyTuple::of),
-  RESUMED(ResumedData.class, ResumedTuple::of),
-  TYPING_START(TypingStartData.class, TypingStartTuple::of);
+  GUILD_CREATE(GuildCreateData.class, GuildCreate::of),
+  MESSAGE_CREATE(Message.class, MessageCreate::of),
+  READY(ReadyData.class, Ready::of),
+  RESUMED(ResumedData.class, Resumed::of),
+  TYPING_START(TypingStartData.class, TypingStart::of);
 
   private final EventFactory<?> factory;
 
