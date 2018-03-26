@@ -1,6 +1,6 @@
 package com.github.princesslana.eriscasper.examples.robot;
 
-import com.github.princesslana.eriscasper.api.Robot;
+import com.github.princesslana.eriscasper.api.robot.Robot;
 
 public class PingAndEchoRobot {
 

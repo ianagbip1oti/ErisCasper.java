@@ -2,6 +2,7 @@ package com.github.princesslana.eriscasper;
 
 import com.github.princesslana.eriscasper.action.Action;
 import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.immutable.Wrapper;
 import com.github.princesslana.eriscasper.repository.RepositoryDefinition;
 import com.github.princesslana.eriscasper.repository.RepositoryManager;
 import com.github.princesslana.eriscasper.rest.Route;
@@ -29,8 +30,9 @@ public class BotContext {
     return events;
   }
 
-  public <E extends Event> Completable on(Class<E> evt, Function<E, Completable> f) {
-    return events.ofType(evt).flatMapCompletable(f::apply);
+  public <D, E extends Event & Wrapper<D>> Completable on(
+      Class<E> evt, Function<D, Completable> f) {
+    return events.ofType(evt).map(Wrapper::unwrap).flatMapCompletable(f::apply);
   }
 
   public Completable doNothing() {

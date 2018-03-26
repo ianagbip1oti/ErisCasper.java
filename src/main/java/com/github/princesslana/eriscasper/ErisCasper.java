@@ -49,9 +49,7 @@ public class ErisCasper {
   public void run(Bot bot) {
     Observable<Event> events = getEvents();
 
-    RepositoryManager rm = RepositoryManager.create();
-
-    rm.connect(events);
+    RepositoryManager rm = RepositoryManager.create(events);
 
     bot.apply(new BotContext(events, routes, rm))
         .doOnError(t -> LOG.warn("Exception thrown by Bot", t))

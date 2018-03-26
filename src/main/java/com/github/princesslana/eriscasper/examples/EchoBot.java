@@ -1,7 +1,7 @@
 package com.github.princesslana.eriscasper.examples;
 
 import com.github.princesslana.eriscasper.ErisCasper;
-import com.github.princesslana.eriscasper.event.Events;
+import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.rest.ImmutableSendMessageRequest;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 
@@ -13,8 +13,8 @@ public class EchoBot {
                 ctx.getEvents()
 
                     // Same type as PingBot in examples
-                    .ofType(Events.MessageCreate.class)
-                    .map(Events.MessageCreate::getData)
+                    .ofType(MessageCreate.class)
+                    .map(MessageCreate::unwrap)
 
                     // Need to check for bot's own message
                     .filter(d -> !d.getAuthor().isBot())

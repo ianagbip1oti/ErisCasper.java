@@ -11,6 +11,9 @@ public interface Snowflake extends Wrapper<String> {
   interface ChannelIdWrapper extends Snowflake {}
 
   @Value.Immutable
+  interface GuildIdWrapper extends Snowflake {}
+
+  @Value.Immutable
   interface MessageIdWrapper extends Snowflake {}
 
   @Value.Immutable
