@@ -2,6 +2,7 @@ package com.github.princesslana.eriscasper.rx.websocket;
 
 import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.notNull;
+import static org.mockito.BDDMockito.verify;
 
 import io.reactivex.observers.TestObserver;
 import okhttp3.OkHttpClient;
@@ -17,6 +18,7 @@ import org.testng.annotations.Test;
 
 public class TestRxWebSocket {
 
+  private static final String TEST_MESSAGE = "test message";
   private static final String TEST_WS_URL = "wss://test.url/";
 
   @Mock private OkHttpClient mockClient;
@@ -36,7 +38,7 @@ public class TestRxWebSocket {
   }
 
   @Test
-  public void connect_connectsToUrl() {
+  public void connect_shouldConnectToUrl() {
     ArgumentCaptor<Request> request = ArgumentCaptor.forClass(Request.class);
 
     given(mockClient.newWebSocket(request.capture(), notNull())).willReturn(null);
@@ -47,17 +49,31 @@ public class TestRxWebSocket {
   }
 
   @Test
-  public void connect_whenStringMessage_emitsStringMessageEvent() {
+  public void connect_whenStringMessage_shouldEmitsStringMessageEvent() {
     ArgumentCaptor<WebSocketListener> wsl = ArgumentCaptor.forClass(WebSocketListener.class);
-
-    TestObserver<RxWebSocketEvent> subscriber = new TestObserver<>();
 
     given(mockClient.newWebSocket(notNull(), wsl.capture())).willReturn(mockWebSocket);
 
-    subject.connect(TEST_WS_URL).subscribe(subscriber);
+    TestObserver<RxWebSocketEvent> subscriber = subject.connect(TEST_WS_URL).test();
 
-    wsl.getValue().onMessage(mockWebSocket, "test message");
+    wsl.getValue().onMessage(mockWebSocket, TEST_MESSAGE);
 
-    subscriber.assertValuesOnly(StringMessageTuple.of(mockWebSocket, "test message"));
+    subscriber.assertValuesOnly(StringMessageTuple.of(mockWebSocket, TEST_MESSAGE));
+  }
+
+  @Test
+  public void send_whenBeforeConnect_shouldThrowNullPointerException() {
+    subject.send(TEST_MESSAGE).test().assertError(NullPointerException.class);
+  }
+
+  @Test
+  public void send_whenStringMessage_shouldSendToWebSocket() {
+    given(mockClient.newWebSocket(notNull(), notNull())).willReturn(mockWebSocket);
+
+    subject.connect(TEST_WS_URL).subscribe();
+    TestObserver<Void> subscriber = subject.send(TEST_MESSAGE).test();
+
+    subscriber.assertComplete();
+    verify(mockWebSocket).send(TEST_MESSAGE);
   }
 }
