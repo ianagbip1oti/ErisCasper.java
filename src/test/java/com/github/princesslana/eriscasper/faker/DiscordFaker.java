@@ -1,5 +1,6 @@
 package com.github.princesslana.eriscasper.faker;
 
+import com.github.princesslana.eriscasper.BotToken;
 import com.github.princesslana.eriscasper.data.SessionId;
 import com.github.princesslana.eriscasper.data.Snowflake;
 import java.util.function.Function;
@@ -16,6 +17,10 @@ public class DiscordFaker {
    */
   public static <T extends Snowflake> T snowflake(Function<String, T> f) {
     return f.apply(Long.toString(RandomUtils.nextLong()));
+  }
+
+  public static BotToken botToken() {
+    return BotToken.of(RandomStringUtils.random(32));
   }
 
   public static SessionId sessionId() {

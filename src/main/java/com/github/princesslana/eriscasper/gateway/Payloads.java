@@ -7,9 +7,9 @@ import com.github.princesslana.eriscasper.BotToken;
 import com.github.princesslana.eriscasper.data.SessionId;
 import com.github.princesslana.eriscasper.event.Event;
 import com.github.princesslana.eriscasper.rx.Maybes;
+import com.google.common.collect.ImmutableList;
 import io.reactivex.Maybe;
 import io.reactivex.Single;
-import java.util.Collection;
 import java.util.Optional;
 import org.immutables.value.Value;
 import org.slf4j.Logger;
@@ -69,7 +69,7 @@ public class Payloads {
     Long getHeartbeatInterval();
 
     @JsonProperty("_trace")
-    Collection<String> getTrace();
+    ImmutableList<String> getTrace();
   }
 
   /**
@@ -78,6 +78,7 @@ public class Payloads {
    */
   // TODO: This structure is not complete
   @Value.Immutable
+  @JsonDeserialize(as = ImmutableIdentify.class)
   public static interface Identify {
     BotToken getToken();
 
