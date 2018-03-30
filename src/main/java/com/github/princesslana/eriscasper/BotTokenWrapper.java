@@ -6,9 +6,4 @@ import org.immutables.value.Value;
 
 @Value.Immutable
 @Wrapped
-public abstract class BotTokenWrapper implements Wrapper<String> {
-  @Override
-  public String toString() {
-    return "[BOT TOKEN]";
-  }
-}
+public interface BotTokenWrapper extends Wrapper<String> {}

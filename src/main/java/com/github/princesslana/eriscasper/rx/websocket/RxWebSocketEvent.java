@@ -1,6 +1,7 @@
 package com.github.princesslana.eriscasper.rx.websocket;
 
 import com.github.princesslana.eriscasper.immutable.Tuple;
+import java.util.Optional;
 import okhttp3.Response;
 import okhttp3.WebSocket;
 import okio.ByteString;
@@ -33,7 +34,7 @@ public interface RxWebSocketEvent {
 
     Throwable getThrowable();
 
-    Response getRespons();
+    Optional<Response> getResponse();
   }
 
   @Value.Immutable

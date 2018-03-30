@@ -1,11 +1,11 @@
-package com.github.princesslana.eriscasper.api;
+package com.github.princesslana.eriscasper.api.robot;
 
 import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.Bots;
 import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.data.Message;
-import com.github.princesslana.eriscasper.event.Events;
+import com.github.princesslana.eriscasper.event.MessageCreate;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.functions.BiFunction;
@@ -17,9 +17,13 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
-public class Robot {
+public class Robot implements Bot {
 
   private List<Bot> bots = new ArrayList<>();
+
+  public Completable apply(BotContext bctx) {
+    return Bots.merge(bots).apply(bctx);
+  }
 
   public void hear(String regex, Function<RobotContext, Completable> f) {
     hear(Pattern.compile(regex), f);
@@ -65,13 +69,13 @@ public class Robot {
   }
 
   public void run(ErisCasper ec) {
-    ec.run(Bots.merge(bots));
+    ec.run(this);
   }
 
   private static Observable<Message> messages(BotContext bctx) {
     return bctx.getEvents()
-        .ofType(Events.MessageCreate.class)
-        .map(Events.MessageCreate::getData)
+        .ofType(MessageCreate.class)
+        .map(MessageCreate::unwrap)
         .filter(m -> !m.getAuthor().isBot());
   }
 }

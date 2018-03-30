@@ -1,0 +1,29 @@
+package com.github.princesslana.eriscasper.faker;
+
+import com.github.princesslana.eriscasper.BotToken;
+import com.github.princesslana.eriscasper.data.SessionId;
+
+import java.util.function.Function;
+import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.lang3.RandomUtils;
+
+public class DiscordFaker {
+  private DiscordFaker() {}
+
+  /**
+   * Generates a fake snowflake id.
+   *
+   * <p>For now this is just a random Long, because we don't make use of the snowflake id structure.
+   */
+  public static <T extends Snowflake> T snowflake(Function<String, T> f) {
+    return f.apply(Long.toString(RandomUtils.nextLong()));
+  }
+
+  public static BotToken botToken() {
+    return BotToken.of(RandomStringUtils.randomAlphanumeric(32));
+  }
+
+  public static SessionId sessionId() {
+    return SessionId.of(RandomStringUtils.random(32));
+  }
+}

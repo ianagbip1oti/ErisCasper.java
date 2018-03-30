@@ -3,6 +3,7 @@ package com.github.princesslana.eriscasper.rx.websocket;
 import io.reactivex.Completable;
 import io.reactivex.Observable;
 import io.reactivex.ObservableEmitter;
+import java.util.Optional;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -58,7 +59,7 @@ public class RxWebSocket {
 
     @Override
     public void onFailure(WebSocket ws, Throwable t, Response response) {
-      em.onNext(FailureTuple.of(ws, t, response));
+      em.onNext(FailureTuple.of(ws, t, Optional.ofNullable(response)));
       em.onError(t);
     }
 
