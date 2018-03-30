@@ -17,7 +17,7 @@ public interface Message {
   User getAuthor();
 
   @JsonProperty("channel_id")
-  String getChannelId();
+  ChannelId getChannelId();
 
   String getContent();
 }

@@ -2,7 +2,7 @@ package com.github.princesslana.eriscasper.faker;
 
 import com.github.princesslana.eriscasper.BotToken;
 import com.github.princesslana.eriscasper.data.SessionId;
-
+import com.github.princesslana.eriscasper.data.Snowflake;
 import java.util.function.Function;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
