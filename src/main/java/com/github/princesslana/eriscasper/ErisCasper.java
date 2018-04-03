@@ -62,7 +62,7 @@ public class ErisCasper {
     token = System.getenv("EC_TOKEN");
 
     if (token == null) {
-        throw new ErisCasperFatalException("EC_TOKEN could not be found or is null!");
+        throw new ErisCasperFatalException("EC_TOKEN  is null, please check that the env variable is setup correctly.");
     }
     
     return create(token);
