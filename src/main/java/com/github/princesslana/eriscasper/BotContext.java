@@ -36,7 +36,7 @@ public class BotContext {
 
   public <D, E extends Event & Wrapper<D>> Completable on(
       Class<E> evt, Function<D, Completable> f) {
-    return events.ofType(evt).map(Wrapper::unwrap).flatMapCompletable(f::apply);
+      return events.ofType(evt).map(e -> e.unwrap()).flatMapCompletable(f::apply);
   }
 
   public Completable doNothing() {

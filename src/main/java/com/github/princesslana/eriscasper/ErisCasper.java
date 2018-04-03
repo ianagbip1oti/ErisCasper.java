@@ -57,7 +57,15 @@ public class ErisCasper {
   }
 
   public static ErisCasper create() {
-    return create(System.getenv("EC_TOKEN"));
+    String token;
+
+    token = System.getenv("EC_TOKEN");
+
+    if (token == null) {
+        throw new ErisCasperFatalException("EC_TOKEN  is null, please check that the env variable is setup correctly.");
+    }
+    
+    return create(token);
   }
 
   public static ErisCasper create(String token) {
