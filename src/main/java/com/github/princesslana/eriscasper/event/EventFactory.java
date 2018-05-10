@@ -1,5 +1,6 @@
 package com.github.princesslana.eriscasper.event;
 
+import com.github.princesslana.eriscasper.data.event.Event;
 import com.github.princesslana.eriscasper.immutable.Tuple;
 import java.util.function.Function;
 import org.immutables.value.Value;

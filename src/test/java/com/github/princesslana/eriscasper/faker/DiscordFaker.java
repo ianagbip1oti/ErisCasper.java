@@ -1,9 +1,8 @@
 package com.github.princesslana.eriscasper.faker;
 
 import com.github.princesslana.eriscasper.BotToken;
-import com.github.princesslana.eriscasper.data.SessionId;
 import com.github.princesslana.eriscasper.data.Snowflake;
-import java.util.function.Function;
+import com.github.princesslana.eriscasper.gateway.SessionId;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.RandomUtils;
 
@@ -15,8 +14,8 @@ public class DiscordFaker {
    *
    * <p>For now this is just a random Long, because we don't make use of the snowflake id structure.
    */
-  public static <T extends Snowflake> T snowflake(Function<String, T> f) {
-    return f.apply(Long.toString(RandomUtils.nextLong()));
+  public static Snowflake snowflake() {
+    return Snowflake.of(Long.toString(RandomUtils.nextLong()));
   }
 
   public static BotToken botToken() {

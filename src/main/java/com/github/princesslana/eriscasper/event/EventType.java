@@ -2,9 +2,13 @@ package com.github.princesslana.eriscasper.event;
 
 import com.github.princesslana.eriscasper.data.GuildCreateData;
 import com.github.princesslana.eriscasper.data.Message;
-import com.github.princesslana.eriscasper.data.ReadyData;
-import com.github.princesslana.eriscasper.data.ResumedData;
-import com.github.princesslana.eriscasper.data.TypingStartData;
+import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.ReadyEvent;
+import com.github.princesslana.eriscasper.data.event.ReadyEventData;
+import com.github.princesslana.eriscasper.data.event.ResumedEvent;
+import com.github.princesslana.eriscasper.data.event.ResumedEventData;
+import com.github.princesslana.eriscasper.data.event.TypingStartEvent;
+import com.github.princesslana.eriscasper.data.event.TypingStartEventData;
 import java.util.function.Function;
 
 /**
@@ -23,9 +27,9 @@ import java.util.function.Function;
 public enum EventType {
   GUILD_CREATE(GuildCreateData.class, GuildCreate::of),
   MESSAGE_CREATE(Message.class, MessageCreate::of),
-  READY(ReadyData.class, Ready::of),
-  RESUMED(ResumedData.class, Resumed::of),
-  TYPING_START(TypingStartData.class, TypingStart::of);
+  READY(ReadyEventData.class, ReadyEvent::of),
+  RESUMED(ResumedEventData.class, ResumedEvent::of),
+  TYPING_START(TypingStartEventData.class, TypingStartEvent::of);
 
   private final EventFactory<?> factory;
 

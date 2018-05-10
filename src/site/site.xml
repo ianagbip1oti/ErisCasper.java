@@ -7,6 +7,7 @@
   <body>
     <menu>
       <item name="Overview" href="index.html"/>
+      <item name="Robot API" href="robot.html"/>
       <item name="SonarCloud Report" href="https://sonarcloud.io/dashboard?id=com.github.princesslana%3AErisCasper.java"/>
     </menu>
     <menu ref="reports"/>

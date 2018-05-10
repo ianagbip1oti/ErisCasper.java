@@ -6,10 +6,12 @@ import static org.mockito.BDDMockito.notNull;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.princesslana.eriscasper.BotToken;
-import com.github.princesslana.eriscasper.data.ReadyData;
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.HelloEvent;
+import com.github.princesslana.eriscasper.data.event.ImmutableHelloEventData;
+import com.github.princesslana.eriscasper.data.event.ReadyEvent;
+import com.github.princesslana.eriscasper.data.event.ReadyEventData;
 import com.github.princesslana.eriscasper.event.EventType;
-import com.github.princesslana.eriscasper.event.Ready;
 import com.github.princesslana.eriscasper.faker.DataFaker;
 import com.github.princesslana.eriscasper.faker.DiscordFaker;
 import com.github.princesslana.eriscasper.gateway.Payloads.ConnectionProperties;
@@ -85,7 +87,9 @@ public class TestGateway {
     TestObserver<Event> subscriber = connect(token);
 
     JsonNode d =
-        jackson.valueToTree(ImmutableHeartbeat.builder().heartbeatInterval(Long.MAX_VALUE).build());
+        jackson.valueToTree(
+            HelloEvent.of(
+                ImmutableHelloEventData.builder().heartbeatInterval(Long.MAX_VALUE).build()));
 
     wsEvents.onNext(stringMessageOf(ImmutablePayload.builder().op(OpCode.HELLO).d(d).build()));
 
@@ -105,7 +109,7 @@ public class TestGateway {
   public void connect_whenReadyPayload_shouldEmitReadyEvent() {
     TestObserver<Event> subscriber = connect();
 
-    ReadyData ready = DataFaker.ready();
+    ReadyEventData ready = DataFaker.ready();
 
     wsEvents.onNext(
         stringMessageOf(
@@ -116,7 +120,7 @@ public class TestGateway {
                 .build()));
 
     subscriber.assertNotComplete();
-    subscriber.assertValues(Ready.of(ready));
+    subscriber.assertValues(ReadyEvent.of(ready));
   }
 
   @Test

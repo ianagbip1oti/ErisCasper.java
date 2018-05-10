@@ -17,7 +17,7 @@ public class EchoBot {
                     .map(MessageCreate::unwrap)
 
                     // Need to check for bot's own message
-                    .filter(d -> !d.getAuthor().isBot())
+                    .filter(d -> !d.getAuthor().isBot().orElse(false))
                     .filter(d -> d.getContent().startsWith("+echo"))
                     .flatMapCompletable(
                         d -> {

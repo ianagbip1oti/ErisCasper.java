@@ -6,14 +6,18 @@ import static org.mockito.BDDMockito.then;
 
 import com.github.javafaker.Faker;
 import com.github.princesslana.eriscasper.BotContext;
-import com.github.princesslana.eriscasper.data.ChannelId;
 import com.github.princesslana.eriscasper.data.ImmutableMessage;
-import com.github.princesslana.eriscasper.data.ImmutableUser;
-import com.github.princesslana.eriscasper.data.User;
+import com.github.princesslana.eriscasper.data.Snowflake;
 import com.github.princesslana.eriscasper.data.Users;
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.resource.ImmutableUser;
+import com.github.princesslana.eriscasper.data.resource.User;
 import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.faker.DataFaker;
+import com.github.princesslana.eriscasper.faker.DiscordFaker;
+import com.github.princesslana.eriscasper.repository.RepositoryDefinition;
+import com.github.princesslana.eriscasper.repository.RepositoryManager;
+import com.github.princesslana.eriscasper.repository.UserRepository;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
 import com.github.princesslana.eriscasper.rest.SendMessageRequest;
@@ -29,6 +33,9 @@ public class TestRobot {
 
   @Mock private Routes routes;
 
+  @Mock private RepositoryManager repositoryManager;
+  @Mock private UserRepository userRepository;
+
   private Robot subject;
 
   private BotContext bctx;
@@ -39,7 +46,10 @@ public class TestRobot {
     MockitoAnnotations.initMocks(this);
     subject = new Robot();
 
-    bctx = new BotContext(events, routes, null);
+    bctx = new BotContext(events, routes, repositoryManager);
+
+    given(repositoryManager.get(RepositoryDefinition.USER)).willReturn(userRepository);
+    given(userRepository.getSelf()).willReturn(Single.just(DataFaker.user()));
 
     // This mocks out the message create endpoint.
     // Returning a fake message does not match with the actual endpoint
@@ -53,7 +63,7 @@ public class TestRobot {
     subject.hear("ping", ctx -> ctx.send("pong"));
     TestObserver<Void> subscriber = run();
 
-    ChannelId channelId = DataFaker.channelId();
+    Snowflake channelId = DiscordFaker.snowflake();
 
     events.onNext(
         MessageCreate.of(
@@ -66,11 +76,11 @@ public class TestRobot {
   }
 
   @Test
-  public void listen_whenForPing_shouldReplyPong() {
-    subject.listen("ping", ctx -> ctx.reply("pong"));
+  public void respond_whenForPing_shouldReplyPong() {
+    subject.respond("ping", ctx -> ctx.reply("pong"));
     TestObserver<Void> subscriber = run();
 
-    ChannelId channelId = DataFaker.channelId();
+    Snowflake channelId = DiscordFaker.snowflake();
     User author = DataFaker.user();
 
     events.onNext(
@@ -87,8 +97,8 @@ public class TestRobot {
   }
 
   @Test
-  public void listen_whenForPing_shouldNotHear() {
-    subject.listen("ping", ctx -> ctx.reply("pong"));
+  public void respond_whenForPing_shouldNotHear() {
+    subject.respond("ping", ctx -> ctx.reply("pong"));
     TestObserver<Void> subscriber = run();
 
     events.onNext(
@@ -99,8 +109,8 @@ public class TestRobot {
   }
 
   @Test
-  public void listen_whenForPing_shouldIgnoreBot() {
-    subject.listen("ping", ctx -> ctx.reply("pong"));
+  public void respond_whenForPing_shouldIgnoreBot() {
+    subject.respond("ping", ctx -> ctx.reply("pong"));
     TestObserver<Void> subscriber = run();
 
     User author = ImmutableUser.copyOf(DataFaker.user()).withIsBot(true);
@@ -114,11 +124,11 @@ public class TestRobot {
   }
 
   @Test
-  public void listen_whenForEchoRegex_shouldSendEcho() {
-    subject.listen("echo (.+)", ctx -> ctx.send(ctx.match(1)));
+  public void respond_whenForEchoRegex_shouldSendEcho() {
+    subject.respond("echo (.+)", ctx -> ctx.send(ctx.match(1)));
     TestObserver<Void> subscriber = run();
 
-    ChannelId channelId = DataFaker.channelId();
+    Snowflake channelId = DiscordFaker.snowflake();
 
     String fact = Faker.instance().chuckNorris().fact();
 
@@ -136,7 +146,7 @@ public class TestRobot {
     return subject.apply(bctx).test();
   }
 
-  private void thenShouldSend(ChannelId channelId, String msg) {
+  private void thenShouldSend(Snowflake channelId, String msg) {
     then(routes)
         .should()
         .execute(RouteCatalog.createMessage(channelId), SendMessageRequest.ofText(msg));

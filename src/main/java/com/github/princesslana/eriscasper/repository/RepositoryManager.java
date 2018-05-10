@@ -1,6 +1,6 @@
 package com.github.princesslana.eriscasper.repository;
 
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.data.event.Event;
 import com.github.princesslana.eriscasper.repository.event.UsersFromEvents;
 import com.google.common.base.Preconditions;
 import io.reactivex.Observable;

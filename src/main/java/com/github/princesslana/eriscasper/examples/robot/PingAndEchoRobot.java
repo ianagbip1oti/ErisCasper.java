@@ -7,8 +7,8 @@ public class PingAndEchoRobot {
   public static Robot create() {
     Robot robot = new Robot();
 
-    robot.listen("ping", ctx -> ctx.reply("pong"));
-    robot.listen("echo (.+)", ctx -> ctx.reply(ctx.match(1)));
+    robot.respond("ping", ctx -> ctx.reply("pong"));
+    robot.respond("echo (.+)", ctx -> ctx.reply(ctx.match(1)));
 
     return robot;
   }

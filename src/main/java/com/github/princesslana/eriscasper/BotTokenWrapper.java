@@ -1,7 +1,7 @@
 package com.github.princesslana.eriscasper;
 
-import com.github.princesslana.eriscasper.immutable.Wrapped;
-import com.github.princesslana.eriscasper.immutable.Wrapper;
+import com.github.princesslana.eriscasper.data.immutable.Wrapped;
+import com.github.princesslana.eriscasper.data.immutable.Wrapper;
 import org.immutables.value.Value;
 
 @Value.Immutable

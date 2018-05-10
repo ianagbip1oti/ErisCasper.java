@@ -1,7 +1,7 @@
 package com.github.princesslana.eriscasper;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.data.event.Event;
 import com.github.princesslana.eriscasper.gateway.Gateway;
 import com.github.princesslana.eriscasper.gateway.Payloads;
 import com.github.princesslana.eriscasper.repository.RepositoryManager;

@@ -11,9 +11,10 @@ import io.reactivex.functions.Function;
 public interface Bot extends Function<BotContext, Completable> {
 
   /**
-   * Override to not throw an Exception.
+   * Run this Bot.
    *
-   * @see Function#apply(Object)
+   * <p>This differs from the overriden {@link Function#apply(Object)} in that it does not throw a
+   * checked Exception.
    */
   Completable apply(BotContext ctx);
 }

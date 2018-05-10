@@ -2,6 +2,7 @@ package com.github.princesslana.eriscasper.data;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.github.princesslana.eriscasper.data.resource.User;
 import org.immutables.value.Value;
 
 /**
@@ -12,12 +13,12 @@ import org.immutables.value.Value;
 @JsonDeserialize(as = ImmutableMessage.class)
 public interface Message {
 
-  MessageId getId();
+  Snowflake getId();
 
   User getAuthor();
 
   @JsonProperty("channel_id")
-  ChannelId getChannelId();
+  Snowflake getChannelId();
 
   String getContent();
 }

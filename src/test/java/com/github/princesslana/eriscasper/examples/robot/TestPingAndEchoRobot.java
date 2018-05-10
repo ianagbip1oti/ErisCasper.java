@@ -4,13 +4,14 @@ import static org.mockito.BDDMockito.then;
 
 import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
-import com.github.princesslana.eriscasper.data.ChannelId;
 import com.github.princesslana.eriscasper.data.ImmutableMessage;
-import com.github.princesslana.eriscasper.data.User;
+import com.github.princesslana.eriscasper.data.Snowflake;
 import com.github.princesslana.eriscasper.data.Users;
-import com.github.princesslana.eriscasper.event.Event;
+import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.resource.User;
 import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.faker.DataFaker;
+import com.github.princesslana.eriscasper.faker.DiscordFaker;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
 import com.github.princesslana.eriscasper.rest.SendMessageRequest;
@@ -41,7 +42,7 @@ public class TestPingAndEchoRobot {
 
     TestObserver<Void> subscriber = subject.apply(ctx).test();
 
-    ChannelId channelId = DataFaker.channelId();
+    Snowflake channelId = DiscordFaker.snowflake();
     User author = DataFaker.user();
 
     events.onNext(

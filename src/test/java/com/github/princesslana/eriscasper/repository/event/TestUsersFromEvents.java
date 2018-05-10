@@ -1,10 +1,10 @@
 package com.github.princesslana.eriscasper.repository.event;
 
-import com.github.princesslana.eriscasper.data.ImmutableReadyData;
-import com.github.princesslana.eriscasper.data.ReadyData;
-import com.github.princesslana.eriscasper.data.User;
-import com.github.princesslana.eriscasper.event.Event;
-import com.github.princesslana.eriscasper.event.Ready;
+import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.ImmutableReadyEventData;
+import com.github.princesslana.eriscasper.data.event.ReadyEvent;
+import com.github.princesslana.eriscasper.data.event.ReadyEventData;
+import com.github.princesslana.eriscasper.data.resource.User;
 import com.github.princesslana.eriscasper.faker.DataFaker;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
@@ -27,8 +27,8 @@ public class TestUsersFromEvents {
     TestObserver<User> observer = new TestObserver<>();
 
     User self = DataFaker.user();
-    ReadyData ready = ImmutableReadyData.copyOf(DataFaker.ready()).withUser(self);
-    events.onNext(Ready.of(ready));
+    ReadyEventData ready = ImmutableReadyEventData.copyOf(DataFaker.ready()).withUser(self);
+    events.onNext(ReadyEvent.of(ready));
 
     subject.getSelf().subscribe(observer);
 
