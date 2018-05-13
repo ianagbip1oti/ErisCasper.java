@@ -1,9 +1,9 @@
 package com.github.princesslana.eriscasper.examples;
 
 import com.github.princesslana.eriscasper.ErisCasper;
-import com.github.princesslana.eriscasper.event.MessageCreate;
-import com.github.princesslana.eriscasper.rest.ImmutableSendMessageRequest;
+import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
+import com.github.princesslana.eriscasper.rest.channel.CreateMessageRequest;
 
 public class EchoBot {
   public static void main(String args[]) {
@@ -13,8 +13,8 @@ public class EchoBot {
                 ctx.getEvents()
 
                     // Same type as PingBot in examples
-                    .ofType(MessageCreate.class)
-                    .map(MessageCreate::unwrap)
+                    .ofType(MessageCreateEvent.class)
+                    .map(MessageCreateEvent::unwrap)
 
                     // Need to check for bot's own message
                     .filter(d -> !d.getAuthor().isBot().orElse(false))
@@ -30,9 +30,7 @@ public class EchoBot {
 
                           return ctx.execute(
                                   RouteCatalog.createMessage(d.getChannelId()),
-                                  ImmutableSendMessageRequest.builder()
-                                      .content(replyMessage)
-                                      .build())
+                                  CreateMessageRequest.ofText(replyMessage))
                               .toCompletable();
                         }));
   }

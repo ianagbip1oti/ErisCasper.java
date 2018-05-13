@@ -2,8 +2,8 @@ package com.github.princesslana.eriscasper.api.robot;
 
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.action.Actions;
-import com.github.princesslana.eriscasper.data.Message;
 import com.github.princesslana.eriscasper.data.Users;
+import com.github.princesslana.eriscasper.data.resource.Message;
 import io.reactivex.Completable;
 import java.util.regex.Matcher;
 

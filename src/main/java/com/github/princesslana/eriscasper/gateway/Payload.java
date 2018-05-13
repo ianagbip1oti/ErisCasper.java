@@ -5,7 +5,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.princesslana.eriscasper.data.immutable.Wrapped;
 import com.github.princesslana.eriscasper.data.immutable.Wrapper;
-import com.github.princesslana.eriscasper.event.EventType;
 import io.reactivex.Single;
 import io.reactivex.functions.Predicate;
 import java.util.Optional;
@@ -24,7 +23,7 @@ public abstract class Payload {
 
   public abstract Optional<SequenceNumber> s();
 
-  public abstract Optional<EventType> t();
+  public abstract Optional<String> t();
 
   public <T> Single<T> d(ObjectMapper jackson, Class<T> clazz) {
     return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(d().get()));

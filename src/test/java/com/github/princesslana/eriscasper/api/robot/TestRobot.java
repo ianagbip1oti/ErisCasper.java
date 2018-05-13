@@ -6,13 +6,13 @@ import static org.mockito.BDDMockito.then;
 
 import com.github.javafaker.Faker;
 import com.github.princesslana.eriscasper.BotContext;
-import com.github.princesslana.eriscasper.data.ImmutableMessage;
 import com.github.princesslana.eriscasper.data.Snowflake;
 import com.github.princesslana.eriscasper.data.Users;
 import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
+import com.github.princesslana.eriscasper.data.resource.ImmutableMessage;
 import com.github.princesslana.eriscasper.data.resource.ImmutableUser;
 import com.github.princesslana.eriscasper.data.resource.User;
-import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.faker.DataFaker;
 import com.github.princesslana.eriscasper.faker.DiscordFaker;
 import com.github.princesslana.eriscasper.repository.RepositoryDefinition;
@@ -20,7 +20,7 @@ import com.github.princesslana.eriscasper.repository.RepositoryManager;
 import com.github.princesslana.eriscasper.repository.UserRepository;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
-import com.github.princesslana.eriscasper.rest.SendMessageRequest;
+import com.github.princesslana.eriscasper.rest.channel.CreateMessageRequest;
 import io.reactivex.Single;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
@@ -66,7 +66,7 @@ public class TestRobot {
     Snowflake channelId = DiscordFaker.snowflake();
 
     events.onNext(
-        MessageCreate.of(
+        MessageCreateEvent.of(
             ImmutableMessage.copyOf(DataFaker.message())
                 .withContent("ping")
                 .withChannelId(channelId)));
@@ -84,7 +84,7 @@ public class TestRobot {
     User author = DataFaker.user();
 
     events.onNext(
-        MessageCreate.of(
+        MessageCreateEvent.of(
             ImmutableMessage.copyOf(DataFaker.message())
                 .withAuthor(author)
                 .withContent("+ping")
@@ -102,7 +102,7 @@ public class TestRobot {
     TestObserver<Void> subscriber = run();
 
     events.onNext(
-        MessageCreate.of(ImmutableMessage.copyOf(DataFaker.message()).withContent("ping")));
+        MessageCreateEvent.of(ImmutableMessage.copyOf(DataFaker.message()).withContent("ping")));
 
     then(routes).shouldHaveZeroInteractions();
     subscriber.assertNotTerminated();
@@ -116,7 +116,7 @@ public class TestRobot {
     User author = ImmutableUser.copyOf(DataFaker.user()).withIsBot(true);
 
     events.onNext(
-        MessageCreate.of(
+        MessageCreateEvent.of(
             ImmutableMessage.copyOf(DataFaker.message()).withAuthor(author).withContent("+ping")));
 
     then(routes).shouldHaveZeroInteractions();
@@ -133,7 +133,7 @@ public class TestRobot {
     String fact = Faker.instance().chuckNorris().fact();
 
     events.onNext(
-        MessageCreate.of(
+        MessageCreateEvent.of(
             ImmutableMessage.copyOf(DataFaker.message())
                 .withContent("+echo " + fact)
                 .withChannelId(channelId)));
@@ -149,6 +149,6 @@ public class TestRobot {
   private void thenShouldSend(Snowflake channelId, String msg) {
     then(routes)
         .should()
-        .execute(RouteCatalog.createMessage(channelId), SendMessageRequest.ofText(msg));
+        .execute(RouteCatalog.createMessage(channelId), CreateMessageRequest.ofText(msg));
   }
 }

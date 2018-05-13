@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.github.princesslana.eriscasper.BotToken;
 import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.EventFactory;
 import com.github.princesslana.eriscasper.data.immutable.Wrapped;
 import com.github.princesslana.eriscasper.data.immutable.Wrapper;
 import com.github.princesslana.eriscasper.rx.Maybes;
@@ -26,7 +27,7 @@ public class Payloads {
   }
 
   public <T> Single<T> dataAs(Payload p, Class<T> clazz) {
-    return Single.fromCallable(() -> jackson.readerFor(clazz).readValue(p.d().get()));
+    return p.d(jackson, clazz);
   }
 
   public Payload heartbeat(Optional<SequenceNumber> s) {
@@ -53,7 +54,7 @@ public class Payloads {
     return Single.just(payload)
         .filter(Payload.isOp(OpCode.DISPATCH))
         .flatMap(p -> Maybes.fromOptional(p.t()))
-        .flatMap(et -> dataAs(payload, et.getDataClass()).map(et::newEvent).toMaybe())
+        .map(et -> EventFactory.forType(et).create(payload.d().get()))
         .doOnError(t -> LOG.warn("Unable to convert payload to event: {}", payload, t))
         .onErrorComplete();
   }

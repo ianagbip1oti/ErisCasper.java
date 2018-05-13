@@ -4,10 +4,10 @@ import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.Bots;
 import com.github.princesslana.eriscasper.ErisCasper;
-import com.github.princesslana.eriscasper.data.Message;
 import com.github.princesslana.eriscasper.data.Users;
+import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
+import com.github.princesslana.eriscasper.data.resource.Message;
 import com.github.princesslana.eriscasper.data.resource.User;
-import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.repository.RepositoryDefinition;
 import io.reactivex.Completable;
 import io.reactivex.Maybe;
@@ -127,8 +127,8 @@ public class Robot implements Bot {
 
   private static Observable<Message> messages(BotContext bctx) {
     return bctx.getEvents()
-        .ofType(MessageCreate.class)
-        .map(MessageCreate::unwrap)
+        .ofType(MessageCreateEvent.class)
+        .map(MessageCreateEvent::unwrap)
         .filter(m -> !m.getAuthor().isBot().orElse(false));
   }
 

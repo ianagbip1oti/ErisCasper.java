@@ -1,12 +1,13 @@
 package com.github.princesslana.eriscasper.faker;
 
 import com.github.javafaker.Faker;
-import com.github.princesslana.eriscasper.data.ImmutableMessage;
-import com.github.princesslana.eriscasper.data.Message;
 import com.github.princesslana.eriscasper.data.event.ImmutableReadyEventData;
 import com.github.princesslana.eriscasper.data.event.ReadyEventData;
+import com.github.princesslana.eriscasper.data.resource.ImmutableMessage;
 import com.github.princesslana.eriscasper.data.resource.ImmutableUser;
+import com.github.princesslana.eriscasper.data.resource.Message;
 import com.github.princesslana.eriscasper.data.resource.User;
+import java.time.OffsetDateTime;
 import org.apache.commons.lang3.RandomStringUtils;
 
 public class DataFaker {
@@ -22,6 +23,11 @@ public class DataFaker {
         .author(user())
         .channelId(DiscordFaker.snowflake())
         .content(Faker.instance().chuckNorris().fact())
+        .timestamp(OffsetDateTime.now())
+        .isTts(false)
+        .isMentionEveryone(false)
+        .isPinned(false)
+        .type(0L)
         .build();
   }
 

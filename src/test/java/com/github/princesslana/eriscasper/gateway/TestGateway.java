@@ -11,7 +11,6 @@ import com.github.princesslana.eriscasper.data.event.HelloEvent;
 import com.github.princesslana.eriscasper.data.event.ImmutableHelloEventData;
 import com.github.princesslana.eriscasper.data.event.ReadyEvent;
 import com.github.princesslana.eriscasper.data.event.ReadyEventData;
-import com.github.princesslana.eriscasper.event.EventType;
 import com.github.princesslana.eriscasper.faker.DataFaker;
 import com.github.princesslana.eriscasper.faker.DiscordFaker;
 import com.github.princesslana.eriscasper.gateway.Payloads.ConnectionProperties;
@@ -116,7 +115,7 @@ public class TestGateway {
             ImmutablePayload.builder()
                 .op(OpCode.DISPATCH)
                 .d(jackson.valueToTree(ready))
-                .t(EventType.READY)
+                .t("READY")
                 .build()));
 
     subscriber.assertNotComplete();

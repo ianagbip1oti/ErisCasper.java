@@ -4,7 +4,7 @@ import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
 import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.action.Actions;
-import com.github.princesslana.eriscasper.event.MessageCreate;
+import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
 import com.github.princesslana.eriscasper.repository.RepositoryDefinition;
 import io.reactivex.Completable;
 
@@ -13,7 +13,7 @@ public class WhoAreYouBot implements Bot {
   @Override
   public Completable apply(BotContext ctx) {
     return ctx.on(
-        MessageCreate.class,
+        MessageCreateEvent.class,
         recv -> {
           if (recv.getContent().equals("+whoareyou")) {
             return ctx.getRepository(RepositoryDefinition.USER)

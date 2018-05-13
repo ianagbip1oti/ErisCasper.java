@@ -4,17 +4,17 @@ import static org.mockito.BDDMockito.then;
 
 import com.github.princesslana.eriscasper.Bot;
 import com.github.princesslana.eriscasper.BotContext;
-import com.github.princesslana.eriscasper.data.ImmutableMessage;
 import com.github.princesslana.eriscasper.data.Snowflake;
 import com.github.princesslana.eriscasper.data.Users;
 import com.github.princesslana.eriscasper.data.event.Event;
+import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
+import com.github.princesslana.eriscasper.data.resource.ImmutableMessage;
 import com.github.princesslana.eriscasper.data.resource.User;
-import com.github.princesslana.eriscasper.event.MessageCreate;
 import com.github.princesslana.eriscasper.faker.DataFaker;
 import com.github.princesslana.eriscasper.faker.DiscordFaker;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.Routes;
-import com.github.princesslana.eriscasper.rest.SendMessageRequest;
+import com.github.princesslana.eriscasper.rest.channel.CreateMessageRequest;
 import io.reactivex.observers.TestObserver;
 import io.reactivex.subjects.PublishSubject;
 import org.mockito.Mock;
@@ -46,7 +46,7 @@ public class TestPingAndEchoRobot {
     User author = DataFaker.user();
 
     events.onNext(
-        MessageCreate.of(
+        MessageCreateEvent.of(
             ImmutableMessage.copyOf(DataFaker.message())
                 .withAuthor(author)
                 .withContent("+ping")
@@ -57,7 +57,7 @@ public class TestPingAndEchoRobot {
     then(routes)
         .should()
         .execute(
-            RouteCatalog.createMessage(channelId), SendMessageRequest.ofText(expectedResponse));
+            RouteCatalog.createMessage(channelId), CreateMessageRequest.ofText(expectedResponse));
 
     subscriber.assertNotComplete();
   }
