@@ -4,7 +4,6 @@ import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.channel.CreateMessageRequest;
-import org.apache.commons.lang3.StringUtils;
 
 public class EchoBot {
   public static void main(String args[]) {
