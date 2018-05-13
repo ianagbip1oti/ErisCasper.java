@@ -4,6 +4,7 @@ import com.github.princesslana.eriscasper.ErisCasper;
 import com.github.princesslana.eriscasper.data.event.MessageCreateEvent;
 import com.github.princesslana.eriscasper.rest.RouteCatalog;
 import com.github.princesslana.eriscasper.rest.channel.CreateMessageRequest;
+import org.apache.commons.lang3.StringUtils;
 
 public class EchoBot {
   public static void main(String args[]) {
@@ -23,9 +24,11 @@ public class EchoBot {
                         d -> {
                           String replyMessage = d.getContent().replaceFirst("\\+echo", "");
 
-                          // Empty Arguments
+                          // Empty and Invalid Arguments
                           if (replyMessage.trim().isEmpty()) {
                             replyMessage = "This command requires 1 argument";
+                          } else if (replyMessage.charAt(0) != ' ') {
+                            replyMessage = "Invalid Command";
                           }
 
                           return ctx.execute(
