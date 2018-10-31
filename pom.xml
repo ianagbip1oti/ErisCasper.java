@@ -78,7 +78,7 @@
     <plugin.sortpom.version>2.8.0</plugin.sortpom.version>
     <plugin.source.version>3.0.1</plugin.source.version>
     <plugin.spotless.version>1.0.0.BETA2</plugin.spotless.version>
-    <plugin.surefire.version>2.20.1</plugin.surefire.version>
+    <plugin.surefire.version>2.22.1</plugin.surefire.version>
   </properties>
   <dependencyManagement>
     <dependencies>

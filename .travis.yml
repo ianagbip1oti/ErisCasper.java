@@ -24,9 +24,11 @@ jobs:
     - stage: build
       jdk: oraclejdk8
       script: mvn -B verify
-    - jdk: oraclejdk9
+    - jdk: oraclejdk11
       script: mvn -B verify
     - jdk: openjdk8
+      script: mvn -B verify
+    - jdk: openjdk11
       script: mvn -B verify
     - stage: snapshot
       jdk: openjdk8
